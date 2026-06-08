@@ -1,5 +1,5 @@
 {
-  "component_count": 201,
+  "component_count": 204,
   "components": [
     {
       "name": "Frappe Books",
@@ -144,6 +144,54 @@
       "alternatives": "Plausible Analytics, PostHog, Umami",
       "score": "4/5",
       "notes": "历史成熟度高，但新产品事件分析体验不一定是最轻快的选择。"
+    },
+    {
+      "name": "ALTCHA",
+      "category": "anti-abuse",
+      "file": "catalog/anti-abuse.md",
+      "github": "https://github.com/altcha-org/altcha",
+      "website": "https://altcha.org",
+      "module": "反滥用 / 隐私友好 CAPTCHA / Proof-of-Work",
+      "tech_stack": "TypeScript, Web Components, JavaScript",
+      "license": "MIT",
+      "best_for": "登录、注册、评论、表单和 API 入口需要隐私友好、可自托管、无追踪的人机验证组件。",
+      "avoid_when": "需要现成托管风控评分、设备指纹、复杂行为分析或企业级风险决策平台的场景。",
+      "integration_cost": "低",
+      "alternatives": "mCaptcha, hCaptcha, reCAPTCHA",
+      "score": "4/5",
+      "notes": "适合作为传统图片验证码替代；上线前要确认挑战生成、服务端验证、重放防护、难度参数、无障碍体验和高峰期 CPU 成本。"
+    },
+    {
+      "name": "mCaptcha",
+      "category": "anti-abuse",
+      "file": "catalog/anti-abuse.md",
+      "github": "https://github.com/mCaptcha/mCaptcha",
+      "website": "https://mcaptcha.org",
+      "module": "反滥用 / 自托管 CAPTCHA 服务 / Proof-of-Work",
+      "tech_stack": "Rust, Actix Web, PostgreSQL, MariaDB",
+      "license": "AGPL-3.0",
+      "best_for": "需要完整自托管 CAPTCHA 服务、隐私优先、人机验证、站点密钥管理和 PoW 挑战的组织。",
+      "avoid_when": "无法接受 AGPL 网络服务义务，或只需要前端嵌入式轻量验证、不想维护独立服务的项目。",
+      "integration_cost": "中",
+      "alternatives": "ALTCHA, Friendly Captcha, hCaptcha",
+      "score": "4/5",
+      "notes": "更像独立验证码平台；生产前要验证部署拓扑、数据库、密钥轮换、挑战过期、失败日志、可用性和许可证边界。"
+    },
+    {
+      "name": "rate-limiter-flexible",
+      "category": "anti-abuse",
+      "file": "catalog/anti-abuse.md",
+      "github": "https://github.com/animir/node-rate-limiter-flexible",
+      "website": "https://github.com/animir/node-rate-limiter-flexible",
+      "module": "反滥用 / 应用限流 / 防暴力破解",
+      "tech_stack": "JavaScript, Node.js, Redis, Valkey, PostgreSQL, MySQL, MongoDB",
+      "license": "ISC",
+      "best_for": "Node.js 后端需要登录失败计数、IP/用户/API Key 限流、分布式计数、DoS 缓解和暴力破解防护。",
+      "avoid_when": "非 Node.js 技术栈，或需要全局边缘防护、WAF、Bot Management 和托管风控评分的系统。",
+      "integration_cost": "中",
+      "alternatives": "Envoy ratelimit, express-rate-limit, API 网关限流插件",
+      "score": "4/5",
+      "notes": "适合在应用层按用户、租户和业务动作做精细限制；要设计 Redis/数据库故障策略、滑动窗口、封禁时长、误伤申诉和监控告警。"
     },
     {
       "name": "Swagger UI",
