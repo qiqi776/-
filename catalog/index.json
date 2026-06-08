@@ -1,5 +1,5 @@
 {
-  "component_count": 145,
+  "component_count": 148,
   "components": [
     {
       "name": "LangChain",
@@ -1840,6 +1840,54 @@
       "alternatives": "Saleor, Vendure, Shopify 集成",
       "score": "4/5",
       "notes": "应视为电商平台组件，不是小型支付工具。"
+    },
+    {
+      "name": "Fides",
+      "category": "privacy-compliance",
+      "file": "catalog/privacy-compliance.md",
+      "github": "https://github.com/ethyca/fides",
+      "website": "https://ethyca.github.io/fides",
+      "module": "隐私合规 / 数据地图 / 数据主体请求",
+      "tech_stack": "Python, TypeScript, PostgreSQL",
+      "license": "Apache-2.0",
+      "best_for": "需要数据地图、隐私请求履约、同意管理、数据发现和隐私工程工作流的产品或平台团队。",
+      "avoid_when": "只需要一个简单 Cookie 弹窗，或没有法务、数据负责人和系统 owner 配合隐私流程的项目。",
+      "integration_cost": "高",
+      "alternatives": "Klaro, tarteaucitron.js, OneTrust",
+      "score": "4/5",
+      "notes": "覆盖面比前端同意弹窗更广，生产前要确认数据源连接权限、审计日志、请求 SLA 和目标地区法规要求。"
+    },
+    {
+      "name": "Klaro",
+      "category": "privacy-compliance",
+      "file": "catalog/privacy-compliance.md",
+      "github": "https://github.com/kiprotect/klaro",
+      "website": "https://klaro.org",
+      "module": "隐私合规 / Cookie 同意 / 前端偏好",
+      "tech_stack": "JavaScript",
+      "license": "BSD-3-Clause",
+      "best_for": "Web 项目需要轻量 Cookie 和追踪同意弹窗、服务分组、多语言文案和用户偏好管理。",
+      "avoid_when": "需要完整数据主体请求、数据地图、后端数据源治理或企业级合规审批流。",
+      "integration_cost": "低",
+      "alternatives": "tarteaucitron.js, Fides, CookieConsent",
+      "score": "4/5",
+      "notes": "更适合作为前端同意管理组件；落地时要配合脚本阻断、标签管理、隐私政策和同意记录策略。"
+    },
+    {
+      "name": "tarteaucitron.js",
+      "category": "privacy-compliance",
+      "file": "catalog/privacy-compliance.md",
+      "github": "https://github.com/AmauriC/tarteaucitron.js",
+      "website": "https://tarteaucitron.io",
+      "module": "隐私合规 / Cookie 同意 / 第三方脚本管理",
+      "tech_stack": "JavaScript",
+      "license": "MIT",
+      "best_for": "营销站、内容站或中小型 Web 项目需要按用户同意加载广告、分析、社交和嵌入服务。",
+      "avoid_when": "需要后端隐私请求处理、复杂数据主体工作流、跨系统数据发现或企业级同意审计。",
+      "integration_cost": "低",
+      "alternatives": "Klaro, CookieConsent, Fides",
+      "score": "4/5",
+      "notes": "支持较多第三方服务接入，使用前要审查地区文案、默认服务清单、Google Consent Mode 和标签触发逻辑。"
     },
     {
       "name": "Socket.IO",
