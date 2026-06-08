@@ -1,5 +1,5 @@
 {
-  "component_count": 142,
+  "component_count": 145,
   "components": [
     {
       "name": "LangChain",
@@ -768,6 +768,54 @@
       "alternatives": "Meltano, Airbyte, Dagster",
       "score": "4/5",
       "notes": "适合轻量到中型数据集成和应用内数据同步；生产前要验证 schema 变更、幂等、断点续跑和目标端权限。"
+    },
+    {
+      "name": "Great Expectations",
+      "category": "data-quality",
+      "file": "catalog/data-quality.md",
+      "github": "https://github.com/great-expectations/great_expectations",
+      "website": "https://greatexpectations.io",
+      "module": "数据质量 / 数据断言 / 质量文档",
+      "tech_stack": "Python, SQL, Pandas",
+      "license": "Apache-2.0",
+      "best_for": "数据团队需要用声明式期望规则验证表、列、分布、空值、唯一性和数据管道输出，并生成质量文档。",
+      "avoid_when": "只需要少量 SQL 检查，或团队不想维护 expectation suite、checkpoint 和数据上下文。",
+      "integration_cost": "中",
+      "alternatives": "Soda Core, Deequ, dbt tests",
+      "score": "4/5",
+      "notes": "适合把数据质量规则版本化；生产前要设计规则所有权、失败阈值、告警和与调度系统的集成。"
+    },
+    {
+      "name": "Soda Core",
+      "category": "data-quality",
+      "file": "catalog/data-quality.md",
+      "github": "https://github.com/sodadata/soda-core",
+      "website": "https://www.soda.io",
+      "module": "数据质量 / 监控 / SQL 检查",
+      "tech_stack": "Python, SQL",
+      "license": "Elastic License 2.0",
+      "best_for": "需要用简单 YAML/SQL 风格规则检查数据质量、接入多种数据仓库并对接告警流程的团队。",
+      "avoid_when": "必须使用宽松开源许可证，或计划把它作为托管数据质量服务提供给第三方。",
+      "integration_cost": "中",
+      "alternatives": "Great Expectations, Deequ, dbt tests",
+      "score": "4/5",
+      "notes": "规则表达上手快，但 ELv2 对托管服务有明确限制；使用前要确认许可证和商业边界。"
+    },
+    {
+      "name": "Deequ",
+      "category": "data-quality",
+      "file": "catalog/data-quality.md",
+      "github": "https://github.com/awslabs/deequ",
+      "website": "https://github.com/awslabs/deequ",
+      "module": "数据质量 / Spark / 约束校验",
+      "tech_stack": "Scala, Apache Spark",
+      "license": "Apache-2.0",
+      "best_for": "Spark 数据湖、批处理管道和大规模表数据需要统计约束、异常检测、指标计算和质量校验的团队。",
+      "avoid_when": "不使用 Spark，或希望用轻量 Python/SQL 工具完成小规模质量检查的项目。",
+      "integration_cost": "中",
+      "alternatives": "Great Expectations, Soda Core, dbt tests",
+      "score": "4/5",
+      "notes": "适合 Spark 生态的大数据质量校验；要规划指标存储、规则版本、失败处理和计算资源成本。"
     },
     {
       "name": "ClickHouse",
