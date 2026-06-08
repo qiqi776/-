@@ -31,5 +31,6 @@ jobs:
 
       # 运行校验脚本自身的单元测试，防止后续改坏解析和报错逻辑。
       - name: 运行单元测试
-        run: python -m unittest tests.test_validate_catalog -v
-
+        run: |
+          python -m unittest tests.test_validate_catalog -v
+          python -m unittest tests.test_search_catalog -v

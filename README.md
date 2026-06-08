@@ -91,6 +91,17 @@ python tools/validate_catalog.py --write-index
 
 这个命令会检查 `catalog/*.md` 的必填字段、GitHub 地址、接入成本和评分格式，并更新 [catalog/index.json](catalog/index.json)。
 
+## 搜索组件
+
+可以用命令行按分类、接入成本和关键词筛选组件：
+
+```powershell
+python tools/search_catalog.py --category ai --cost 中
+python tools/search_catalog.py --keyword PostgreSQL
+```
+
+输出是 Markdown 表格，可以直接复制到项目选型工作表或技术栈决策文档里。
+
 ## 许可证
 
 本仓库使用 [MIT License](LICENSE)。组件条目中记录的是上游项目各自的许可证；使用这些组件时，仍需要按上游仓库的许可证要求处理。
