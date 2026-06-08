@@ -1,5 +1,5 @@
 {
-  "component_count": 237,
+  "component_count": 240,
   "components": [
     {
       "name": "Frappe Books",
@@ -1008,6 +1008,54 @@
       "alternatives": "Kannel, Jasmin, Fonoster",
       "score": "3/5",
       "notes": "适合短信网关管理和传统短信业务；接入前要确认短信供应商、国家地区规则、退订机制、黑名单、送达回执和安全边界。"
+    },
+    {
+      "name": "Storybook",
+      "category": "component-workbench",
+      "file": "catalog/component-workbench.md",
+      "github": "https://github.com/storybookjs/storybook",
+      "website": "https://storybook.js.org",
+      "module": "组件工作台 / 设计系统文档 / UI 测试",
+      "tech_stack": "TypeScript, JavaScript, React, Vue, Angular, Web Components",
+      "license": "MIT",
+      "best_for": "团队需要为多框架或复杂前端项目沉淀组件 story、交互样例、设计系统文档、视觉回归和组件级测试。",
+      "avoid_when": "只做少量页面、没有组件复用计划，或团队不愿维护额外构建配置和插件体系的项目。",
+      "integration_cost": "中",
+      "alternatives": "Histoire, Ladle, Styleguidist",
+      "score": "5/5",
+      "notes": "适合设计系统和大型前端团队；落地时要约定 story 命名、Mock 数据、交互测试、可访问性检查、截图回归和 CI 发布流程。"
+    },
+    {
+      "name": "Histoire",
+      "category": "component-workbench",
+      "file": "catalog/component-workbench.md",
+      "github": "https://github.com/histoire-dev/histoire",
+      "website": "https://histoire.dev",
+      "module": "组件工作台 / Vite 组件演示 / 文档",
+      "tech_stack": "TypeScript, Vite, Vue, Svelte, Markdown",
+      "license": "MIT",
+      "best_for": "Vue、Svelte 或 Vite 生态项目需要轻量组件 playground、状态控制、源码展示和 Markdown 说明。",
+      "avoid_when": "React 生态为主、需要 Storybook 成熟插件生态，或项目要和现有视觉回归平台深度集成。",
+      "integration_cost": "低",
+      "alternatives": "Storybook, Ladle, VitePress",
+      "score": "4/5",
+      "notes": "适合 Vite 项目快速搭建组件演示；生产前要确认框架支持范围、构建输出、主题定制、路由组织和 CI 截图方案。"
+    },
+    {
+      "name": "Ladle",
+      "category": "component-workbench",
+      "file": "catalog/component-workbench.md",
+      "github": "https://github.com/tajo/ladle",
+      "website": "https://ladle.dev",
+      "module": "组件工作台 / React Story / 快速预览",
+      "tech_stack": "TypeScript, React, Vite, SWC",
+      "license": "MIT",
+      "best_for": "React 项目希望用较轻量的 story 环境快速预览组件、共享状态样例，并减少启动和构建成本。",
+      "avoid_when": "需要跨框架支持、复杂设计系统插件、成熟文档生态或企业级组件治理工作流的团队。",
+      "integration_cost": "低",
+      "alternatives": "Storybook, Histoire, Styleguidist",
+      "score": "4/5",
+      "notes": "适合中小型 React 组件库和应用内部组件沉淀；选型前要验证与现有 Vite 配置、测试工具、样式方案和静态发布流程的兼容性。"
     },
     {
       "name": "Podman",
