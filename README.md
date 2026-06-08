@@ -72,6 +72,16 @@
 
 新增组件时可以从 [templates/component-entry.md](templates/component-entry.md) 复制模板。
 
+## 校验目录
+
+新增或修改组件后，运行：
+
+```powershell
+python tools/validate_catalog.py --write-index
+```
+
+这个命令会检查 `catalog/*.md` 的必填字段、GitHub 地址、接入成本和评分格式，并更新 [catalog/index.json](catalog/index.json)。
+
 ## 维护原则
 
 - 优先收录成熟、文档完整、许可证清楚的开源项目。
@@ -79,4 +89,3 @@
 - 记录取舍，不只记录优点。
 - 条目要短，便于快速扫描。
 - 只有当某个组件在真实项目中验证过，再把可运行示例放进 `components/`。
-

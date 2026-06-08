@@ -35,10 +35,20 @@
 - 没有手写 star 数这类容易过期的指标。
 - 没有重复组件，除非明确说明差异。
 
+## 本地校验
+
+提交前运行：
+
+```powershell
+python tools/validate_catalog.py --write-index
+python -m unittest tests.test_validate_catalog -v
+```
+
+第一条命令校验组件目录并更新 `catalog/index.json`，第二条命令验证校验脚本本身。
+
 ## 写作风格
 
 - 条目要短，服务于选型决策。
 - 优先写具体取舍。
 - 避免营销式表达。
 - 文档和目录条目默认使用中文。
-
