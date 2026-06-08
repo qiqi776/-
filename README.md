@@ -72,6 +72,8 @@
 
 新增组件时可以从 [templates/component-entry.md](templates/component-entry.md) 复制模板。
 
+发布到 GitHub 前，按 [docs/github-publish-guide.md](docs/github-publish-guide.md) 检查远程仓库、推送和 Actions 设置。
+
 ## 校验目录
 
 新增或修改组件后，运行：
