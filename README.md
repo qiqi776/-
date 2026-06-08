@@ -20,6 +20,7 @@
 - 产品分析与转化
 - 图表与数据可视化
 - 地图与地理位置
+- 实时通信与协作
 - 功能开关与实验发布
 - 支付与订阅
 - 部署与托管
@@ -49,6 +50,7 @@
 | 搜索 | [catalog/search.md](catalog/search.md) | 全文搜索、站内搜索、日志搜索 |
 | 缓存 | [catalog/cache.md](catalog/cache.md) | 内存缓存、会话、低延迟数据结构 |
 | 消息队列 | [catalog/messaging.md](catalog/messaging.md) | 异步任务、发布订阅、事件流 |
+| 实时通信 | [catalog/realtime.md](catalog/realtime.md) | WebSocket、实时推送、多人协作、在线状态 |
 | 工作流 | [catalog/workflow.md](catalog/workflow.md) | 任务编排、数据管道、定时任务、长事务流程 |
 | 产品分析 | [catalog/analytics.md](catalog/analytics.md) | 用户行为、网站统计、事件采集、转化漏斗 |
 | 图表与可视化 | [catalog/visualization.md](catalog/visualization.md) | 业务仪表盘、运营报表、交互式图表、数据探索 |
@@ -91,7 +93,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、数据库、文件存储、AI、内容管理、富文本编辑、工作流、产品分析、图表可视化、地图地理、功能开关、支付、部署、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、数据库、文件存储、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、支付、部署、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。

@@ -1,5 +1,5 @@
 {
-  "component_count": 75,
+  "component_count": 78,
   "components": [
     {
       "name": "LangChain",
@@ -912,6 +912,54 @@
       "alternatives": "Lago, Stripe Billing, Chargebee 集成",
       "score": "3/5",
       "notes": "计费能力强，但会增加运维和领域复杂度。"
+    },
+    {
+      "name": "Socket.IO",
+      "category": "realtime",
+      "file": "catalog/realtime.md",
+      "github": "https://github.com/socketio/socket.io",
+      "website": "https://socket.io",
+      "module": "实时通信 / WebSocket",
+      "tech_stack": "TypeScript, Node.js",
+      "license": "MIT",
+      "best_for": "Node.js 项目需要双向实时通信、房间、命名空间、断线重连和降级传输。",
+      "avoid_when": "只需要单向服务端事件，或项目对协议标准化和跨语言客户端要求很高。",
+      "integration_cost": "中",
+      "alternatives": "ws, Centrifugo, Ably",
+      "score": "4/5",
+      "notes": "易上手但不是裸 WebSocket 协议，客户端和服务端要成套设计。"
+    },
+    {
+      "name": "Centrifugo",
+      "category": "realtime",
+      "file": "catalog/realtime.md",
+      "github": "https://github.com/centrifugal/centrifugo",
+      "website": "https://centrifugal.dev",
+      "module": "实时通信 / 实时消息服务",
+      "tech_stack": "Go, WebSocket, SSE",
+      "license": "Apache-2.0",
+      "best_for": "需要独立实时消息服务、频道订阅、在线状态、后端语言无关和水平扩展的项目。",
+      "avoid_when": "只需要很小的单机 WebSocket 功能，或团队不想维护额外服务。",
+      "integration_cost": "中",
+      "alternatives": "Socket.IO, NATS WebSocket, Pusher",
+      "score": "4/5",
+      "notes": "适合把实时层从业务 API 中拆出来，但鉴权、频道命名和消息可靠性要提前设计。"
+    },
+    {
+      "name": "Liveblocks",
+      "category": "realtime",
+      "file": "catalog/realtime.md",
+      "github": "https://github.com/liveblocks/liveblocks",
+      "website": "https://liveblocks.io",
+      "module": "实时通信 / 多人协作",
+      "tech_stack": "TypeScript, React",
+      "license": "Apache-2.0",
+      "best_for": "需要在线协作、多人光标、评论、房间状态、协作编辑和前端快速集成的产品。",
+      "avoid_when": "必须完全自托管实时协作后端，或不希望依赖托管协作平台的项目。",
+      "integration_cost": "中",
+      "alternatives": "Yjs, PartyKit, 自研 WebSocket 协作层",
+      "score": "4/5",
+      "notes": "适合快速做协同体验，生产前要确认数据边界、托管成本和离线冲突策略。"
     },
     {
       "name": "Meilisearch",
