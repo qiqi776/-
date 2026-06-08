@@ -1,5 +1,5 @@
 {
-  "component_count": 171,
+  "component_count": 174,
   "components": [
     {
       "name": "LangChain",
@@ -864,6 +864,54 @@
       "alternatives": "OpenMetadata, DataHub, Metacat",
       "score": "3/5",
       "notes": "数据发现体验清晰，但活跃度和治理覆盖面要单独评估；适合作为轻量目录或迁移前过渡方案。"
+    },
+    {
+      "name": "SheetJS",
+      "category": "data-import-export",
+      "file": "catalog/data-import-export.md",
+      "github": "https://github.com/SheetJS/sheetjs",
+      "website": "https://sheetjs.com",
+      "module": "数据导入导出 / Excel / 表格解析",
+      "tech_stack": "JavaScript, TypeScript, Browser, Node.js",
+      "license": "Apache-2.0",
+      "best_for": "Web 或 Node.js 应用需要读取、生成和转换 XLSX、XLS、CSV、ODS 等多种表格文件，并在浏览器或服务端复用同一套逻辑。",
+      "avoid_when": "只需要轻量 CSV 解析，或需要复杂 Excel 样式、公式计算、协同编辑和完整电子表格 UI 的场景。",
+      "integration_cost": "中",
+      "alternatives": "ExcelJS, Papa Parse, Handsontable",
+      "score": "4/5",
+      "notes": "适合通用表格导入导出底座；上线前要验证大文件内存、日期数字格式、编码、隐藏工作表、公式安全和用户上传文件隔离。"
+    },
+    {
+      "name": "ExcelJS",
+      "category": "data-import-export",
+      "file": "catalog/data-import-export.md",
+      "github": "https://github.com/exceljs/exceljs",
+      "website": "https://github.com/exceljs/exceljs",
+      "module": "数据导入导出 / XLSX / 报表生成",
+      "tech_stack": "JavaScript, Node.js, Browser",
+      "license": "MIT",
+      "best_for": "Node.js 或前端项目需要生成带样式、合并单元格、图片、公式、流式写入和多工作表的 Excel 报表。",
+      "avoid_when": "需要覆盖大量旧式表格格式、极轻量 CSV 导入，或对浏览器包体积非常敏感的项目。",
+      "integration_cost": "中",
+      "alternatives": "SheetJS, xlsx-populate, FastExcel",
+      "score": "4/5",
+      "notes": "适合业务报表导出；生产前要测试大文件流式写入、中文字体、日期时区、公式兼容性和下载链路超时。"
+    },
+    {
+      "name": "Papa Parse",
+      "category": "data-import-export",
+      "file": "catalog/data-import-export.md",
+      "github": "https://github.com/mholt/PapaParse",
+      "website": "https://www.papaparse.com",
+      "module": "数据导入导出 / CSV / 浏览器解析",
+      "tech_stack": "JavaScript, Browser, Node.js",
+      "license": "MIT",
+      "best_for": "前端或 Node.js 应用需要快速解析、校验和导出 CSV，支持分块、worker、多分隔符和浏览器端大文件处理。",
+      "avoid_when": "需要读取 XLSX、保留 Excel 样式、多工作表或复杂单元格类型的导入导出场景。",
+      "integration_cost": "低",
+      "alternatives": "SheetJS, csv-parse, fast-csv",
+      "score": "4/5",
+      "notes": "适合 CSV 导入向导和批量上传第一步；要设计字段映射、错误行反馈、编码探测、空值规则、重复行校验和导入回滚策略。"
     },
     {
       "name": "Airbyte",
