@@ -91,6 +91,16 @@ python tools/validate_catalog.py --write-index
 
 这个命令会检查 `catalog/*.md` 的必填字段、GitHub 地址、接入成本和评分格式，并更新 [catalog/index.json](catalog/index.json)。
 
+## 查看分类概览
+
+可以先生成分类概览，快速确认每个模块下已经收录了多少组件：
+
+```powershell
+python tools/summarize_catalog.py
+```
+
+输出会列出分类、组件数量、该分类的最高评分组件和最低接入成本，适合在开始拼装项目前先确认候选范围。
+
 ## 搜索组件
 
 可以用命令行按分类、接入成本和关键词筛选组件：
