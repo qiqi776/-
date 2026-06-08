@@ -1,5 +1,5 @@
 {
-  "component_count": 133,
+  "component_count": 136,
   "components": [
     {
       "name": "LangChain",
@@ -624,6 +624,54 @@
       "alternatives": "Docker Distribution, Zot, GitLab Container Registry",
       "score": "4/5",
       "notes": "适合组织级制品治理；部署前要规划存储、备份、扫描器、保留策略和镜像复制拓扑。"
+    },
+    {
+      "name": "OpenMetadata",
+      "category": "data-governance",
+      "file": "catalog/data-governance.md",
+      "github": "https://github.com/open-metadata/OpenMetadata",
+      "website": "https://open-metadata.org",
+      "module": "数据治理 / 元数据目录 / 数据血缘",
+      "tech_stack": "Java, Python, TypeScript, Elasticsearch",
+      "license": "Apache-2.0",
+      "best_for": "团队需要统一管理数据库、数据仓库、仪表盘、管道、数据质量、血缘和业务术语。",
+      "avoid_when": "只需要轻量文档清单，或没有专人维护数据所有权和治理流程。",
+      "integration_cost": "高",
+      "alternatives": "DataHub, Amundsen, Atlan",
+      "score": "4/5",
+      "notes": "覆盖面广，但生产前要验证连接器权限、元数据刷新频率、搜索索引和数据质量规则边界。"
+    },
+    {
+      "name": "DataHub",
+      "category": "data-governance",
+      "file": "catalog/data-governance.md",
+      "github": "https://github.com/datahub-project/datahub",
+      "website": "https://datahubproject.io",
+      "module": "数据治理 / 元数据平台 / 数据发现",
+      "tech_stack": "Java, Python, React, Kafka",
+      "license": "Apache-2.0",
+      "best_for": "中大型数据平台需要元数据摄取、数据发现、血缘、治理动作、实体模型扩展和平台级集成。",
+      "avoid_when": "小团队只需要简单数据目录，或无法承担 Kafka、搜索和多服务部署复杂度。",
+      "integration_cost": "高",
+      "alternatives": "OpenMetadata, Amundsen, Metacat",
+      "score": "4/5",
+      "notes": "模型和生态强，适合平台团队；落地时要设计元数据所有权、变更审批和采集任务可观测性。"
+    },
+    {
+      "name": "Amundsen",
+      "category": "data-governance",
+      "file": "catalog/data-governance.md",
+      "github": "https://github.com/amundsen-io/amundsen",
+      "website": "https://www.amundsen.io",
+      "module": "数据治理 / 数据发现 / 元数据搜索",
+      "tech_stack": "Python, React, Neo4j, Elasticsearch",
+      "license": "Apache-2.0",
+      "best_for": "需要以数据发现和搜索为核心，快速建立数据资产入口、表字段说明和使用上下文的团队。",
+      "avoid_when": "需要一体化数据质量、复杂治理工作流和活跃平台路线图的组织。",
+      "integration_cost": "中",
+      "alternatives": "OpenMetadata, DataHub, Metacat",
+      "score": "3/5",
+      "notes": "数据发现体验清晰，但活跃度和治理覆盖面要单独评估；适合作为轻量目录或迁移前过渡方案。"
     },
     {
       "name": "Airbyte",

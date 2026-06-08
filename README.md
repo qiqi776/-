@@ -22,6 +22,7 @@
 - 数据库迁移与 Schema 版本管理
 - 数据管道与数据集成
 - 数据仓库与 OLAP
+- 数据治理与元数据
 - 备份与恢复
 - AI / RAG / Agent
 - 工作流与任务编排
@@ -69,6 +70,7 @@
 | 数据库迁移 | [catalog/database-migrations.md](catalog/database-migrations.md) | Schema 版本管理、SQL 迁移、数据库变更审计 |
 | 数据管道 | [catalog/data-pipeline.md](catalog/data-pipeline.md) | ELT、ETL、数据源连接器、批量同步、数据仓库装载 |
 | 数据仓库 | [catalog/data-warehouse.md](catalog/data-warehouse.md) | OLAP、列式数据库、湖仓查询、嵌入式分析引擎 |
+| 数据治理 | [catalog/data-governance.md](catalog/data-governance.md) | 数据资产目录、元数据采集、数据血缘、治理入口 |
 | 备份与恢复 | [catalog/backup-recovery.md](catalog/backup-recovery.md) | 文件备份、数据库备份、Kubernetes 灾备、恢复演练 |
 | AI | [catalog/ai.md](catalog/ai.md) | LLM 应用、RAG、Agent、工作流、模型接入工具 |
 | 内容管理 | [catalog/cms.md](catalog/cms.md) | Headless CMS、内容编辑、文档站、营销内容后台 |
@@ -131,7 +133,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、授权策略、UI、移动端、内部工具、表单与校验、国际化、后端 API、API 文档、API 网关、边缘交付、服务网格、工程化、数据库、数据库迁移、数据管道、数据仓库、备份恢复、文件存储、文档处理、媒体处理、邮件通知、通知触达、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、配置密钥、支付、账单与发票、基础设施即代码、容器镜像、部署、CI/CD、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、授权策略、UI、移动端、内部工具、表单与校验、国际化、后端 API、API 文档、API 网关、边缘交付、服务网格、工程化、数据库、数据库迁移、数据管道、数据仓库、数据治理、备份恢复、文件存储、文档处理、媒体处理、邮件通知、通知触达、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、配置密钥、支付、账单与发票、基础设施即代码、容器镜像、部署、CI/CD、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。
