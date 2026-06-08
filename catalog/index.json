@@ -1,5 +1,5 @@
 {
-  "component_count": 243,
+  "component_count": 246,
   "components": [
     {
       "name": "axe-core",
@@ -1344,6 +1344,54 @@
       "alternatives": "SheetJS, csv-parse, fast-csv",
       "score": "4/5",
       "notes": "适合 CSV 导入向导和批量上传第一步；要设计字段映射、错误行反馈、编码探测、空值规则、重复行校验和导入回滚策略。"
+    },
+    {
+      "name": "Label Studio",
+      "category": "data-labeling-review",
+      "file": "catalog/data-labeling-review.md",
+      "github": "https://github.com/HumanSignal/label-studio",
+      "website": "https://labelstud.io",
+      "module": "数据标注 / 多模态标注 / 人工审核",
+      "tech_stack": "Python, Django, JavaScript, React, Redis, PostgreSQL",
+      "license": "Apache-2.0",
+      "best_for": "AI 项目需要统一标注文本、图片、音频、视频、时间序列、LLM 输出和人工审核任务，并希望自定义标注界面和工作流。",
+      "avoid_when": "只需要极简文本分类标注，或项目不想维护独立 Web 服务、队列和权限体系。",
+      "integration_cost": "中",
+      "alternatives": "CVAT, doccano, Prodigy",
+      "score": "4/5",
+      "notes": "适合多模态和复杂审核流程；落地时要确认项目模板、标注员权限、任务分配、质检抽样、数据导入导出和隐私隔离。"
+    },
+    {
+      "name": "CVAT",
+      "category": "data-labeling-review",
+      "file": "catalog/data-labeling-review.md",
+      "github": "https://github.com/cvat-ai/cvat",
+      "website": "https://www.cvat.ai",
+      "module": "数据标注 / 计算机视觉 / 图片视频标注",
+      "tech_stack": "Python, Django, TypeScript, React, PostgreSQL, Redis, Docker",
+      "license": "MIT",
+      "best_for": "计算机视觉项目需要图片、视频、目标检测、分割、关键点、跟踪、多人协作和标注质量管理。",
+      "avoid_when": "以文本、实体抽取、问答数据或 LLM 反馈为主的标注任务，或团队不需要复杂视觉标注工具链。",
+      "integration_cost": "中",
+      "alternatives": "Label Studio, Supervisely, LabelImg",
+      "score": "4/5",
+      "notes": "适合视觉数据集生产；上线前要验证存储规模、视频性能、标注格式、任务拆分、模型辅助标注和导出到训练管线的格式。"
+    },
+    {
+      "name": "doccano",
+      "category": "data-labeling-review",
+      "file": "catalog/data-labeling-review.md",
+      "github": "https://github.com/doccano/doccano",
+      "website": "https://doccano.github.io/doccano",
+      "module": "数据标注 / NLP / 文本分类与序列标注",
+      "tech_stack": "Python, Django, Vue, PostgreSQL, Docker",
+      "license": "MIT",
+      "best_for": "NLP 项目需要快速完成文本分类、序列标注、实体识别、情感分析和翻译/文本生成数据标注。",
+      "avoid_when": "需要图像、视频、音频、多模态标注，或复杂人工审核工作流和大规模标注员管理的项目。",
+      "integration_cost": "低",
+      "alternatives": "Label Studio, brat, Prodigy",
+      "score": "4/5",
+      "notes": "适合文本数据集起步和中小团队；接入前要确认导入格式、标签体系、多人一致性、权限、导出格式和模型训练脚本衔接。"
     },
     {
       "name": "Airbyte",
