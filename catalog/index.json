@@ -1,5 +1,5 @@
 {
-  "component_count": 96,
+  "component_count": 99,
   "components": [
     {
       "name": "LangChain",
@@ -240,6 +240,54 @@
       "alternatives": "FastAPI, Rails, Laravel",
       "score": "4/5",
       "notes": "更适合作为应用基础，而不是小模块。"
+    },
+    {
+      "name": "restic",
+      "category": "backup-recovery",
+      "file": "catalog/backup-recovery.md",
+      "github": "https://github.com/restic/restic",
+      "website": "https://restic.net",
+      "module": "备份与恢复 / 通用备份",
+      "tech_stack": "Go, CLI",
+      "license": "BSD-2-Clause",
+      "best_for": "需要加密、去重、增量备份，并把文件、目录或服务器数据备份到 S3、SFTP、Backblaze 等后端。",
+      "avoid_when": "需要数据库一致性备份但没有快照/停写策略，或需要集中式企业备份管理台。",
+      "integration_cost": "中",
+      "alternatives": "BorgBackup, Kopia, Duplicati",
+      "score": "4/5",
+      "notes": "适合自托管服务器和文件数据保护；必须定期做恢复演练，而不只是确认备份任务成功。"
+    },
+    {
+      "name": "pgBackRest",
+      "category": "backup-recovery",
+      "file": "catalog/backup-recovery.md",
+      "github": "https://github.com/pgbackrest/pgbackrest",
+      "website": "https://pgbackrest.org",
+      "module": "备份与恢复 / PostgreSQL",
+      "tech_stack": "C, PostgreSQL, CLI",
+      "license": "MIT",
+      "best_for": "PostgreSQL 生产库需要物理备份、增量备份、归档 WAL、时间点恢复和备份校验。",
+      "avoid_when": "非 PostgreSQL 数据库，或团队只需要开发环境里的简单 `pg_dump`。",
+      "integration_cost": "高",
+      "alternatives": "Barman, WAL-G, pg_dump",
+      "score": "4/5",
+      "notes": "2026-04 曾发布维护者不足公告，2026-05 又宣布继续维护；生产采用前要复核当前维护状态和恢复流程。"
+    },
+    {
+      "name": "Velero",
+      "category": "backup-recovery",
+      "file": "catalog/backup-recovery.md",
+      "github": "https://github.com/vmware-tanzu/velero",
+      "website": "https://velero.io",
+      "module": "备份与恢复 / Kubernetes 灾备",
+      "tech_stack": "Go, Kubernetes",
+      "license": "Apache-2.0",
+      "best_for": "Kubernetes 集群需要备份资源对象、持久卷快照，并支持迁移、灾难恢复和命名空间级恢复。",
+      "avoid_when": "不使用 Kubernetes，或应用状态主要在外部数据库里且没有对应数据库备份策略。",
+      "integration_cost": "高",
+      "alternatives": "Kasten K10, Stash, 云厂商备份服务",
+      "score": "4/5",
+      "notes": "适合集群级灾备，但不能替代数据库级一致性备份；要验证 CSI 快照、对象存储权限和恢复顺序。"
     },
     {
       "name": "Redis",
