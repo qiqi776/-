@@ -1,5 +1,5 @@
 {
-  "component_count": 123,
+  "component_count": 126,
   "components": [
     {
       "name": "LangChain",
@@ -576,6 +576,54 @@
       "alternatives": "Docker Distribution, Zot, GitLab Container Registry",
       "score": "4/5",
       "notes": "适合组织级制品治理；部署前要规划存储、备份、扫描器、保留策略和镜像复制拓扑。"
+    },
+    {
+      "name": "Airbyte",
+      "category": "data-pipeline",
+      "file": "catalog/data-pipeline.md",
+      "github": "https://github.com/airbytehq/airbyte",
+      "website": "https://airbyte.com",
+      "module": "数据管道 / ELT / 连接器平台",
+      "tech_stack": "Java, Python, Docker, Kubernetes",
+      "license": "Elastic License 2.0",
+      "best_for": "团队需要大量现成连接器，把 SaaS、数据库、文件和 API 数据同步到数据仓库、湖仓或分析系统。",
+      "avoid_when": "团队必须使用宽松开源许可证，或计划把它作为托管数据同步服务提供给第三方。",
+      "integration_cost": "高",
+      "alternatives": "Meltano, dlt, Fivetran",
+      "score": "4/5",
+      "notes": "连接器生态强，但 ELv2 对托管服务有明确限制；生产前要验证连接器质量、状态存储、增量同步和失败重跑策略。"
+    },
+    {
+      "name": "Meltano",
+      "category": "data-pipeline",
+      "file": "catalog/data-pipeline.md",
+      "github": "https://github.com/meltano/meltano",
+      "website": "https://meltano.com",
+      "module": "数据管道 / Singer / ELT 编排",
+      "tech_stack": "Python, Singer, CLI",
+      "license": "MIT",
+      "best_for": "数据团队希望用代码和配置管理 ELT 项目、Singer tap/target、环境变量、作业调度和版本化数据集成流程。",
+      "avoid_when": "需要大量可视化托管连接器管理，或不想维护 Singer 插件兼容性的团队。",
+      "integration_cost": "中",
+      "alternatives": "Airbyte, dlt, Dagster",
+      "score": "4/5",
+      "notes": "适合 GitOps 风格的数据集成；要治理插件版本、凭据注入、环境隔离和目标仓库 schema 演进。"
+    },
+    {
+      "name": "dlt",
+      "category": "data-pipeline",
+      "file": "catalog/data-pipeline.md",
+      "github": "https://github.com/dlt-hub/dlt",
+      "website": "https://dlthub.com",
+      "module": "数据管道 / Python ELT / 数据装载",
+      "tech_stack": "Python",
+      "license": "Apache-2.0",
+      "best_for": "Python 团队需要把 API、数据库或文件数据以代码方式抽取、规范化并装载到数据仓库、湖仓或向量数据库。",
+      "avoid_when": "需要非技术用户可视化配置大量连接器，或团队不愿用代码维护数据抽取逻辑。",
+      "integration_cost": "中",
+      "alternatives": "Meltano, Airbyte, Dagster",
+      "score": "4/5",
+      "notes": "适合轻量到中型数据集成和应用内数据同步；生产前要验证 schema 变更、幂等、断点续跑和目标端权限。"
     },
     {
       "name": "Flyway",
