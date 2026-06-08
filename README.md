@@ -13,6 +13,7 @@
 - 国际化与本地化
 - 后端 API
 - API 文档与接口契约
+- 工程化与多包仓库
 - 数据库与 ORM
 - AI / RAG / Agent
 - 工作流与任务编排
@@ -43,6 +44,7 @@
 | 国际化 | [catalog/i18n.md](catalog/i18n.md) | 多语言文案、翻译资源、日期数字格式、复数规则 |
 | 后端 | [catalog/backend.md](catalog/backend.md) | API 框架、服务框架、后端基础设施 |
 | API 文档 | [catalog/api-docs.md](catalog/api-docs.md) | OpenAPI 文档、接口调试、契约协作、开发者门户 |
+| 工程化 | [catalog/dev-tooling.md](catalog/dev-tooling.md) | Monorepo、包管理、构建缓存、任务编排、CI 加速 |
 | 认证 | [catalog/auth.md](catalog/auth.md) | 登录、身份、OAuth、用户管理、权限控制 |
 | 数据库 | [catalog/database.md](catalog/database.md) | 数据库、ORM、后端即服务、向量存储 |
 | AI | [catalog/ai.md](catalog/ai.md) | LLM 应用、RAG、Agent、工作流、模型接入工具 |
@@ -99,7 +101,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、后端 API、API 文档、数据库、文件存储、文档处理、媒体处理、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、支付、部署、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、后端 API、API 文档、工程化、数据库、文件存储、文档处理、媒体处理、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、支付、部署、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。
