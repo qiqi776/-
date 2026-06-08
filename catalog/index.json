@@ -1,5 +1,5 @@
 {
-  "component_count": 255,
+  "component_count": 257,
   "components": [
     {
       "name": "axe-core",
@@ -1616,22 +1616,6 @@
       "alternatives": "Drizzle ORM, TypeORM, Sequelize",
       "score": "4/5",
       "notes": "开发体验好，但 schema 和迁移流程会成为架构的一部分。"
-    },
-    {
-      "name": "Qdrant",
-      "category": "database",
-      "file": "catalog/database.md",
-      "github": "https://github.com/qdrant/qdrant",
-      "website": "https://qdrant.tech",
-      "module": "数据库 / 向量搜索 / AI",
-      "tech_stack": "Rust",
-      "license": "Apache-2.0",
-      "best_for": "向量搜索、RAG、语义搜索，以及需要独立向量数据库的 AI 应用。",
-      "avoid_when": "只需要简单关键词搜索，或现有数据库扩展已经足够。",
-      "integration_cost": "中",
-      "alternatives": "Milvus, Chroma, Weaviate, pgvector",
-      "score": "4/5",
-      "notes": "自托管向量搜索的强候选。"
     },
     {
       "name": "Dokku",
@@ -3888,6 +3872,54 @@
       "alternatives": "Formbricks, SurveyJS, Typeform",
       "score": "4/5",
       "notes": "问卷能力成熟但产品形态偏独立调研系统；集成前要确认主题定制、身份打通、数据导出和 GPL 合规。"
+    },
+    {
+      "name": "Qdrant",
+      "category": "vector-database",
+      "file": "catalog/vector-database.md",
+      "github": "https://github.com/qdrant/qdrant",
+      "website": "https://qdrant.tech",
+      "module": "向量数据库 / RAG 检索 / 相似度搜索",
+      "tech_stack": "Rust, HNSW, REST, gRPC, Docker",
+      "license": "Apache-2.0",
+      "best_for": "RAG、语义搜索、推荐、相似图片或文本检索，以及需要自托管独立向量数据库和 payload 过滤的 AI 应用。",
+      "avoid_when": "只需要关键词搜索，或现有 PostgreSQL + pgvector 扩展已经能满足数据规模和运维边界。",
+      "integration_cost": "中",
+      "alternatives": "Milvus, pgvector, Weaviate, Chroma",
+      "score": "4/5",
+      "notes": "自托管向量搜索的强候选；落地前要验证 embedding 维度、payload schema、过滤条件、集合分片、备份恢复和检索质量评估集。"
+    },
+    {
+      "name": "Milvus",
+      "category": "vector-database",
+      "file": "catalog/vector-database.md",
+      "github": "https://github.com/milvus-io/milvus",
+      "website": "https://milvus.io",
+      "module": "向量数据库 / 大规模检索 / 分布式索引",
+      "tech_stack": "Go, C++, Kubernetes, etcd, MinIO, Pulsar",
+      "license": "Apache-2.0",
+      "best_for": "需要大规模向量集合、分布式部署、多索引类型、云原生扩展和高吞吐检索的平台团队。",
+      "avoid_when": "小型 RAG 应用、单机知识库，或团队不想维护多组件分布式存储和集群依赖。",
+      "integration_cost": "高",
+      "alternatives": "Qdrant, Weaviate, pgvector",
+      "score": "4/5",
+      "notes": "能力强但基础设施成本高；生产前要确认部署拓扑、资源配额、索引构建时间、数据一致性、备份恢复和运维告警。"
+    },
+    {
+      "name": "pgvector",
+      "category": "vector-database",
+      "file": "catalog/vector-database.md",
+      "github": "https://github.com/pgvector/pgvector",
+      "website": "https://github.com/pgvector/pgvector",
+      "module": "向量数据库 / PostgreSQL 扩展 / 混合检索",
+      "tech_stack": "C, PostgreSQL, SQL, HNSW, IVFFlat",
+      "license": "PostgreSQL License",
+      "best_for": "已经使用 PostgreSQL，希望把元数据、权限过滤、事务数据和中小规模向量检索放在同一个数据库里的团队。",
+      "avoid_when": "需要超大规模独立向量集群、独立扩缩容、复杂多租户向量服务或非常高吞吐相似度检索的项目。",
+      "integration_cost": "低",
+      "alternatives": "Qdrant, Milvus, Weaviate",
+      "score": "4/5",
+      "notes": "适合降低 RAG 起步运维成本；要验证索引类型、召回率、VACUUM/ANALYZE、查询计划、维度变化和数据库整体负载。"
     },
     {
       "name": "LiveKit",

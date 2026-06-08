@@ -10,7 +10,7 @@
 | UI | shadcn/ui | Ant Design | 适合自定义聊天、上传和设置界面 | 团队需要负责组件风格一致性 |
 | 后端 API | FastAPI | NestJS | Python 更适合 AI、数据处理和模型工具 | 大团队可能更偏好 TypeScript 服务结构 |
 | RAG 框架 | LlamaIndex | LangChain | 数据到 LLM 的检索流程较强 | 抽象可能掩盖检索质量问题 |
-| 向量数据库 | Qdrant | pgvector | 独立向量搜索，自托管路径清楚 | 需要多运维一个服务 |
+| 向量数据库与检索 | Qdrant | pgvector | 独立向量搜索，自托管路径清楚 | 需要多运维一个服务 |
 | 认证 | Auth.js | Supabase Auth | Web 用户认证足够轻 | 不是完整企业 IAM 平台 |
 | 数据库 | PostgreSQL | Supabase | 可靠保存元数据和应用数据 | 需要负责 schema 和迁移 |
 | 部署 | Docker Compose + Coolify | Dokku | 适合自托管 API、前端和向量库 | 生产扩展需要额外规划 |
@@ -32,4 +32,3 @@
 - 不接入私有数据的简单聊天壳
 - 确定性搜索已经足够的工作流
 - 数据权限边界不清楚的产品
-

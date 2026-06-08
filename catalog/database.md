@@ -1,6 +1,6 @@
 # 数据库组件
 
-数据库组件覆盖数据库引擎、ORM、后端即服务平台和向量存储。
+数据库组件覆盖数据库引擎、ORM 和后端即服务平台；embedding 向量存储、RAG 检索和相似度搜索放在向量数据库与检索分类。
 
 ## PostgreSQL
 
@@ -29,18 +29,4 @@
 - 替代方案: Drizzle ORM, TypeORM, Sequelize
 - 评分: 4/5
 - 备注: 开发体验好，但 schema 和迁移流程会成为架构的一部分。
-
-## Qdrant
-
-- GitHub: https://github.com/qdrant/qdrant
-- 官网: https://qdrant.tech
-- 模块: 数据库 / 向量搜索 / AI
-- 技术栈: Rust
-- 许可证: Apache-2.0
-- 适合: 向量搜索、RAG、语义搜索，以及需要独立向量数据库的 AI 应用。
-- 不适合: 只需要简单关键词搜索，或现有数据库扩展已经足够。
-- 接入成本: 中
-- 替代方案: Milvus, Chroma, Weaviate, pgvector
-- 评分: 4/5
-- 备注: 自托管向量搜索的强候选。
 

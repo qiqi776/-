@@ -34,6 +34,7 @@
 - 数据治理与元数据
 - 数据标注与人工审核
 - 备份与恢复
+- 向量数据库与检索
 - AI / RAG / Agent
 - 工作流与任务编排
 - 内容管理与编辑
@@ -113,7 +114,7 @@
 | 项目脚手架 | [catalog/scaffolding-templates.md](catalog/scaffolding-templates.md) | 项目模板、脚手架、代码片段生成、模板升级 |
 | 认证 | [catalog/auth.md](catalog/auth.md) | 登录、身份、OAuth、用户管理、权限控制 |
 | 数字身份 | [catalog/digital-identity.md](catalog/digital-identity.md) | DID、可验证凭证、Issuer、Verifier、钱包、OpenID4VC |
-| 数据库 | [catalog/database.md](catalog/database.md) | 数据库、ORM、后端即服务、向量存储 |
+| 数据库 | [catalog/database.md](catalog/database.md) | 关系型数据库、ORM、后端即服务、事务数据 |
 | 数据库迁移 | [catalog/database-migrations.md](catalog/database-migrations.md) | Schema 版本管理、SQL 迁移、数据库变更审计 |
 | 数据管道 | [catalog/data-pipeline.md](catalog/data-pipeline.md) | ELT、ETL、数据源连接器、批量同步、数据仓库装载 |
 | 数据导入导出 | [catalog/data-import-export.md](catalog/data-import-export.md) | CSV、Excel、字段映射、批量导入、报表导出 |
@@ -123,6 +124,7 @@
 | 数据治理 | [catalog/data-governance.md](catalog/data-governance.md) | 数据资产目录、元数据采集、数据血缘、治理入口 |
 | 数据标注与人工审核 | [catalog/data-labeling-review.md](catalog/data-labeling-review.md) | 训练数据标注、人工复核、视觉标注、文本分类、质检流程 |
 | 备份与恢复 | [catalog/backup-recovery.md](catalog/backup-recovery.md) | 文件备份、数据库备份、Kubernetes 灾备、恢复演练 |
+| 向量数据库 | [catalog/vector-database.md](catalog/vector-database.md) | Embedding 存储、RAG 检索、相似度搜索、混合检索 |
 | AI | [catalog/ai.md](catalog/ai.md) | LLM 应用、RAG、Agent、工作流、模型接入工具 |
 | 内容管理 | [catalog/cms.md](catalog/cms.md) | Headless CMS、内容编辑、文档站、营销内容后台 |
 | 文档站 | [catalog/documentation-site.md](catalog/documentation-site.md) | 产品文档、开发者门户、Markdown/MDX、版本化文档、静态站点 |
@@ -186,7 +188,7 @@
 这些蓝图可以作为新项目选型的起点：
 
 - [SaaS 起步项目](stacks/saas-starter.md)：认证、前端、后端、数据库、支付、账单与发票、部署、监控。
-- [AI RAG 应用](stacks/ai-rag-app.md)：前端、API、LLM 编排、向量数据库、部署、监控。
+- [AI RAG 应用](stacks/ai-rag-app.md)：前端、API、LLM 编排、向量数据库与检索、部署、监控。
 - [内部管理后台](stacks/internal-admin.md)：管理 UI、后端、身份、数据库、部署。
 
 ## 组件条目格式
@@ -213,7 +215,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、授权策略、数字身份与可验证凭证、审计日志、UI、移动端、组件工作台与设计系统文档、内部工具、表单与校验、国际化、翻译管理与本地化平台、后端 API、API 文档、API 客户端与 SDK 生成、API 网关、边缘交付、服务网格、代码托管与版本协作、工程化、包与制品仓库、项目脚手架与模板生成、数据库、数据库迁移、数据管道、数据导入导出、流处理、数据仓库、数据质量、数据治理、数据标注与人工审核、备份恢复、文件存储、文档处理、OCR 与文档识别、文档生成与模板输出、电子签名、媒体处理、邮件通知、通知触达、通信渠道与短信语音、Webhook 投递、状态页、评论互动、论坛社区、用户反馈、客户支持、CRM、营销自动化、电商、项目管理、日程预约、AI、内容管理、文档站与开发者门户、富文本编辑、文档协作、搜索、缓存、消息队列、后台任务、工作流、实时通信、音视频通话、产品分析、商业智能、图表可视化、地图地理、功能开关、配置密钥、隐私合规、反滥用、支付、账单与发票、财务会计、基础设施即代码、容器镜像、部署、CI/CD、测试、性能与负载测试、无障碍与可访问性测试、安全扫描、SBOM 许可证合规、错误跟踪、日志管理、监控。
+1. 先列出项目需要的能力：认证、授权策略、数字身份与可验证凭证、审计日志、UI、移动端、组件工作台与设计系统文档、内部工具、表单与校验、国际化、翻译管理与本地化平台、后端 API、API 文档、API 客户端与 SDK 生成、API 网关、边缘交付、服务网格、代码托管与版本协作、工程化、包与制品仓库、项目脚手架与模板生成、数据库、数据库迁移、数据管道、数据导入导出、流处理、数据仓库、数据质量、数据治理、数据标注与人工审核、备份恢复、向量数据库与检索、文件存储、文档处理、OCR 与文档识别、文档生成与模板输出、电子签名、媒体处理、邮件通知、通知触达、通信渠道与短信语音、Webhook 投递、状态页、评论互动、论坛社区、用户反馈、客户支持、CRM、营销自动化、电商、项目管理、日程预约、AI、内容管理、文档站与开发者门户、富文本编辑、文档协作、搜索、缓存、消息队列、后台任务、工作流、实时通信、音视频通话、产品分析、商业智能、图表可视化、地图地理、功能开关、配置密钥、隐私合规、反滥用、支付、账单与发票、财务会计、基础设施即代码、容器镜像、部署、CI/CD、测试、性能与负载测试、无障碍与可访问性测试、安全扫描、SBOM 许可证合规、错误跟踪、日志管理、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。
