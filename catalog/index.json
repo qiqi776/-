@@ -1,5 +1,5 @@
 {
-  "component_count": 246,
+  "component_count": 249,
   "components": [
     {
       "name": "axe-core",
@@ -2960,6 +2960,54 @@
       "alternatives": "Tesseract OCR, EasyOCR, docTR",
       "score": "4/5",
       "notes": "适合票据、表单、合同、截图和复杂版式识别；落地时要先用真实样本评估模型、语言、推理延迟、硬件成本和人工复核流程。"
+    },
+    {
+      "name": "Verdaccio",
+      "category": "package-artifact-registry",
+      "file": "catalog/package-artifact-registry.md",
+      "github": "https://github.com/verdaccio/verdaccio",
+      "website": "https://verdaccio.org",
+      "module": "包与制品仓库 / npm 私有仓库 / 依赖代理",
+      "tech_stack": "TypeScript, Node.js, npm, pnpm, Yarn",
+      "license": "MIT",
+      "best_for": "Node.js 或前端团队需要快速搭建私有 npm 仓库、上游代理缓存、scope 包发布和内部组件共享。",
+      "avoid_when": "需要 Maven、NuGet、PyPI、OCI 等多语言制品统一治理，或需要复杂企业级权限、审计和高可用能力的场景。",
+      "integration_cost": "低",
+      "alternatives": "Nexus Repository, GitLab Package Registry, npm Enterprise",
+      "score": "4/5",
+      "notes": "先确认存储目录、上游 npm 源、认证方式、包保留策略、CI 发布 token、lockfile registry 配置和缓存污染防护。"
+    },
+    {
+      "name": "Nexus Repository",
+      "category": "package-artifact-registry",
+      "file": "catalog/package-artifact-registry.md",
+      "github": "https://github.com/sonatype/nexus-public",
+      "website": "https://www.sonatype.com/products/sonatype-nexus-repository",
+      "module": "包与制品仓库 / 通用制品库 / 依赖代理",
+      "tech_stack": "Java, JVM, Maven, npm, NuGet, PyPI, Docker",
+      "license": "EPL-1.0",
+      "best_for": "中大型团队需要统一托管 Maven、npm、NuGet、PyPI、Docker 等制品，并配置 hosted、proxy、group 仓库、权限、保留策略和依赖缓存。",
+      "avoid_when": "只需要一个轻量 npm 私有仓库的小团队，或无法承担 JVM 服务、存储、备份和商业功能边界评估的项目。",
+      "integration_cost": "高",
+      "alternatives": "Verdaccio, Apache Archiva, JFrog Artifactory",
+      "score": "4/5",
+      "notes": "开源核心和商业能力需要提前划边界；生产前要验证制品格式、blob storage、备份恢复、清理策略、LDAP/SSO、漏洞策略和迁移路径。"
+    },
+    {
+      "name": "Apache Archiva",
+      "category": "package-artifact-registry",
+      "file": "catalog/package-artifact-registry.md",
+      "github": "https://github.com/apache/archiva",
+      "website": "https://archiva.apache.org",
+      "module": "包与制品仓库 / Maven 仓库 / 依赖代理",
+      "tech_stack": "Java, Maven, Jetty, Repository Manager",
+      "license": "Apache-2.0",
+      "best_for": "Java 或 Maven 团队需要自托管 Maven 制品仓库、内部 release/snapshot 发布和上游依赖代理。",
+      "avoid_when": "需要 npm、NuGet、PyPI、OCI 多格式统一治理，或需要更活跃生态、现代企业权限和安全治理能力的项目。",
+      "integration_cost": "中",
+      "alternatives": "Nexus Repository, JFrog Artifactory, GitLab Package Registry",
+      "score": "3/5",
+      "notes": "更适合 Maven 中心化且需求简单的团队；落地前要确认项目维护活跃度、权限模型、存储备份、清理策略和未来迁移方案。"
     },
     {
       "name": "Stripe Node SDK",
