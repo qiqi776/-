@@ -1,5 +1,5 @@
 {
-  "component_count": 60,
+  "component_count": 63,
   "components": [
     {
       "name": "LangChain",
@@ -816,6 +816,54 @@
       "alternatives": "Elasticsearch, Meilisearch, Typesense",
       "score": "4/5",
       "notes": "能力强，但引入后会成为重要基础设施。"
+    },
+    {
+      "name": "Trivy",
+      "category": "security",
+      "file": "catalog/security.md",
+      "github": "https://github.com/aquasecurity/trivy",
+      "website": "https://trivy.dev",
+      "module": "安全扫描 / 依赖与镜像漏洞",
+      "tech_stack": "Go, CLI, Docker, Kubernetes, IaC",
+      "license": "Apache-2.0",
+      "best_for": "需要在 CI/CD 中扫描容器镜像、文件系统、依赖、IaC 配置、SBOM 和已知漏洞的团队。",
+      "avoid_when": "只需要运行时防护，或团队没有流程处理扫描结果和漏洞例外。",
+      "integration_cost": "中",
+      "alternatives": "Grype, Snyk CLI, Docker Scout",
+      "score": "4/5",
+      "notes": "建议固定工具版本、定期更新漏洞库，并先从高危漏洞阻断开始，避免 CI 噪音过高。"
+    },
+    {
+      "name": "Gitleaks",
+      "category": "security",
+      "file": "catalog/security.md",
+      "github": "https://github.com/gitleaks/gitleaks",
+      "website": "https://gitleaks.io",
+      "module": "安全扫描 / 密钥泄露检查",
+      "tech_stack": "Go, CLI",
+      "license": "MIT",
+      "best_for": "需要扫描代码仓库、提交历史、CI 产物和开发者本地提交中的 API Key、Token、私钥等敏感信息。",
+      "avoid_when": "需要统一密钥托管、轮换和运行时注入的完整密钥管理平台。",
+      "integration_cost": "低",
+      "alternatives": "detect-secrets, TruffleHog, GitGuardian",
+      "score": "4/5",
+      "notes": "扫描发现泄露后不能只删除文件，必须轮换对应密钥；适合和 pre-commit、CI 一起使用。"
+    },
+    {
+      "name": "ZAP",
+      "category": "security",
+      "file": "catalog/security.md",
+      "github": "https://github.com/zaproxy/zaproxy",
+      "website": "https://www.zaproxy.org",
+      "module": "安全扫描 / Web 动态安全测试",
+      "tech_stack": "Java",
+      "license": "Apache-2.0",
+      "best_for": "Web 应用需要自动化基线扫描、爬虫扫描、主动扫描和上线前安全回归验证。",
+      "avoid_when": "希望完全替代人工渗透测试，或生产环境无法承受主动扫描流量的项目。",
+      "integration_cost": "中",
+      "alternatives": "Nuclei, Burp Suite, Nikto",
+      "score": "4/5",
+      "notes": "建议先在预发环境做基线扫描，再逐步引入主动扫描；主动扫描可能触发写操作或告警。"
     },
     {
       "name": "MinIO",
