@@ -1,5 +1,5 @@
 {
-  "component_count": 63,
+  "component_count": 66,
   "components": [
     {
       "name": "LangChain",
@@ -960,6 +960,54 @@
       "alternatives": "unittest, nose2, Robot Framework",
       "score": "4/5",
       "notes": "插件生态成熟，适合从小型脚本到大型后端服务持续扩展测试覆盖。"
+    },
+    {
+      "name": "Apache ECharts",
+      "category": "visualization",
+      "file": "catalog/visualization.md",
+      "github": "https://github.com/apache/echarts",
+      "website": "https://echarts.apache.org",
+      "module": "可视化 / 通用图表库",
+      "tech_stack": "JavaScript, TypeScript, Canvas, SVG",
+      "license": "Apache-2.0",
+      "best_for": "需要丰富图表类型、中文生态、地图、仪表盘、大屏和复杂业务报表的 Web 项目。",
+      "avoid_when": "只需要少量极简图表，或项目希望完全使用 React 声明式组件模型。",
+      "integration_cost": "中",
+      "alternatives": "Recharts, AntV G2, Chart.js",
+      "score": "4/5",
+      "notes": "功能覆盖广，但复杂配置容易堆积，建议封装项目内统一图表组件和主题。"
+    },
+    {
+      "name": "Recharts",
+      "category": "visualization",
+      "file": "catalog/visualization.md",
+      "github": "https://github.com/recharts/recharts",
+      "website": "https://recharts.org",
+      "module": "可视化 / React 图表",
+      "tech_stack": "TypeScript, React, SVG",
+      "license": "MIT",
+      "best_for": "React 项目需要快速构建折线图、柱状图、面积图、饼图和业务仪表盘。",
+      "avoid_when": "需要超大数据量渲染、复杂地图、关系图或高度定制底层绘制的场景。",
+      "integration_cost": "低",
+      "alternatives": "Apache ECharts, Nivo, Visx",
+      "score": "4/5",
+      "notes": "React 组件心智负担低，适合中小型后台和 SaaS 面板。"
+    },
+    {
+      "name": "D3",
+      "category": "visualization",
+      "file": "catalog/visualization.md",
+      "github": "https://github.com/d3/d3",
+      "website": "https://d3js.org",
+      "module": "可视化 / 底层数据驱动渲染",
+      "tech_stack": "JavaScript, SVG, Canvas",
+      "license": "ISC",
+      "best_for": "需要高度定制的交互式可视化、数据探索、复杂布局和非标准图表的团队。",
+      "avoid_when": "只需要常见业务图表且团队缺少可视化工程经验。",
+      "integration_cost": "高",
+      "alternatives": "Apache ECharts, Vega, Observable Plot",
+      "score": "4/5",
+      "notes": "自由度很高，但工程封装和交互设计成本也高；适合做底层能力而不是简单报表首选。"
     },
     {
       "name": "Temporal",
