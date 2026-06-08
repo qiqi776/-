@@ -1,5 +1,5 @@
 {
-  "component_count": 69,
+  "component_count": 72,
   "components": [
     {
       "name": "LangChain",
@@ -384,6 +384,54 @@
       "alternatives": "Docker Compose, Nomad, 托管 PaaS",
       "score": "4/5",
       "notes": "在正确规模下有价值，过早采用会很贵。"
+    },
+    {
+      "name": "Tiptap",
+      "category": "editors",
+      "file": "catalog/editors.md",
+      "github": "https://github.com/ueberdosis/tiptap",
+      "website": "https://tiptap.dev",
+      "module": "编辑器 / ProseMirror 富文本",
+      "tech_stack": "TypeScript, ProseMirror, React, Vue",
+      "license": "MIT",
+      "best_for": "需要高度可扩展富文本、结构化文档、协作编辑和 React/Vue 集成的产品。",
+      "avoid_when": "只需要非常简单的 textarea，或团队不想理解 ProseMirror 文档模型。",
+      "integration_cost": "中",
+      "alternatives": "Lexical, Slate, ProseMirror",
+      "score": "4/5",
+      "notes": "扩展能力强，适合知识库、CMS、AI 内容编辑和复杂后台编辑场景。"
+    },
+    {
+      "name": "Lexical",
+      "category": "editors",
+      "file": "catalog/editors.md",
+      "github": "https://github.com/facebook/lexical",
+      "website": "https://lexical.dev",
+      "module": "编辑器 / React 富文本",
+      "tech_stack": "TypeScript, React",
+      "license": "MIT",
+      "best_for": "React 项目需要现代化、可组合、性能较好的富文本编辑器核心。",
+      "avoid_when": "非 React 栈项目，或需要开箱即用的完整编辑器 UI 而不想自行组装插件。",
+      "integration_cost": "中",
+      "alternatives": "Tiptap, Slate, Draft.js",
+      "score": "4/5",
+      "notes": "核心设计清晰，但生产级体验通常需要自行组合工具栏、序列化、粘贴处理和插件。"
+    },
+    {
+      "name": "Slate",
+      "category": "editors",
+      "file": "catalog/editors.md",
+      "github": "https://github.com/ianstormtaylor/slate",
+      "website": "https://docs.slatejs.org",
+      "module": "编辑器 / 自定义文档编辑",
+      "tech_stack": "TypeScript, React",
+      "license": "MIT",
+      "best_for": "需要完全自定义文档结构、嵌套块、内联节点和复杂编辑交互的 React 项目。",
+      "avoid_when": "希望快速接入标准富文本编辑器，或团队没有时间维护编辑器边界情况。",
+      "integration_cost": "高",
+      "alternatives": "Tiptap, Lexical, ProseMirror",
+      "score": "3/5",
+      "notes": "灵活度高但工程成本也高，适合编辑器本身是核心能力的项目。"
     },
     {
       "name": "Postal",

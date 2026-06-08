@@ -16,6 +16,7 @@
 - AI / RAG / Agent
 - 工作流与任务编排
 - 内容管理与编辑
+- 富文本与编辑器
 - 产品分析与转化
 - 图表与数据可视化
 - 功能开关与实验发布
@@ -40,6 +41,7 @@
 | 数据库 | [catalog/database.md](catalog/database.md) | 数据库、ORM、后端即服务、向量存储 |
 | AI | [catalog/ai.md](catalog/ai.md) | LLM 应用、RAG、Agent、工作流、模型接入工具 |
 | 内容管理 | [catalog/cms.md](catalog/cms.md) | Headless CMS、内容编辑、文档站、营销内容后台 |
+| 富文本编辑器 | [catalog/editors.md](catalog/editors.md) | 嵌入式编辑、结构化文档、协作编辑、内容编辑体验 |
 | 支付 | [catalog/payment.md](catalog/payment.md) | 支付 SDK、电商引擎、结账、订阅 |
 | 存储 | [catalog/storage.md](catalog/storage.md) | 对象存储、文件上传、媒体资源 |
 | 邮件通知 | [catalog/email.md](catalog/email.md) | 邮件发送、Newsletter、多渠道通知 |
@@ -87,7 +89,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、数据库、文件存储、AI、内容管理、工作流、产品分析、图表可视化、功能开关、支付、部署、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、数据库、文件存储、AI、内容管理、富文本编辑、工作流、产品分析、图表可视化、功能开关、支付、部署、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。
