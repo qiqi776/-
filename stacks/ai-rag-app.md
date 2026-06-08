@@ -9,6 +9,7 @@
 | 前端 | Next.js | Vite + React | 适合聊天、上传、文档工作流 | 如果只是嵌入式工具，可能过重 |
 | UI | shadcn/ui | Ant Design | 适合自定义聊天、上传和设置界面 | 团队需要负责组件风格一致性 |
 | 后端 API | FastAPI | NestJS | Python 更适合 AI、数据处理和模型工具 | 大团队可能更偏好 TypeScript 服务结构 |
+| 模型服务与推理网关 | LiteLLM | Ollama | 统一模型接口、密钥和成本治理 | 本地模型和云供应商的延迟与配额差异需要验证 |
 | RAG 框架 | LlamaIndex | LangChain | 数据到 LLM 的检索流程较强 | 抽象可能掩盖检索质量问题 |
 | 向量数据库与检索 | Qdrant | pgvector | 独立向量搜索，自托管路径清楚 | 需要多运维一个服务 |
 | 认证 | Auth.js | Supabase Auth | Web 用户认证足够轻 | 不是完整企业 IAM 平台 |
