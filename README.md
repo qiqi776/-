@@ -27,6 +27,11 @@
 | 数据库 | [catalog/database.md](catalog/database.md) | 数据库、ORM、后端即服务、向量存储 |
 | AI | [catalog/ai.md](catalog/ai.md) | LLM 应用、RAG、Agent、工作流、模型接入工具 |
 | 支付 | [catalog/payment.md](catalog/payment.md) | 支付 SDK、电商引擎、结账、订阅 |
+| 存储 | [catalog/storage.md](catalog/storage.md) | 对象存储、文件上传、媒体资源 |
+| 邮件通知 | [catalog/email.md](catalog/email.md) | 邮件发送、Newsletter、多渠道通知 |
+| 搜索 | [catalog/search.md](catalog/search.md) | 全文搜索、站内搜索、日志搜索 |
+| 缓存 | [catalog/cache.md](catalog/cache.md) | 内存缓存、会话、低延迟数据结构 |
+| 消息队列 | [catalog/messaging.md](catalog/messaging.md) | 异步任务、发布订阅、事件流 |
 | 部署 | [catalog/deployment.md](catalog/deployment.md) | 自托管、PaaS、应用部署、基础设施胶水 |
 | 监控 | [catalog/observability.md](catalog/observability.md) | 指标、仪表盘、链路追踪、日志、错误跟踪 |
 
