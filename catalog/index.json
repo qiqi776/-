@@ -1,5 +1,5 @@
 {
-  "component_count": 129,
+  "component_count": 131,
   "components": [
     {
       "name": "LangChain",
@@ -1042,22 +1042,6 @@
       "notes": "适合内容产品和社区产品沉淀用户触达能力。"
     },
     {
-      "name": "Novu",
-      "category": "email",
-      "file": "catalog/email.md",
-      "github": "https://github.com/novuhq/novu",
-      "website": "https://novu.co",
-      "module": "通知 / 多渠道通知",
-      "tech_stack": "TypeScript, Node.js",
-      "license": "MIT（核心）/ 商业许可证（enterprise）",
-      "best_for": "需要统一管理邮件、站内信、短信、推送等多渠道通知的 SaaS 或平台型项目。",
-      "avoid_when": "项目只有单一邮件发送需求、通知规则非常简单，或要求整个仓库完全使用单一开源许可证。",
-      "integration_cost": "中",
-      "alternatives": "Knock, Courier, 自研通知服务",
-      "score": "4/5",
-      "notes": "Novu 是 open core，核心代码 MIT，enterprise 目录受商业许可证约束。"
-    },
-    {
       "name": "Unleash",
       "category": "feature-flags",
       "file": "catalog/feature-flags.md",
@@ -1536,6 +1520,54 @@
       "alternatives": "React Native CLI, Flutter, Ionic Capacitor",
       "score": "4/5",
       "notes": "非常适合 MVP 和多数生产应用，需求深入原生能力时要提前检查模块兼容性。"
+    },
+    {
+      "name": "Novu",
+      "category": "notifications",
+      "file": "catalog/notifications.md",
+      "github": "https://github.com/novuhq/novu",
+      "website": "https://novu.co",
+      "module": "通知 / 多渠道通知 / 工作流",
+      "tech_stack": "TypeScript, Node.js",
+      "license": "MIT",
+      "best_for": "需要统一管理邮件、站内信、短信、推送、Webhook 和通知模板的 SaaS 或平台型项目。",
+      "avoid_when": "项目只有单一邮件发送需求，或通知规则非常简单，不需要独立通知中心。",
+      "integration_cost": "中",
+      "alternatives": "Knock, Courier, 自研通知服务",
+      "score": "4/5",
+      "notes": "适合把通知模板、用户偏好和触达渠道集中治理；生产前要确认企业功能边界、渠道供应商、退订策略和审计日志。"
+    },
+    {
+      "name": "ntfy",
+      "category": "notifications",
+      "file": "catalog/notifications.md",
+      "github": "https://github.com/binwiederhier/ntfy",
+      "website": "https://ntfy.sh",
+      "module": "通知 / Push / Webhook",
+      "tech_stack": "Go, Android, Web Push",
+      "license": "Apache-2.0",
+      "best_for": "需要轻量自托管 Push、Webhook 到手机/浏览器推送、运维告警和简单主题订阅的团队。",
+      "avoid_when": "需要复杂用户画像、模板编排、多渠道偏好中心或企业级通知运营后台的项目。",
+      "integration_cost": "低",
+      "alternatives": "Gotify, Novu, Pushover",
+      "score": "4/5",
+      "notes": "部署和接入都很轻；要设计主题权限、访问 token、消息保留时间和移动端通知可靠性。"
+    },
+    {
+      "name": "Gotify",
+      "category": "notifications",
+      "file": "catalog/notifications.md",
+      "github": "https://github.com/gotify/server",
+      "website": "https://gotify.net",
+      "module": "通知 / 自托管推送 / 告警",
+      "tech_stack": "Go, WebSocket",
+      "license": "MIT",
+      "best_for": "需要自托管简单应用通知、服务器告警、Webhook 推送和内部工具消息触达的团队。",
+      "avoid_when": "面向大量终端用户的营销通知，或需要短信、邮件、移动 Push 多渠道编排的产品。",
+      "integration_cost": "低",
+      "alternatives": "ntfy, Novu, Apprise",
+      "score": "4/5",
+      "notes": "适合内部告警和工具通知；生产前要确认用户权限、客户端覆盖、消息保留和外部暴露安全边界。"
     },
     {
       "name": "Prometheus",
