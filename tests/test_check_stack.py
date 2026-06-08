@@ -45,6 +45,13 @@ class StackCheckTests(unittest.TestCase):
                 "integration_cost": "高",
                 "avoid_when": "只需要轻量登录。",
             },
+            {
+                "name": "Phoenix",
+                "category": "llm-observability-evaluation",
+                "license": "Elastic-2.0",
+                "integration_cost": "中",
+                "avoid_when": "计划作为托管服务对外提供。",
+            },
         ]
 
     def test_build_component_checks_marks_license_and_cost_risks(self):
@@ -60,6 +67,17 @@ class StackCheckTests(unittest.TestCase):
         self.assertIn("许可证需要重点审查", checks[1]["risk_notes"])
         self.assertEqual(checks[2]["risk_level"], "高")
         self.assertIn("接入成本高", checks[2]["risk_notes"])
+
+    def test_build_component_checks_marks_elastic_license_for_review(self):
+        # 验证 Elastic License 这类非宽松许可证也会进入重点审查提示。
+        check_tool = load_check_tool()
+
+        checks = check_tool.build_component_checks(self.components, ["Phoenix"])
+
+        self.assertEqual(checks[0]["component"], "Phoenix")
+        self.assertEqual(checks[0]["risk_level"], "高")
+        self.assertIn("许可证需要重点审查", checks[0]["risk_notes"])
+        self.assertIn("计划作为托管服务对外提供", checks[0]["risk_notes"])
 
     def test_build_component_checks_reports_missing_component(self):
         # 验证输入了目录中不存在的组件名时会保留缺失项，方便人工补录。

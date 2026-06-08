@@ -11,7 +11,7 @@ from typing import Any
 
 
 # 这些许可证不一定不能用，但在分发、嵌入或商业化前必须重点审查义务。
-REVIEW_LICENSE_KEYWORDS = ("AGPL", "GPL", "BUSL", "BSL", "SSPL", "商业许可证")
+REVIEW_LICENSE_KEYWORDS = ("AGPL", "GPL", "BUSL", "BSL", "SSPL", "ELASTIC", "商业许可证")
 
 
 def load_components(path: Path) -> list[dict[str, Any]]:
