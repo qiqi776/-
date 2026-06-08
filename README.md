@@ -84,6 +84,10 @@ python tools/validate_catalog.py --write-index
 
 这个命令会检查 `catalog/*.md` 的必填字段、GitHub 地址、接入成本和评分格式，并更新 [catalog/index.json](catalog/index.json)。
 
+## 许可证
+
+本仓库使用 [MIT License](LICENSE)。组件条目中记录的是上游项目各自的许可证；使用这些组件时，仍需要按上游仓库的许可证要求处理。
+
 ## 维护原则
 
 - 优先收录成熟、文档完整、许可证清楚的开源项目。
