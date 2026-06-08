@@ -28,3 +28,6 @@ coverage/
 !.env.example
 
 # 组件索引 catalog/index.json 需要提交，便于 GitHub 直接查看和后续工具读取。
+
+# 测试临时目录
+tmp/

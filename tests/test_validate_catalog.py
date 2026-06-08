@@ -1,16 +1,19 @@
 """验证组件目录校验脚本的解析、报错和索引生成能力。"""
 
+from contextlib import contextmanager
 import importlib.util
 import json
+import shutil
 import subprocess
 import sys
-import tempfile
+from uuid import uuid4
 from pathlib import Path
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "tools" / "validate_catalog.py"
+TEST_TMP = ROOT / "tmp" / "tests"
 
 
 def load_validator():
@@ -21,11 +24,23 @@ def load_validator():
     return module
 
 
+@contextmanager
+def temporary_workspace():
+    # Windows 沙箱中 tempfile 创建的目录可能无法继续写入子目录；这里手动创建可写目录。
+    TEST_TMP.mkdir(parents=True, exist_ok=True)
+    root = TEST_TMP / f"workspace-{uuid4().hex}"
+    root.mkdir()
+    try:
+        yield root
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
+
+
 class CatalogValidationTests(unittest.TestCase):
     def test_parse_catalog_entries_extracts_component_fields(self):
         # 验证 Markdown 条目能被解析成结构化组件数据。
         validator = load_validator()
-        with tempfile.TemporaryDirectory() as tmp:
+        with temporary_workspace() as tmp:
             root = Path(tmp)
             catalog = root / "catalog"
             catalog.mkdir()
@@ -59,7 +74,7 @@ class CatalogValidationTests(unittest.TestCase):
     def test_validate_catalog_reports_missing_required_fields(self):
         # 验证缺少必填字段时能给出包含组件名和字段名的错误。
         validator = load_validator()
-        with tempfile.TemporaryDirectory() as tmp:
+        with temporary_workspace() as tmp:
             root = Path(tmp)
             catalog = root / "catalog"
             catalog.mkdir()
@@ -85,7 +100,7 @@ class CatalogValidationTests(unittest.TestCase):
     def test_write_index_outputs_all_components_as_json(self):
         # 验证脚本能生成机器可读的 catalog/index.json。
         validator = load_validator()
-        with tempfile.TemporaryDirectory() as tmp:
+        with temporary_workspace() as tmp:
             root = Path(tmp)
             catalog = root / "catalog"
             catalog.mkdir()
@@ -119,7 +134,7 @@ class CatalogValidationTests(unittest.TestCase):
 
     def test_cli_fails_when_catalog_has_errors(self):
         # 验证命令行入口在 catalog 有错误时返回非零退出码。
-        with tempfile.TemporaryDirectory() as tmp:
+        with temporary_workspace() as tmp:
             root = Path(tmp)
             catalog = root / "catalog"
             catalog.mkdir()
