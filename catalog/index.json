@@ -1,5 +1,5 @@
 {
-  "component_count": 234,
+  "component_count": 237,
   "components": [
     {
       "name": "Frappe Books",
@@ -2768,6 +2768,54 @@
       "alternatives": "厂商 Agent, Fluent Bit, Vector",
       "score": "4/5",
       "notes": "当可观测性架构跨多个服务或工具时再引入更合理。"
+    },
+    {
+      "name": "Tesseract OCR",
+      "category": "ocr-document-understanding",
+      "file": "catalog/ocr-document-understanding.md",
+      "github": "https://github.com/tesseract-ocr/tesseract",
+      "website": "https://tesseract-ocr.github.io",
+      "module": "OCR / 文本识别 / 多语言识别引擎",
+      "tech_stack": "C++, Leptonica, CLI, OCR",
+      "license": "Apache-2.0",
+      "best_for": "需要本地离线识别扫描图片、票据截图、PDF 页面渲染图，并能接受通过预处理、语言包和页面分割模式调优效果的项目。",
+      "avoid_when": "需要开箱即用的版面理解、表格结构抽取、手写体识别或复杂商业文档自动字段解析的场景。",
+      "integration_cost": "中",
+      "alternatives": "OCRmyPDF, PaddleOCR, EasyOCR",
+      "score": "4/5",
+      "notes": "适合作为底层 OCR 引擎嵌入批处理流程；生产前要验证图片预处理、语言包、置信度阈值、并发隔离和异常文件资源限制。"
+    },
+    {
+      "name": "OCRmyPDF",
+      "category": "ocr-document-understanding",
+      "file": "catalog/ocr-document-understanding.md",
+      "github": "https://github.com/ocrmypdf/OCRmyPDF",
+      "website": "https://ocrmypdf.readthedocs.io",
+      "module": "OCR / PDF 文本层 / 批处理",
+      "tech_stack": "Python, Tesseract, Ghostscript, PDF, CLI",
+      "license": "MPL-2.0",
+      "best_for": "扫描版 PDF 需要保留原文件外观，同时增加可搜索、可复制、可索引的文字层，用于档案、合同、票据和历史资料入库。",
+      "avoid_when": "需要直接抽取结构化表格、字段键值对、复杂版面语义，或不愿维护 Tesseract/Ghostscript 运行环境的项目。",
+      "integration_cost": "中",
+      "alternatives": "Tesseract OCR, PaddleOCR, Apache Tika",
+      "score": "4/5",
+      "notes": "适合放在文件上传后的异步任务中；不可信 PDF 要在隔离 worker 中处理，并限制页数、文件大小、超时和临时文件目录。"
+    },
+    {
+      "name": "PaddleOCR",
+      "category": "ocr-document-understanding",
+      "file": "catalog/ocr-document-understanding.md",
+      "github": "https://github.com/PaddlePaddle/PaddleOCR",
+      "website": "https://www.paddleocr.ai",
+      "module": "OCR / 文档理解 / 版面表格识别",
+      "tech_stack": "Python, PaddlePaddle, Deep Learning, OCR",
+      "license": "Apache-2.0",
+      "best_for": "需要更高识别准确率、多语言文字检测识别、版面分析、表格识别、公式识别或文档解析流水线的项目。",
+      "avoid_when": "团队缺少机器学习运行环境维护能力，或部署目标对镜像体积、GPU/CPU 推理成本和依赖复杂度非常敏感的项目。",
+      "integration_cost": "高",
+      "alternatives": "Tesseract OCR, EasyOCR, docTR",
+      "score": "4/5",
+      "notes": "适合票据、表单、合同、截图和复杂版式识别；落地时要先用真实样本评估模型、语言、推理延迟、硬件成本和人工复核流程。"
     },
     {
       "name": "Stripe Node SDK",
