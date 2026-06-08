@@ -1,5 +1,5 @@
 {
-  "component_count": 252,
+  "component_count": 255,
   "components": [
     {
       "name": "axe-core",
@@ -3072,6 +3072,54 @@
       "alternatives": "Adyen SDK, Paddle SDK, 其他支付供应商 SDK",
       "score": "4/5",
       "notes": "SDK 是开源的，但支付平台本身是商业依赖；复杂账单模型应单独评估账单与发票组件。"
+    },
+    {
+      "name": "k6",
+      "category": "performance-load-testing",
+      "file": "catalog/performance-load-testing.md",
+      "github": "https://github.com/grafana/k6",
+      "website": "https://k6.io",
+      "module": "性能测试 / API 压测 / JavaScript 场景",
+      "tech_stack": "Go, JavaScript, HTTP, WebSocket, Grafana",
+      "license": "AGPL-3.0",
+      "best_for": "团队需要用代码定义 API、WebSocket、浏览器或混合场景压测，并把阈值、趋势和发布门禁纳入 CI/CD。",
+      "avoid_when": "团队不能接受 AGPL 许可证义务，或需要完全图形化录制、复杂企业插件和老式 JMeter 生态兼容。",
+      "integration_cost": "中",
+      "alternatives": "Locust, Apache JMeter, Gatling",
+      "score": "4/5",
+      "notes": "适合把性能测试脚本版本化；生产前要确认执行节点、阈值、结果存储、Grafana 集成、浏览器模式成本和许可证边界。"
+    },
+    {
+      "name": "Locust",
+      "category": "performance-load-testing",
+      "file": "catalog/performance-load-testing.md",
+      "github": "https://github.com/locustio/locust",
+      "website": "https://locust.io",
+      "module": "性能测试 / 用户行为建模 / 分布式压测",
+      "tech_stack": "Python, gevent, HTTP, Web UI",
+      "license": "MIT",
+      "best_for": "Python 团队需要用代码描述用户行为、等待时间、任务权重和分布式压测，并快速观察实时吞吐与延迟。",
+      "avoid_when": "需要浏览器级真实用户渲染，或团队希望完全无代码录制和企业级测试计划管理。",
+      "integration_cost": "低",
+      "alternatives": "k6, Apache JMeter, Gatling",
+      "score": "4/5",
+      "notes": "接入成本低，适合从核心 API 和业务流程开始做容量基线；要设计测试数据、用户凭据、分布式 worker、限流边界和报告归档。"
+    },
+    {
+      "name": "Apache JMeter",
+      "category": "performance-load-testing",
+      "file": "catalog/performance-load-testing.md",
+      "github": "https://github.com/apache/jmeter",
+      "website": "https://jmeter.apache.org",
+      "module": "性能测试 / 协议压测 / 测试计划",
+      "tech_stack": "Java, JVM, HTTP, JDBC, JMS",
+      "license": "Apache-2.0",
+      "best_for": "企业团队需要成熟 GUI、丰富协议插件、JDBC/JMS/LDAP 等老系统压测和可共享测试计划。",
+      "avoid_when": "希望用现代代码化脚本维护轻量压测，或团队无法接受 JVM、测试计划文件和插件兼容成本。",
+      "integration_cost": "中",
+      "alternatives": "k6, Locust, Gatling",
+      "score": "4/5",
+      "notes": "生态成熟但测试计划容易膨胀；落地前要确认无头运行、插件版本、分布式执行、测试数据隔离、结果文件大小和 CI 门禁方式。"
     },
     {
       "name": "Fides",
