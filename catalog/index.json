@@ -1,5 +1,5 @@
 {
-  "component_count": 162,
+  "component_count": 165,
   "components": [
     {
       "name": "LangChain",
@@ -192,6 +192,54 @@
       "alternatives": "HAProxy, Nginx, Linkerd proxy",
       "score": "4/5",
       "notes": "强大但配置和调试成本高；更适合作为平台底座或被 Istio、Contour 等上层项目托管使用。"
+    },
+    {
+      "name": "Retraced",
+      "category": "audit-logs",
+      "file": "catalog/audit-logs.md",
+      "github": "https://github.com/retracedhq/retraced",
+      "website": "https://preview.retraced.io",
+      "module": "审计日志 / 嵌入式查看器 / 合规事件",
+      "tech_stack": "TypeScript, JavaScript, PostgreSQL, Kubernetes",
+      "license": "Apache-2.0",
+      "best_for": "B2B SaaS 需要把审计事件发布到独立服务，并向客户暴露可搜索、可导出、可嵌入的审计日志界面。",
+      "avoid_when": "只需要在单体应用里记录少量模型变更，或团队不想维护独立审计日志服务和 Kubernetes 部署。",
+      "integration_cost": "高",
+      "alternatives": "PaperTrail, django-auditlog, WorkOS Audit Logs",
+      "score": "4/5",
+      "notes": "适合客户可见审计日志；生产前要确认事件命名、租户隔离、保留周期、导出格式、不可变性保证和审计查看权限。"
+    },
+    {
+      "name": "PaperTrail",
+      "category": "audit-logs",
+      "file": "catalog/audit-logs.md",
+      "github": "https://github.com/paper-trail-gem/paper_trail",
+      "website": "https://rubygems.org/gems/paper_trail",
+      "module": "审计日志 / Rails 模型版本 / 变更历史",
+      "tech_stack": "Ruby, Rails, Active Record",
+      "license": "MIT",
+      "best_for": "Rails 应用需要记录模型创建、更新、删除、操作者、版本历史，并支持追溯或恢复对象状态。",
+      "avoid_when": "非 Rails 项目，或需要跨系统统一查询、客户自助导出、强不可变合规日志和独立审计服务的场景。",
+      "integration_cost": "低",
+      "alternatives": "Audited, Retraced, Laravel Activitylog",
+      "score": "4/5",
+      "notes": "适合 Rails 模型级审计和版本追踪；要提前设计版本表增长、字段过滤、敏感信息脱敏和旧版本清理策略。"
+    },
+    {
+      "name": "django-auditlog",
+      "category": "audit-logs",
+      "file": "catalog/audit-logs.md",
+      "github": "https://github.com/jazzband/django-auditlog",
+      "website": "https://django-auditlog.readthedocs.io",
+      "module": "审计日志 / Django 模型变更 / 对象历史",
+      "tech_stack": "Python, Django",
+      "license": "MIT",
+      "best_for": "Django 应用需要记录对象变更、操作者、变更摘要、关联请求信息，并通过管理后台或对象历史查看审计记录。",
+      "avoid_when": "非 Django 项目，或需要高吞吐事件流、跨服务统一审计账本、外部客户嵌入式查看器的产品。",
+      "integration_cost": "低",
+      "alternatives": "django-simple-history, PaperTrail, Retraced",
+      "score": "4/5",
+      "notes": "适合 Django 模型级审计；上线前要确认注册模型范围、字段屏蔽、关联 ID、日志保留、权限隔离和迁移影响。"
     },
     {
       "name": "Supabase Auth",
