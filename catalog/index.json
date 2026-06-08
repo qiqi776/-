@@ -1,5 +1,5 @@
 {
-  "component_count": 269,
+  "component_count": 270,
   "components": [
     {
       "name": "axe-core",
@@ -2192,6 +2192,22 @@
       "alternatives": "Postal, Mautic, 商业邮件营销平台",
       "score": "4/5",
       "notes": "适合内容产品和社区产品沉淀用户触达能力。"
+    },
+    {
+      "name": "Mailpit",
+      "category": "email",
+      "file": "catalog/email.md",
+      "github": "https://github.com/axllent/mailpit",
+      "website": "https://mailpit.axllent.org",
+      "module": "邮件 / 本地邮件测试 / SMTP 捕获",
+      "tech_stack": "Go, Vue",
+      "license": "MIT",
+      "best_for": "开发、测试和 CI 环境中捕获应用发送的邮件，并通过 Web UI、API 检查邮件内容。",
+      "avoid_when": "需要生产级邮件投递、邮件列表运营或真实用户营销触达的场景。",
+      "integration_cost": "低",
+      "alternatives": "MailHog, Mailtrap, Postal",
+      "score": "3/5",
+      "notes": "适合作为项目组件栈里的邮件沙箱，降低事务邮件联调和自动化测试成本。"
     },
     {
       "name": "Exceptionless",
