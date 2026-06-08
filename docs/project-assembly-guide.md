@@ -47,6 +47,14 @@
 - 部署复杂度是否匹配项目规模。
 - 监控和调试路径是否明确。
 
+可以先用风险检查脚本生成一版人工复核表：
+
+```powershell
+python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
+```
+
+脚本只根据目录中已有字段提示明显风险，不能替代正式的许可证、数据合规和生产架构审查。
+
 ## 4. 形成技术栈决策
 
 把决策写进项目仓库。

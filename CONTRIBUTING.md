@@ -49,9 +49,10 @@ python -m unittest tests.test_validate_catalog -v
 python -m unittest tests.test_search_catalog -v
 python -m unittest tests.test_assemble_stack -v
 python -m unittest tests.test_summarize_catalog -v
+python -m unittest tests.test_check_stack -v
 ```
 
-第一条命令校验组件目录并更新 `catalog/index.json`，后面四条命令验证校验脚本、搜索脚本、项目组合生成脚本和分类概览脚本。
+第一条命令校验组件目录并更新 `catalog/index.json`，后面五条命令验证校验脚本、搜索脚本、项目组合生成脚本、分类概览脚本和技术栈风险检查脚本。
 
 ## 写作风格
 

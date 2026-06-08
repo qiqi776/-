@@ -36,3 +36,4 @@ jobs:
           python -m unittest tests.test_search_catalog -v
           python -m unittest tests.test_assemble_stack -v
           python -m unittest tests.test_summarize_catalog -v
+          python -m unittest tests.test_check_stack -v

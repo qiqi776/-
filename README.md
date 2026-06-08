@@ -122,6 +122,16 @@ python tools/assemble_stack.py --modules frontend,backend,auth,database,deployme
 
 模块名称使用 `catalog/` 目录中的英文分类名。生成结果会按评分和接入成本选择主组件与备选组件，适合作为项目工作表的第一版草案，再由人工检查许可证、托管方式和业务边界。
 
+## 检查技术栈风险
+
+确定候选组件后，可以按组件名生成拼装前的风险检查表：
+
+```powershell
+python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
+```
+
+这个命令会标出目录中记录的许可证风险、接入成本和缺失组件，适合放进技术栈决策文档作为上线前的人工复核清单。
+
 ## 许可证
 
 本仓库使用 [MIT License](LICENSE)。组件条目中记录的是上游项目各自的许可证；使用这些组件时，仍需要按上游仓库的许可证要求处理。
