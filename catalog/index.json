@@ -1,5 +1,5 @@
 {
-  "component_count": 126,
+  "component_count": 129,
   "components": [
     {
       "name": "LangChain",
@@ -624,6 +624,54 @@
       "alternatives": "Meltano, Airbyte, Dagster",
       "score": "4/5",
       "notes": "适合轻量到中型数据集成和应用内数据同步；生产前要验证 schema 变更、幂等、断点续跑和目标端权限。"
+    },
+    {
+      "name": "ClickHouse",
+      "category": "data-warehouse",
+      "file": "catalog/data-warehouse.md",
+      "github": "https://github.com/ClickHouse/ClickHouse",
+      "website": "https://clickhouse.com",
+      "module": "数据仓库 / OLAP / 列式数据库",
+      "tech_stack": "C++, SQL",
+      "license": "Apache-2.0",
+      "best_for": "高吞吐事件分析、产品指标、日志分析、实时仪表盘和需要自托管列式 OLAP 数据库的团队。",
+      "avoid_when": "需要强事务、多表更新、复杂 OLTP 约束或团队没有能力维护分片、压缩和查询调优的项目。",
+      "integration_cost": "高",
+      "alternatives": "Apache Druid, Apache Pinot, PostgreSQL",
+      "score": "4/5",
+      "notes": "性能强但数据建模和运维要求高；生产前要设计分区键、排序键、TTL、物化视图和冷热数据策略。"
+    },
+    {
+      "name": "DuckDB",
+      "category": "data-warehouse",
+      "file": "catalog/data-warehouse.md",
+      "github": "https://github.com/duckdb/duckdb",
+      "website": "https://duckdb.org",
+      "module": "数据仓库 / 嵌入式 OLAP / 本地分析",
+      "tech_stack": "C++, SQL",
+      "license": "MIT",
+      "best_for": "本地分析、Notebook、数据应用、轻量报表、文件数据查询，以及不想部署独立 OLAP 服务的场景。",
+      "avoid_when": "多用户高并发线上数据仓库，或需要长期运行的分布式查询服务。",
+      "integration_cost": "低",
+      "alternatives": "SQLite, ClickHouse, Polars",
+      "score": "5/5",
+      "notes": "很适合项目早期和分析原型；要注意文件并发、数据体量、持久化位置和与生产数据源的边界。"
+    },
+    {
+      "name": "Trino",
+      "category": "data-warehouse",
+      "file": "catalog/data-warehouse.md",
+      "github": "https://github.com/trinodb/trino",
+      "website": "https://trino.io",
+      "module": "数据仓库 / 分布式 SQL / 湖仓查询",
+      "tech_stack": "Java, SQL",
+      "license": "Apache-2.0",
+      "best_for": "团队需要跨对象存储、Hive/Iceberg、关系数据库和多种数据源做交互式分布式 SQL 查询。",
+      "avoid_when": "只需要单一数据库报表，或团队没有能力维护协调节点、工作节点、连接器和查询资源治理。",
+      "integration_cost": "高",
+      "alternatives": "Presto, Spark SQL, ClickHouse",
+      "score": "4/5",
+      "notes": "适合湖仓和多源查询平台；生产前要规划连接器权限、查询队列、资源组、缓存和元数据治理。"
     },
     {
       "name": "Flyway",
