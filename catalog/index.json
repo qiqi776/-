@@ -1,5 +1,5 @@
 {
-  "component_count": 189,
+  "component_count": 192,
   "components": [
     {
       "name": "Frappe Books",
@@ -1664,6 +1664,54 @@
       "alternatives": "VeeValidate, VueUse Form, 原生表单组件",
       "score": "4/5",
       "notes": "能减少 Vue 复杂表单的重复代码，但需要团队接受它的表单建模方式。"
+    },
+    {
+      "name": "Discourse",
+      "category": "forums-community",
+      "file": "catalog/forums-community.md",
+      "github": "https://github.com/discourse/discourse",
+      "website": "https://www.discourse.org",
+      "module": "论坛 / 社区平台 / 话题讨论",
+      "tech_stack": "Ruby on Rails, Ember.js, PostgreSQL, Redis",
+      "license": "GPL-2.0",
+      "best_for": "需要成熟社区论坛、分类话题、版主管理、通知、信任等级、搜索、插件和长期知识沉淀的产品或开源社区。",
+      "avoid_when": "只需要文章评论、轻量用户反馈、简单客服工单，或无法接受 GPL-2.0 合规要求的商业项目。",
+      "integration_cost": "高",
+      "alternatives": "NodeBB, Flarum, Forem",
+      "score": "4/5",
+      "notes": "生态成熟但部署和治理复杂；上线前要确认 SSO、邮件送达、备份、插件、反垃圾、版主管理和 GPL 合规。"
+    },
+    {
+      "name": "NodeBB",
+      "category": "forums-community",
+      "file": "catalog/forums-community.md",
+      "github": "https://github.com/NodeBB/NodeBB",
+      "website": "https://www.nodebb.org",
+      "module": "论坛 / Node.js 社区 / 实时讨论",
+      "tech_stack": "JavaScript, Node.js, Redis, MongoDB",
+      "license": "GPL-3.0",
+      "best_for": "JavaScript 技术栈团队需要实时论坛、插件主题、通知、用户组、分类话题和较现代的社区体验。",
+      "avoid_when": "不想维护 Node.js 实时服务、Redis/MongoDB 存储，或不能接受 GPL-3.0 许可证义务的项目。",
+      "integration_cost": "中",
+      "alternatives": "Discourse, Flarum, Vanilla Forums",
+      "score": "4/5",
+      "notes": "技术栈对前端团队友好；部署前要确认存储选型、插件兼容、WebSocket、搜索、升级和 GPL 合规。"
+    },
+    {
+      "name": "Flarum",
+      "category": "forums-community",
+      "file": "catalog/forums-community.md",
+      "github": "https://github.com/flarum/flarum",
+      "website": "https://flarum.org",
+      "module": "论坛 / 轻量社区 / PHP",
+      "tech_stack": "PHP, Laravel Components, MySQL",
+      "license": "MIT",
+      "best_for": "需要轻量现代论坛、PHP 部署环境、扩展生态、基础社区讨论和较低许可证约束的团队。",
+      "avoid_when": "需要 Discourse 级别的大型社区治理、复杂审核工作流、企业级搜索或深度实时体验。",
+      "integration_cost": "中",
+      "alternatives": "Discourse, NodeBB, phpBB",
+      "score": "4/5",
+      "notes": "许可证宽松、部署相对轻；生产前要确认扩展维护、主题兼容、权限模型、邮件通知和备份恢复。"
     },
     {
       "name": "shadcn/ui",
