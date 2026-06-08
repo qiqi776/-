@@ -14,6 +14,7 @@
 - 工作流与任务编排
 - 内容管理与编辑
 - 产品分析与转化
+- 功能开关与实验发布
 - 支付与订阅
 - 部署与托管
 - 监控与可观测性
@@ -38,6 +39,7 @@
 | 消息队列 | [catalog/messaging.md](catalog/messaging.md) | 异步任务、发布订阅、事件流 |
 | 工作流 | [catalog/workflow.md](catalog/workflow.md) | 任务编排、数据管道、定时任务、长事务流程 |
 | 产品分析 | [catalog/analytics.md](catalog/analytics.md) | 用户行为、网站统计、事件采集、转化漏斗 |
+| 功能开关 | [catalog/feature-flags.md](catalog/feature-flags.md) | 灰度发布、实验平台、远程配置、渐进式交付 |
 | 部署 | [catalog/deployment.md](catalog/deployment.md) | 自托管、PaaS、应用部署、基础设施胶水 |
 | 监控 | [catalog/observability.md](catalog/observability.md) | 指标、仪表盘、链路追踪、日志、错误跟踪 |
 
@@ -73,7 +75,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、数据库、文件存储、AI、内容管理、工作流、产品分析、支付、部署、监控。
+1. 先列出项目需要的能力：认证、UI、数据库、文件存储、AI、内容管理、工作流、产品分析、功能开关、支付、部署、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。
