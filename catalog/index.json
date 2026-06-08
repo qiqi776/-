@@ -1,5 +1,5 @@
 {
-  "component_count": 84,
+  "component_count": 87,
   "components": [
     {
       "name": "LangChain",
@@ -816,6 +816,54 @@
       "alternatives": "MapLibre GL JS, Leaflet, Cesium",
       "score": "4/5",
       "notes": "GIS 能力强，但概念和 API 更专业，适合空间数据是核心资产的项目。"
+    },
+    {
+      "name": "FFmpeg",
+      "category": "media-processing",
+      "file": "catalog/media-processing.md",
+      "github": "https://github.com/FFmpeg/FFmpeg",
+      "website": "https://ffmpeg.org",
+      "module": "媒体处理 / 音视频转码",
+      "tech_stack": "C, CLI, Libraries",
+      "license": "LGPL-2.1-or-later / GPL-2.0-or-later",
+      "best_for": "需要处理音视频转码、抽帧、剪切、封装转换、流媒体处理和批量媒体任务的项目。",
+      "avoid_when": "团队不能处理 LGPL/GPL 合规、编解码器专利风险，或项目只需要简单图片处理。",
+      "integration_cost": "高",
+      "alternatives": "GStreamer, Bento4, HandBrake",
+      "score": "4/5",
+      "notes": "编译选项会影响许可证义务；商业产品需要法务和专利检查，并记录二进制来源。"
+    },
+    {
+      "name": "Sharp",
+      "category": "media-processing",
+      "file": "catalog/media-processing.md",
+      "github": "https://github.com/lovell/sharp",
+      "website": "https://sharp.pixelplumbing.com",
+      "module": "媒体处理 / 图片转换",
+      "tech_stack": "JavaScript, Node.js, libvips",
+      "license": "Apache-2.0",
+      "best_for": "Node.js 服务里做图片缩放、裁剪、格式转换、压缩和缩略图生成。",
+      "avoid_when": "需要完整视频处理、浏览器端纯前端图片编辑，或部署环境无法使用原生依赖。",
+      "integration_cost": "低",
+      "alternatives": "ImageMagick, GraphicsMagick, Jimp",
+      "score": "4/5",
+      "notes": "性能适合服务端图片管线；需要关注平台预编译包、内存峰值和大图安全限制。"
+    },
+    {
+      "name": "imgproxy",
+      "category": "media-processing",
+      "file": "catalog/media-processing.md",
+      "github": "https://github.com/imgproxy/imgproxy",
+      "website": "https://imgproxy.net",
+      "module": "媒体处理 / 图片代理",
+      "tech_stack": "Go, HTTP, libvips",
+      "license": "Apache-2.0",
+      "best_for": "需要把图片缩放、裁剪、格式转换、签名 URL 和缓存友好输出从业务服务中拆出去。",
+      "avoid_when": "只需要离线批处理，或必须自己控制每一步图片处理管线逻辑。",
+      "integration_cost": "中",
+      "alternatives": "Thumbor, Imaginary, 自建 Sharp 服务",
+      "score": "4/5",
+      "notes": "适合配合 CDN 和对象存储；必须开启 URL 签名、限制源站和尺寸参数，避免被滥用。"
     },
     {
       "name": "RabbitMQ",
