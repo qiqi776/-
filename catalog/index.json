@@ -1,5 +1,5 @@
 {
-  "component_count": 102,
+  "component_count": 105,
   "components": [
     {
       "name": "LangChain",
@@ -336,6 +336,54 @@
       "alternatives": "Redis, Valkey, KeyDB",
       "score": "3/5",
       "notes": "性能方向明确，但许可证和兼容性需要评估。"
+    },
+    {
+      "name": "Jenkins",
+      "category": "ci-cd",
+      "file": "catalog/ci-cd.md",
+      "github": "https://github.com/jenkinsci/jenkins",
+      "website": "https://www.jenkins.io",
+      "module": "CI/CD / 自动化服务器",
+      "tech_stack": "Java, Groovy, Plugins",
+      "license": "MIT",
+      "best_for": "团队需要高度可扩展的自托管自动化服务器、丰富插件生态和复杂流水线编排。",
+      "avoid_when": "小团队只需要简单 GitHub 仓库 CI，或不想维护插件、安全补丁和控制器/执行器架构。",
+      "integration_cost": "高",
+      "alternatives": "GitHub Actions, GitLab CI, Woodpecker CI",
+      "score": "4/5",
+      "notes": "成熟但运维成本高；要治理插件版本、凭据权限、执行器隔离和流水线脚本评审。"
+    },
+    {
+      "name": "Woodpecker CI",
+      "category": "ci-cd",
+      "file": "catalog/ci-cd.md",
+      "github": "https://github.com/woodpecker-ci/woodpecker",
+      "website": "https://woodpecker-ci.org",
+      "module": "CI/CD / 自托管流水线",
+      "tech_stack": "Go, Docker, YAML",
+      "license": "Apache-2.0",
+      "best_for": "需要轻量自托管 CI、容器化步骤、Git 平台集成和较简单流水线配置的团队。",
+      "avoid_when": "需要极复杂企业插件生态、可视化审批流或深度云厂商托管能力。",
+      "integration_cost": "中",
+      "alternatives": "Jenkins, Drone, GitLab CI",
+      "score": "4/5",
+      "notes": "适合中小团队自托管；要规划 runner 隔离、镜像缓存、密钥注入和失败重试策略。"
+    },
+    {
+      "name": "Dagger",
+      "category": "ci-cd",
+      "file": "catalog/ci-cd.md",
+      "github": "https://github.com/dagger/dagger",
+      "website": "https://dagger.io",
+      "module": "CI/CD / 可移植流水线引擎",
+      "tech_stack": "Go, SDK, Containers",
+      "license": "Apache-2.0",
+      "best_for": "希望把构建、测试、发布流程写成可复用代码，并在本地和不同 CI 平台中一致执行的团队。",
+      "avoid_when": "只想使用平台内置 YAML，或需要开箱即用的完整 CI 托管界面和排队系统。",
+      "integration_cost": "中",
+      "alternatives": "Earthly, Nix, GitHub Actions reusable workflows",
+      "score": "4/5",
+      "notes": "适合复杂流水线复用和本地复现；要控制 SDK 抽象层级、容器缓存和密钥传递边界。"
     },
     {
       "name": "Strapi",
