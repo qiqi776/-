@@ -1,5 +1,5 @@
 {
-  "component_count": 225,
+  "component_count": 228,
   "components": [
     {
       "name": "Frappe Books",
@@ -864,6 +864,54 @@
       "alternatives": "Decap CMS, Payload CMS, Strapi",
       "score": "4/5",
       "notes": "很适合内容和代码一起版本化的站点。"
+    },
+    {
+      "name": "GitLab",
+      "category": "code-hosting",
+      "file": "catalog/code-hosting.md",
+      "github": "https://github.com/gitlabhq/gitlabhq",
+      "website": "https://about.gitlab.com",
+      "module": "代码托管 / DevSecOps 平台 / Merge Request",
+      "tech_stack": "Ruby, Ruby on Rails, PostgreSQL, Redis, Sidekiq, Vue, Git",
+      "license": "MIT Expat / GitLab Enterprise License",
+      "best_for": "企业或中大型团队需要自托管 Git 仓库、Merge Request、代码评审、Issue、Wiki、CI/CD、权限治理和更完整 DevSecOps 平台能力。",
+      "avoid_when": "只需要一个轻量私有 Git 服务，或团队无法承担 GitLab 对服务器资源、升级、备份、邮件、Runner 和权限治理的运维成本。",
+      "integration_cost": "高",
+      "alternatives": "Gitea, GitBucket, GitHub Enterprise",
+      "score": "4/5",
+      "notes": "GitLab 功能覆盖面很广，但 CE、EE 和镜像仓库边界要分清；上线前要规划备份恢复、Runner 隔离、许可证边界、升级窗口和仓库迁移路径。"
+    },
+    {
+      "name": "Gitea",
+      "category": "code-hosting",
+      "file": "catalog/code-hosting.md",
+      "github": "https://github.com/go-gitea/gitea",
+      "website": "https://about.gitea.com",
+      "module": "代码托管 / 轻量 Git 服务 / Pull Request",
+      "tech_stack": "Go, SQLite, MySQL, PostgreSQL, Redis, Git, SSH",
+      "license": "MIT",
+      "best_for": "小团队、个人项目、内网环境或轻量自托管场景需要快速搭建 Git 仓库、Issue、Pull Request、Wiki、包管理和基础 Actions Runner。",
+      "avoid_when": "需要 GitLab 级企业治理、复杂合规审批、深度 DevSecOps 套件或大量内置企业功能的组织。",
+      "integration_cost": "低",
+      "alternatives": "GitLab, GitBucket, Gogs",
+      "score": "4/5",
+      "notes": "部署和维护成本低，适合先把代码托管私有化；生产前要确认数据库选择、备份、SSH/HTTP 入口、邮件通知、Webhook、Runner 权限和插件生态。"
+    },
+    {
+      "name": "GitBucket",
+      "category": "code-hosting",
+      "file": "catalog/code-hosting.md",
+      "github": "https://github.com/gitbucket/gitbucket",
+      "website": "https://gitbucket.github.io",
+      "module": "代码托管 / GitHub 风格协作 / 插件扩展",
+      "tech_stack": "Scala, JVM, Scalatra, Jetty, H2, MariaDB, Git",
+      "license": "Apache-2.0",
+      "best_for": "团队希望用单个 JVM Web 应用获得 GitHub 风格界面、私有仓库、Issue、Pull Request、Wiki、Git LFS 和插件扩展能力。",
+      "avoid_when": "非 JVM 运维环境，或需要大规模企业治理、内置 CI/CD、复杂权限模型和活跃商业支持的项目。",
+      "integration_cost": "中",
+      "alternatives": "Gitea, GitLab, Gogs",
+      "score": "3/5",
+      "notes": "安装形态简单但生态规模小于 GitLab 和 Gitea；上线前要验证数据库迁移、插件维护、备份恢复、SSH 配置和 GitHub API 兼容范围。"
     },
     {
       "name": "Remark42",
