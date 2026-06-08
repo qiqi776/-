@@ -44,6 +44,7 @@
 - 通知触达
 - 客户支持与工单
 - CRM 与销售管理
+- 电商与订单
 - 支付与结账
 - 账单与发票
 - 基础设施即代码
@@ -83,7 +84,7 @@
 | AI | [catalog/ai.md](catalog/ai.md) | LLM 应用、RAG、Agent、工作流、模型接入工具 |
 | 内容管理 | [catalog/cms.md](catalog/cms.md) | Headless CMS、内容编辑、文档站、营销内容后台 |
 | 富文本编辑器 | [catalog/editors.md](catalog/editors.md) | 嵌入式编辑、结构化文档、协作编辑、内容编辑体验 |
-| 支付 | [catalog/payment.md](catalog/payment.md) | 支付 SDK、电商引擎、结账、收款通道 |
+| 支付 | [catalog/payment.md](catalog/payment.md) | 支付 SDK、支付网关、结账入口、收款通道 |
 | 账单与发票 | [catalog/billing-invoicing.md](catalog/billing-invoicing.md) | 订阅账单、用量计费、发票生成、客户账务 |
 | 存储 | [catalog/storage.md](catalog/storage.md) | 对象存储、文件上传、媒体资源 |
 | 文档处理 | [catalog/document-processing.md](catalog/document-processing.md) | PDF 预览、Office 解析、文本抽取、文件内容入库 |
@@ -92,6 +93,7 @@
 | 通知触达 | [catalog/notifications.md](catalog/notifications.md) | 多渠道通知、站内信、Push、Webhook、团队告警 |
 | 客户支持 | [catalog/customer-support.md](catalog/customer-support.md) | 在线客服、共享收件箱、工单系统、帮助台 |
 | CRM | [catalog/crm.md](catalog/crm.md) | 客户资料、联系人、线索、商机、销售管线 |
+| 电商 | [catalog/ecommerce.md](catalog/ecommerce.md) | 商品目录、购物车、订单、库存、促销、履约 |
 | 搜索 | [catalog/search.md](catalog/search.md) | 全文搜索、站内搜索、日志搜索 |
 | 缓存 | [catalog/cache.md](catalog/cache.md) | 内存缓存、会话、低延迟数据结构 |
 | 消息队列 | [catalog/messaging.md](catalog/messaging.md) | 异步任务、发布订阅、事件流 |
@@ -145,7 +147,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、授权策略、UI、移动端、内部工具、表单与校验、国际化、后端 API、API 文档、API 网关、边缘交付、服务网格、工程化、数据库、数据库迁移、数据管道、流处理、数据仓库、数据质量、数据治理、备份恢复、文件存储、文档处理、媒体处理、邮件通知、通知触达、客户支持、CRM、AI、内容管理、富文本编辑、搜索、缓存、消息队列、后台任务、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、配置密钥、隐私合规、支付、账单与发票、基础设施即代码、容器镜像、部署、CI/CD、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、授权策略、UI、移动端、内部工具、表单与校验、国际化、后端 API、API 文档、API 网关、边缘交付、服务网格、工程化、数据库、数据库迁移、数据管道、流处理、数据仓库、数据质量、数据治理、备份恢复、文件存储、文档处理、媒体处理、邮件通知、通知触达、客户支持、CRM、电商、AI、内容管理、富文本编辑、搜索、缓存、消息队列、后台任务、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、配置密钥、隐私合规、支付、账单与发票、基础设施即代码、容器镜像、部署、CI/CD、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。

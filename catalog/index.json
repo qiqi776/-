@@ -1,5 +1,5 @@
 {
-  "component_count": 154,
+  "component_count": 156,
   "components": [
     {
       "name": "LangChain",
@@ -1202,6 +1202,54 @@
       "notes": "关注语义化转换而不是像素级还原，适合导入内容而不是查看原稿。"
     },
     {
+      "name": "Medusa",
+      "category": "ecommerce",
+      "file": "catalog/ecommerce.md",
+      "github": "https://github.com/medusajs/medusa",
+      "website": "https://medusajs.com",
+      "module": "电商 / 商品目录 / 订单后端",
+      "tech_stack": "TypeScript, Node.js, PostgreSQL",
+      "license": "MIT",
+      "best_for": "需要自定义电商后端、商品目录、购物车、订单、促销、库存和可扩展工作流的团队。",
+      "avoid_when": "只需要一个简单结账按钮，或不想维护电商领域模型、库存和订单状态机的项目。",
+      "integration_cost": "高",
+      "alternatives": "Saleor, Vendure, Shopify 集成",
+      "score": "4/5",
+      "notes": "更适合作为可定制 commerce backend，而不是支付工具；要提前设计商品模型、支付集成、订单履约和后台运营流程。"
+    },
+    {
+      "name": "Saleor",
+      "category": "ecommerce",
+      "file": "catalog/ecommerce.md",
+      "github": "https://github.com/saleor/saleor",
+      "website": "https://saleor.io",
+      "module": "电商 / GraphQL API / 商品与订单",
+      "tech_stack": "Python, Django, GraphQL, PostgreSQL",
+      "license": "BSD-3-Clause",
+      "best_for": "需要 headless commerce、GraphQL API、多渠道商品目录、订单、折扣和可扩展电商后端的团队。",
+      "avoid_when": "只需要轻量店铺页面，或团队没有 GraphQL、Django 和电商运营后台维护经验。",
+      "integration_cost": "高",
+      "alternatives": "Medusa, Vendure, WooCommerce",
+      "score": "4/5",
+      "notes": "API 设计成熟，适合和自定义前端拼装；上线前要验证渠道模型、插件、税费、支付和履约集成。"
+    },
+    {
+      "name": "Vendure",
+      "category": "ecommerce",
+      "file": "catalog/ecommerce.md",
+      "github": "https://github.com/vendure-ecommerce/vendure",
+      "website": "https://www.vendure.io",
+      "module": "电商 / Headless Commerce / 订单与插件",
+      "tech_stack": "TypeScript, Node.js, GraphQL, NestJS",
+      "license": "GPL-3.0-or-later",
+      "best_for": "TypeScript 团队需要可插件化 headless commerce、商品目录、订单、库存、促销和管理后台扩展。",
+      "avoid_when": "项目许可证策略不能接受 GPL-3.0-or-later，或只需要托管式低维护网店。",
+      "integration_cost": "高",
+      "alternatives": "Medusa, Saleor, Shopify 集成",
+      "score": "4/5",
+      "notes": "插件架构清晰，但 GPL 和商业许可边界要提前确认；要评估 GraphQL API、支付插件、履约和升级策略。"
+    },
+    {
       "name": "Apache Traffic Server",
       "category": "edge-delivery",
       "file": "catalog/edge-delivery.md",
@@ -1920,22 +1968,6 @@
       "alternatives": "Adyen SDK, Paddle SDK, 其他支付供应商 SDK",
       "score": "4/5",
       "notes": "SDK 是开源的，但支付平台本身是商业依赖；复杂账单模型应单独评估账单与发票组件。"
-    },
-    {
-      "name": "Medusa",
-      "category": "payment",
-      "file": "catalog/payment.md",
-      "github": "https://github.com/medusajs/medusa",
-      "website": "https://medusajs.com",
-      "module": "支付 / 电商 / 后端",
-      "tech_stack": "TypeScript, Node.js",
-      "license": "MIT",
-      "best_for": "自定义电商后端、商品目录、购物车、订单和可扩展电商工作流。",
-      "avoid_when": "只需要一个简单结账按钮，或不想拥有电商后端复杂度。",
-      "integration_cost": "高",
-      "alternatives": "Saleor, Vendure, Shopify 集成",
-      "score": "4/5",
-      "notes": "应视为电商平台组件，不是小型支付工具。"
     },
     {
       "name": "Fides",
