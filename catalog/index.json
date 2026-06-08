@@ -1,5 +1,5 @@
 {
-  "component_count": 198,
+  "component_count": 201,
   "components": [
     {
       "name": "Frappe Books",
@@ -1392,6 +1392,54 @@
       "alternatives": "npm, Yarn, Bun",
       "score": "4/5",
       "notes": "适合作为 Monorepo 的包管理底座；要统一 Node/pnpm 版本、提交 lockfile，并在 CI 使用 Corepack 或明确安装版本。"
+    },
+    {
+      "name": "Docmost",
+      "category": "document-collaboration",
+      "file": "catalog/document-collaboration.md",
+      "github": "https://github.com/docmost/docmost",
+      "website": "https://docmost.com",
+      "module": "文档协作 / Wiki / Notion 替代",
+      "tech_stack": "TypeScript, React, NestJS, PostgreSQL, Redis",
+      "license": "AGPL-3.0",
+      "best_for": "需要自托管团队知识库、空间管理、嵌套页面、实时协作编辑、权限控制和 Notion/Confluence 风格文档体验的团队。",
+      "avoid_when": "无法接受 AGPL 网络服务义务，或只需要嵌入一个轻量编辑器而不想维护完整文档系统的项目。",
+      "integration_cost": "中",
+      "alternatives": "Wiki.js, XWiki, Outline",
+      "score": "4/5",
+      "notes": "产品形态贴近现代协作文档；上线前要确认 PostgreSQL、Redis、文件存储、邀请流程、SSO、备份和 AGPL 合规边界。"
+    },
+    {
+      "name": "Wiki.js",
+      "category": "document-collaboration",
+      "file": "catalog/document-collaboration.md",
+      "github": "https://github.com/requarks/wiki",
+      "website": "https://js.wiki",
+      "module": "文档协作 / Wiki / Markdown 知识库",
+      "tech_stack": "Node.js, Vue, Markdown, PostgreSQL, MySQL, MariaDB, SQLite",
+      "license": "AGPL-3.0",
+      "best_for": "需要现代 Wiki、Markdown 内容、权限、认证集成、多数据源存储和相对完整管理后台的知识库项目。",
+      "avoid_when": "无法接受 AGPL，或希望文档系统完全内嵌到现有前端而不是部署独立服务的场景。",
+      "integration_cost": "中",
+      "alternatives": "Docmost, XWiki, HedgeDoc",
+      "score": "4/5",
+      "notes": "生态和部署资料较完整；生产前要验证数据库类型、搜索、备份、认证方式、Git/存储同步和版本升级路径。"
+    },
+    {
+      "name": "XWiki",
+      "category": "document-collaboration",
+      "file": "catalog/document-collaboration.md",
+      "github": "https://github.com/xwiki/xwiki-platform",
+      "website": "https://www.xwiki.org",
+      "module": "文档协作 / 企业 Wiki / 应用平台",
+      "tech_stack": "Java, Maven, JVM, JavaScript, TypeScript",
+      "license": "LGPL-2.1",
+      "best_for": "企业内部需要成熟 Wiki、权限、扩展、宏、结构化页面和可在 Wiki 之上构建业务应用的平台型场景。",
+      "avoid_when": "小团队只想快速上线轻量知识库，或团队没有 Java/JVM 运维和插件治理经验。",
+      "integration_cost": "高",
+      "alternatives": "Wiki.js, Docmost, Confluence",
+      "score": "4/5",
+      "notes": "能力成熟但平台感较重；接入前要评估 JVM 部署、扩展兼容、权限模型、迁移脚本、备份恢复和长期维护成本。"
     },
     {
       "name": "PDF.js",
