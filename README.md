@@ -11,6 +11,7 @@
 - 后端 API
 - 数据库与 ORM
 - AI / RAG / Agent
+- 工作流与任务编排
 - 支付与订阅
 - 部署与托管
 - 监控与可观测性
@@ -32,6 +33,7 @@
 | 搜索 | [catalog/search.md](catalog/search.md) | 全文搜索、站内搜索、日志搜索 |
 | 缓存 | [catalog/cache.md](catalog/cache.md) | 内存缓存、会话、低延迟数据结构 |
 | 消息队列 | [catalog/messaging.md](catalog/messaging.md) | 异步任务、发布订阅、事件流 |
+| 工作流 | [catalog/workflow.md](catalog/workflow.md) | 任务编排、数据管道、定时任务、长事务流程 |
 | 部署 | [catalog/deployment.md](catalog/deployment.md) | 自托管、PaaS、应用部署、基础设施胶水 |
 | 监控 | [catalog/observability.md](catalog/observability.md) | 指标、仪表盘、链路追踪、日志、错误跟踪 |
 
@@ -67,7 +69,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、数据库、文件存储、AI、支付、部署、监控。
+1. 先列出项目需要的能力：认证、UI、数据库、文件存储、AI、工作流、支付、部署、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。

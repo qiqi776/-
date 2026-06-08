@@ -1,5 +1,5 @@
 {
-  "component_count": 39,
+  "component_count": 42,
   "components": [
     {
       "name": "LangChain",
@@ -624,6 +624,54 @@
       "alternatives": "FilePond, Dropzone, 自研上传组件",
       "score": "4/5",
       "notes": "适合和对象存储、后端签名上传流程组合使用。"
+    },
+    {
+      "name": "Temporal",
+      "category": "workflow",
+      "file": "catalog/workflow.md",
+      "github": "https://github.com/temporalio/temporal",
+      "website": "https://temporal.io",
+      "module": "工作流 / Durable Execution / 长事务",
+      "tech_stack": "Go, Java, TypeScript, Python",
+      "license": "MIT",
+      "best_for": "需要可靠执行长时间业务流程、重试、补偿、超时和跨服务状态机的系统。",
+      "avoid_when": "只需要简单 cron 或一次性后台任务，且不想引入独立服务和 SDK 约束的项目。",
+      "integration_cost": "高",
+      "alternatives": "Prefect, Apache Airflow, 自研状态机",
+      "score": "4/5",
+      "notes": "能力强，适合把业务流程可靠性作为核心需求时引入。"
+    },
+    {
+      "name": "Prefect",
+      "category": "workflow",
+      "file": "catalog/workflow.md",
+      "github": "https://github.com/PrefectHQ/prefect",
+      "website": "https://www.prefect.io",
+      "module": "工作流 / 数据管道 / Python 自动化",
+      "tech_stack": "Python",
+      "license": "Apache-2.0",
+      "best_for": "Python 数据任务、ETL、定时自动化和需要可观察运行状态的脚本编排。",
+      "avoid_when": "主要是跨语言业务长事务，或团队不想围绕 Python 构建工作流的项目。",
+      "integration_cost": "中",
+      "alternatives": "Apache Airflow, Dagster, Temporal",
+      "score": "4/5",
+      "notes": "对数据和自动化团队友好，生产使用要设计任务状态和部署方式。"
+    },
+    {
+      "name": "Apache Airflow",
+      "category": "workflow",
+      "file": "catalog/workflow.md",
+      "github": "https://github.com/apache/airflow",
+      "website": "https://airflow.apache.org",
+      "module": "工作流 / 数据管道 / 调度",
+      "tech_stack": "Python",
+      "license": "Apache-2.0",
+      "best_for": "批处理数据管道、DAG 调度、定时任务依赖和成熟数据平台生态。",
+      "avoid_when": "低延迟业务流程、事件驱动长事务，或不想维护调度器和元数据库的项目。",
+      "integration_cost": "高",
+      "alternatives": "Prefect, Dagster, Kestra",
+      "score": "4/5",
+      "notes": "生态成熟但偏重，适合数据平台而不是普通 Web 小项目的默认后台任务方案。"
     }
   ]
 }
