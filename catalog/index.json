@@ -1,5 +1,5 @@
 {
-  "component_count": 51,
+  "component_count": 54,
   "components": [
     {
       "name": "LangChain",
@@ -576,6 +576,54 @@
       "alternatives": "Redpanda, NATS JetStream, RabbitMQ",
       "score": "4/5",
       "notes": "能力强但运维成本高，适合事件流成为核心基础设施时引入。"
+    },
+    {
+      "name": "React Native",
+      "category": "mobile",
+      "file": "catalog/mobile.md",
+      "github": "https://github.com/facebook/react-native",
+      "website": "https://reactnative.dev",
+      "module": "移动端 / 跨平台 App",
+      "tech_stack": "JavaScript, TypeScript, React",
+      "license": "MIT",
+      "best_for": "已有 React 或 Web 团队，希望用一套业务代码交付 iOS 与 Android，并保留原生扩展能力。",
+      "avoid_when": "需要完全原生 Swift/Kotlin 体验，或对图形渲染、启动性能和平台细节有极高要求的 App。",
+      "integration_cost": "中",
+      "alternatives": "Flutter, Expo, Swift/Kotlin 原生开发",
+      "score": "4/5",
+      "notes": "适合复用前端工程能力，但仍需要理解移动端打包、签名、原生模块和应用商店发布流程。"
+    },
+    {
+      "name": "Flutter",
+      "category": "mobile",
+      "file": "catalog/mobile.md",
+      "github": "https://github.com/flutter/flutter",
+      "website": "https://flutter.dev",
+      "module": "移动端 / 跨平台 UI",
+      "tech_stack": "Dart",
+      "license": "BSD-3-Clause",
+      "best_for": "需要高度一致的跨平台 UI、复杂动画、移动端优先产品，以及希望同一套 UI 覆盖更多终端的团队。",
+      "avoid_when": "团队主要技能栈是 JavaScript/React 且不愿引入 Dart，或产品必须深度贴合各平台原生控件风格。",
+      "integration_cost": "中",
+      "alternatives": "React Native, Kotlin Multiplatform, Swift/Kotlin 原生开发",
+      "score": "4/5",
+      "notes": "UI 一致性强，技术栈选择会影响招聘、组件生态和长期维护方式。"
+    },
+    {
+      "name": "Expo",
+      "category": "mobile",
+      "file": "catalog/mobile.md",
+      "github": "https://github.com/expo/expo",
+      "website": "https://expo.dev",
+      "module": "移动端 / React Native 工具链",
+      "tech_stack": "TypeScript, React Native",
+      "license": "MIT",
+      "best_for": "React Native 项目快速启动、云构建、预览发布、OTA 更新，以及需要常见设备 API 封装的团队。",
+      "avoid_when": "从第一天起就要求完全掌控原生工程结构，或无法依赖 Expo 生态与构建服务的项目。",
+      "integration_cost": "低",
+      "alternatives": "React Native CLI, Flutter, Ionic Capacitor",
+      "score": "4/5",
+      "notes": "非常适合 MVP 和多数生产应用，需求深入原生能力时要提前检查模块兼容性。"
     },
     {
       "name": "Prometheus",
