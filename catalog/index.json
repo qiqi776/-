@@ -1,5 +1,5 @@
 {
-  "component_count": 72,
+  "component_count": 75,
   "components": [
     {
       "name": "LangChain",
@@ -672,6 +672,54 @@
       "alternatives": "i18next, FormatJS, Lingui",
       "score": "4/5",
       "notes": "Vue 集成自然，适合和 Nuxt、组件库、内容管理系统一起设计多语言资源。"
+    },
+    {
+      "name": "MapLibre GL JS",
+      "category": "maps",
+      "file": "catalog/maps.md",
+      "github": "https://github.com/maplibre/maplibre-gl-js",
+      "website": "https://maplibre.org",
+      "module": "地图 / WebGL 矢量地图",
+      "tech_stack": "TypeScript, WebGL",
+      "license": "BSD-3-Clause",
+      "best_for": "需要矢量瓦片、地图样式、自托管地图数据、WebGL 性能和 Mapbox GL 风格 API 的项目。",
+      "avoid_when": "只需要简单点位地图，或团队不想处理瓦片服务、样式文件和地图数据源。",
+      "integration_cost": "中",
+      "alternatives": "Leaflet, OpenLayers, Mapbox GL JS",
+      "score": "4/5",
+      "notes": "适合需要避免商业地图 SDK 绑定的项目，但底图、瓦片和地理编码仍要单独选型。"
+    },
+    {
+      "name": "Leaflet",
+      "category": "maps",
+      "file": "catalog/maps.md",
+      "github": "https://github.com/Leaflet/Leaflet",
+      "website": "https://leafletjs.com",
+      "module": "地图 / 轻量交互地图",
+      "tech_stack": "JavaScript",
+      "license": "BSD-2-Clause",
+      "best_for": "需要快速展示点位、线面、弹窗、简单图层和移动端友好交互的 Web 项目。",
+      "avoid_when": "需要大规模矢量瓦片渲染、复杂 3D 地图或重度 GIS 分析的项目。",
+      "integration_cost": "低",
+      "alternatives": "MapLibre GL JS, OpenLayers, Google Maps SDK",
+      "score": "4/5",
+      "notes": "生态插件丰富，适合门店、资产点位、配送范围等常见业务地图。"
+    },
+    {
+      "name": "OpenLayers",
+      "category": "maps",
+      "file": "catalog/maps.md",
+      "github": "https://github.com/openlayers/openlayers",
+      "website": "https://openlayers.org",
+      "module": "地图 / Web GIS",
+      "tech_stack": "JavaScript, TypeScript",
+      "license": "BSD-2-Clause",
+      "best_for": "需要复杂图层、投影坐标、空间数据格式、地图编辑和专业 GIS 能力的项目。",
+      "avoid_when": "只需要在页面里放一个简单点位地图，或团队缺少 GIS 背景。",
+      "integration_cost": "高",
+      "alternatives": "MapLibre GL JS, Leaflet, Cesium",
+      "score": "4/5",
+      "notes": "GIS 能力强，但概念和 API 更专业，适合空间数据是核心资产的项目。"
     },
     {
       "name": "RabbitMQ",
