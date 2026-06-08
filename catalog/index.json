@@ -1,5 +1,5 @@
 {
-  "component_count": 231,
+  "component_count": 234,
   "components": [
     {
       "name": "Frappe Books",
@@ -1680,6 +1680,54 @@
       "alternatives": "Wiki.js, Docmost, Confluence",
       "score": "4/5",
       "notes": "能力成熟但平台感较重；接入前要评估 JVM 部署、扩展兼容、权限模型、迁移脚本、备份恢复和长期维护成本。"
+    },
+    {
+      "name": "WeasyPrint",
+      "category": "document-generation",
+      "file": "catalog/document-generation.md",
+      "github": "https://github.com/Kozea/WeasyPrint",
+      "website": "https://weasyprint.org",
+      "module": "文档生成 / HTML CSS 转 PDF / 打印排版",
+      "tech_stack": "Python, HTML, CSS, PDF, tinyhtml5, tinycss2, fonttools",
+      "license": "BSD-3-Clause",
+      "best_for": "后端服务需要把 HTML/CSS 模板生成高质量 PDF，用于报表、合同、证书、发货单、报价单和可打印文档。",
+      "avoid_when": "需要完整浏览器渲染兼容、复杂 JavaScript 执行、交互式 PDF 编辑或像素级复刻 Chromium 页面输出的场景。",
+      "integration_cost": "中",
+      "alternatives": "pdfmake, Paged.js, Playwright PDF",
+      "score": "4/5",
+      "notes": "适合让前端样式和 PDF 模板复用一部分规则；生产前要验证字体、分页、页眉页脚、图片资源、容器依赖和大批量生成性能。"
+    },
+    {
+      "name": "pdfmake",
+      "category": "document-generation",
+      "file": "catalog/document-generation.md",
+      "github": "https://github.com/bpampuch/pdfmake",
+      "website": "https://pdfmake.github.io/docs",
+      "module": "文档生成 / JavaScript PDF / 声明式文档定义",
+      "tech_stack": "JavaScript, Node.js, Browser, PDFKit",
+      "license": "MIT",
+      "best_for": "Web 或 Node.js 项目需要用声明式 JSON 结构生成表格、布局、字体、页眉页脚和下载/打印 PDF。",
+      "avoid_when": "文档模板主要由设计师维护在 HTML、Word 或可视化工具里，或需要 CSS 打印标准和复杂分页控制。",
+      "integration_cost": "中",
+      "alternatives": "WeasyPrint, PDFKit, React PDF",
+      "score": "4/5",
+      "notes": "适合代码驱动的 PDF 输出；落地时要定义文档 schema、字体打包、表格换页、浏览器/服务端生成位置和安全输入边界。"
+    },
+    {
+      "name": "Docxtemplater",
+      "category": "document-generation",
+      "file": "catalog/document-generation.md",
+      "github": "https://github.com/open-xml-templating/docxtemplater",
+      "website": "https://docxtemplater.com",
+      "module": "文档生成 / DOCX PPTX 模板 / Office 文件填充",
+      "tech_stack": "JavaScript, Node.js, Browser, DOCX, PPTX, PizZip",
+      "license": "MIT / GPL-3.0",
+      "best_for": "业务人员或客户需要用 Word、PowerPoint 模板维护版式，再由系统填充占位符、循环和条件生成合同、报告、通知书和演示文件。",
+      "avoid_when": "只需要简单 PDF 输出，或项目依赖图片、HTML、图表、Excel 等高级模板能力但不能接受付费模块边界。",
+      "integration_cost": "中",
+      "alternatives": "WeasyPrint, LibreOffice headless, Carbone",
+      "score": "4/5",
+      "notes": "开源核心足够覆盖常见 DOCX/PPTX 占位符和循环；正式选型前要确认双许可、付费模块、模板校验、错误定位和非技术人员编辑流程。"
     },
     {
       "name": "PDF.js",
