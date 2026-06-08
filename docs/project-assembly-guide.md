@@ -6,6 +6,8 @@
 
 先写清楚项目需要哪些能力，再开始选工具。
 
+可以直接复制 [../templates/project-assembly-worksheet.md](../templates/project-assembly-worksheet.md)，作为项目选型工作表。
+
 示例：
 
 ```md
@@ -65,4 +67,3 @@
 ## 6. 沉淀可复用模板
 
 某个组件在真实项目中验证有效后，再把可运行示例或模板放到 `components/`。
-

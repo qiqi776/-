@@ -77,6 +77,8 @@
 
 新增组件时可以从 [templates/component-entry.md](templates/component-entry.md) 复制模板。
 
+开始新项目选型时，可以复制 [templates/project-assembly-worksheet.md](templates/project-assembly-worksheet.md) 作为项目技术栈工作表。
+
 发布到 GitHub 前，按 [docs/github-publish-guide.md](docs/github-publish-guide.md) 检查远程仓库、推送和 Actions 设置；仓库描述和 topics 可参考 [docs/repository-profile.md](docs/repository-profile.md)。
 
 ## 校验目录

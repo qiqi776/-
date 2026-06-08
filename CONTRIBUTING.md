@@ -25,6 +25,10 @@
 - 推荐优先验证的集成
 - 适合和不适合的项目类型
 
+## 更新项目工作表
+
+如果新增了重要组件分类，也要检查 [templates/project-assembly-worksheet.md](templates/project-assembly-worksheet.md)，确认新分类能出现在项目选型流程里。
+
 ## Review 标准
 
 提交前检查：
