@@ -1,5 +1,5 @@
 {
-  "component_count": 159,
+  "component_count": 162,
   "components": [
     {
       "name": "LangChain",
@@ -2064,6 +2064,54 @@
       "alternatives": "Klaro, CookieConsent, Fides",
       "score": "4/5",
       "notes": "支持较多第三方服务接入，使用前要审查地区文案、默认服务清单、Google Consent Mode 和标签触发逻辑。"
+    },
+    {
+      "name": "Plane",
+      "category": "project-management",
+      "file": "catalog/project-management.md",
+      "github": "https://github.com/makeplane/plane",
+      "website": "https://plane.so",
+      "module": "项目管理 / Issue / Roadmap",
+      "tech_stack": "Python, TypeScript, PostgreSQL, Redis",
+      "license": "AGPL-3.0",
+      "best_for": "产品和工程团队需要自托管 Issue、Cycles、Modules、路线图、工作区和较现代的 Linear/Jira 替代方案。",
+      "avoid_when": "不能接受 AGPL-3.0 网络服务义务，或只需要极轻量个人任务清单的项目。",
+      "integration_cost": "中",
+      "alternatives": "OpenProject, Taiga, Linear",
+      "score": "4/5",
+      "notes": "适合产品研发协作场景；生产前要确认 AGPL 合规、权限模型、导入导出、备份和通知集成。"
+    },
+    {
+      "name": "OpenProject",
+      "category": "project-management",
+      "file": "catalog/project-management.md",
+      "github": "https://github.com/opf/openproject",
+      "website": "https://www.openproject.org",
+      "module": "项目管理 / 工单 / 计划",
+      "tech_stack": "Ruby on Rails, Angular, PostgreSQL",
+      "license": "GPL-3.0",
+      "best_for": "需要成熟项目计划、工作包、甘特图、时间线、看板、文档和组织级项目管理的团队。",
+      "avoid_when": "只需要轻量敏捷看板，或项目许可证策略不能接受 GPL-3.0 copyleft 义务。",
+      "integration_cost": "高",
+      "alternatives": "Plane, Taiga, Redmine",
+      "score": "4/5",
+      "notes": "功能覆盖完整但部署和配置较重；要评估权限、邮件通知、插件、备份、升级和企业功能边界。"
+    },
+    {
+      "name": "Taiga",
+      "category": "project-management",
+      "file": "catalog/project-management.md",
+      "github": "https://github.com/taigaio/taiga-back",
+      "website": "https://taiga.io",
+      "module": "项目管理 / 敏捷看板 / Scrum",
+      "tech_stack": "Python, Django, PostgreSQL",
+      "license": "MPL-2.0",
+      "best_for": "团队需要自托管敏捷项目管理、Backlog、Sprint、看板、史诗、任务和基础 Wiki。",
+      "avoid_when": "需要大型组织级计划、复杂资源管理、组合项目治理或深度报表的场景。",
+      "integration_cost": "中",
+      "alternatives": "Plane, OpenProject, Redmine",
+      "score": "3/5",
+      "notes": "适合敏捷团队轻量协作；落地前要确认前后端部署组合、权限、邮件、附件存储和维护活跃度。"
     },
     {
       "name": "Socket.IO",
