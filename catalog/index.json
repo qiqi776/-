@@ -1,5 +1,5 @@
 {
-  "component_count": 228,
+  "component_count": 231,
   "components": [
     {
       "name": "Frappe Books",
@@ -1728,6 +1728,54 @@
       "alternatives": "Apache Tika, Pandoc, LibreOffice headless",
       "score": "4/5",
       "notes": "关注语义化转换而不是像素级还原，适合导入内容而不是查看原稿。"
+    },
+    {
+      "name": "Docusaurus",
+      "category": "documentation-site",
+      "file": "catalog/documentation-site.md",
+      "github": "https://github.com/facebook/docusaurus",
+      "website": "https://docusaurus.io",
+      "module": "文档站 / React 静态站点 / MDX",
+      "tech_stack": "TypeScript, React, MDX, Node.js",
+      "license": "MIT",
+      "best_for": "开源项目、开发者平台和产品团队需要文档、博客、版本化、多语言、本地化和高度可定制的 React/MDX 文档站。",
+      "avoid_when": "团队不希望维护 Node.js 前端构建链，或文档主要由非技术编辑在 CMS 中管理。",
+      "integration_cost": "中",
+      "alternatives": "VitePress, Material for MkDocs, Nextra",
+      "score": "4/5",
+      "notes": "适合把文档和代码一起版本化；落地时要提前设计信息架构、版本策略、侧边栏、搜索、国际化和部署目标。"
+    },
+    {
+      "name": "VitePress",
+      "category": "documentation-site",
+      "file": "catalog/documentation-site.md",
+      "github": "https://github.com/vuejs/vitepress",
+      "website": "https://vitepress.dev",
+      "module": "文档站 / Vue 静态站点 / Vite",
+      "tech_stack": "TypeScript, Vue, Vite, Markdown, Node.js",
+      "license": "MIT",
+      "best_for": "Vue 或 Vite 生态项目需要轻量快速的 Markdown 文档站，要求开发体验简单、构建速度快、可嵌入 Vue 组件。",
+      "avoid_when": "需要复杂插件生态、内置博客工作流、强版本化体系或 React/MDX 组件文档体验的团队。",
+      "integration_cost": "低",
+      "alternatives": "Docusaurus, Material for MkDocs, VuePress",
+      "score": "4/5",
+      "notes": "很适合框架、组件库和工具项目文档；生产前要确认搜索方案、内容分层、部署路径和主题自定义边界。"
+    },
+    {
+      "name": "Material for MkDocs",
+      "category": "documentation-site",
+      "file": "catalog/documentation-site.md",
+      "github": "https://github.com/squidfunk/mkdocs-material",
+      "website": "https://squidfunk.github.io/mkdocs-material",
+      "module": "文档站 / Python 静态站点 / MkDocs 主题",
+      "tech_stack": "Python, MkDocs, Markdown, Pygments",
+      "license": "MIT",
+      "best_for": "Python、数据、后端和基础设施项目需要专业 Markdown 技术文档站，偏好配置式导航、搜索、代码高亮、插件和 Docker/Python 部署。",
+      "avoid_when": "需要深度前端交互、React/Vue 组件嵌入或完全自定义应用式前端体验的文档站。",
+      "integration_cost": "低",
+      "alternatives": "Docusaurus, VitePress, MkDocs",
+      "score": "4/5",
+      "notes": "写作门槛低，适合快速沉淀项目手册；上线前要验证主题配置、搜索索引、插件许可证、构建镜像和文档发布流程。"
     },
     {
       "name": "Medusa",
