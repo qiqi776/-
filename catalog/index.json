@@ -1,5 +1,5 @@
 {
-  "component_count": 183,
+  "component_count": 186,
   "components": [
     {
       "name": "Frappe Books",
@@ -2352,6 +2352,54 @@
       "alternatives": "Yjs, PartyKit, 自研 WebSocket 协作层",
       "score": "4/5",
       "notes": "适合快速做协同体验，生产前要确认数据边界、托管成本和离线冲突策略。"
+    },
+    {
+      "name": "Cal.com",
+      "category": "scheduling-calendar",
+      "file": "catalog/scheduling-calendar.md",
+      "github": "https://github.com/calcom/cal.com",
+      "website": "https://cal.com",
+      "module": "日程预约 / 可用时间 / 日历同步",
+      "tech_stack": "TypeScript, Next.js, React, Prisma, PostgreSQL",
+      "license": "MIT",
+      "best_for": "SaaS、咨询、销售、教育、医疗等场景需要自托管预约页、团队排班、支付预约、会议集成和日历同步。",
+      "avoid_when": "只需要前端日历视图，或团队不想维护完整预约平台和第三方日历集成。",
+      "integration_cost": "高",
+      "alternatives": "Rallly, FullCalendar, SavvyCal",
+      "score": "4/5",
+      "notes": "功能完整但集成面广；上线前要确认账号体系、OAuth 日历权限、时区、会议链接、支付和通知边界。"
+    },
+    {
+      "name": "Rallly",
+      "category": "scheduling-calendar",
+      "file": "catalog/scheduling-calendar.md",
+      "github": "https://github.com/lukevella/rallly",
+      "website": "https://rallly.co",
+      "module": "日程协调 / 会议投票 / 可用时间",
+      "tech_stack": "TypeScript, Next.js, React, PostgreSQL",
+      "license": "AGPL-3.0",
+      "best_for": "团队或社区需要发起时间投票、收集参与者可用时间、确定会议时段和轻量协调日程。",
+      "avoid_when": "需要完整预约支付、销售排班、客服排班、复杂日历双向同步，或不能接受 AGPL 网络服务义务。",
+      "integration_cost": "中",
+      "alternatives": "Cal.com, Framadate, Doodle",
+      "score": "4/5",
+      "notes": "更像会议时间协调工具；接入前要确认公开链接、匿名参与、邮件通知、过期策略和隐私边界。"
+    },
+    {
+      "name": "FullCalendar",
+      "category": "scheduling-calendar",
+      "file": "catalog/scheduling-calendar.md",
+      "github": "https://github.com/fullcalendar/fullcalendar",
+      "website": "https://fullcalendar.io",
+      "module": "日历视图 / 事件展示 / 拖拽排程",
+      "tech_stack": "TypeScript, JavaScript",
+      "license": "MIT",
+      "best_for": "应用内需要月/周/日历视图、事件拖拽、资源排程、日程展示和前端日历交互。",
+      "avoid_when": "需要开箱即用的预约后台、用户可用时间规则、外部日历 OAuth 同步或会议投票系统。",
+      "integration_cost": "中",
+      "alternatives": "Schedule-X, React Big Calendar, Cal.com",
+      "score": "4/5",
+      "notes": "是日历 UI 和交互组件，不是完整预约系统；要自己处理权限、持久化、冲突检测、时区和外部日历同步。"
     },
     {
       "name": "Meilisearch",
