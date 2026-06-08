@@ -1,5 +1,5 @@
 {
-  "component_count": 151,
+  "component_count": 154,
   "components": [
     {
       "name": "LangChain",
@@ -672,6 +672,54 @@
       "alternatives": "Docker Distribution, Zot, GitLab Container Registry",
       "score": "4/5",
       "notes": "适合组织级制品治理；部署前要规划存储、备份、扫描器、保留策略和镜像复制拓扑。"
+    },
+    {
+      "name": "Odoo",
+      "category": "crm",
+      "file": "catalog/crm.md",
+      "github": "https://github.com/odoo/odoo",
+      "website": "https://www.odoo.com",
+      "module": "CRM / 销售管理 / 业务应用套件",
+      "tech_stack": "Python, JavaScript, PostgreSQL",
+      "license": "LGPL-3.0",
+      "best_for": "需要把 CRM、销售、库存、采购、会计、网站和自动化流程放进同一套业务应用平台的团队。",
+      "avoid_when": "只需要轻量联系人管理，或不能接受大型业务套件带来的模块选择、定制和升级复杂度。",
+      "integration_cost": "高",
+      "alternatives": "ERPNext, SuiteCRM, Twenty",
+      "score": "4/5",
+      "notes": "社区版采用 LGPL-3.0，但企业功能和应用边界要单独确认；落地前要评估定制开发、数据迁移、权限模型和升级策略。"
+    },
+    {
+      "name": "ERPNext",
+      "category": "crm",
+      "file": "catalog/crm.md",
+      "github": "https://github.com/frappe/erpnext",
+      "website": "https://erpnext.com",
+      "module": "CRM / ERP / 销售与客户管理",
+      "tech_stack": "Python, JavaScript, MariaDB, Frappe",
+      "license": "GPL-3.0",
+      "best_for": "中小企业希望用一套开源系统覆盖 CRM、销售、采购、库存、制造、会计和人事等核心业务流程。",
+      "avoid_when": "只需要独立 CRM，或项目许可证策略不能接受 GPL-3.0 copyleft 义务。",
+      "integration_cost": "高",
+      "alternatives": "Odoo, SuiteCRM, Dolibarr",
+      "score": "4/5",
+      "notes": "适合业务流程一体化，不适合作为随手接入的小组件；生产前要确认 GPL 合规、Frappe 定制能力、主数据建模和迁移计划。"
+    },
+    {
+      "name": "SuiteCRM",
+      "category": "crm",
+      "file": "catalog/crm.md",
+      "github": "https://github.com/salesagility/SuiteCRM",
+      "website": "https://suitecrm.com",
+      "module": "CRM / 销售管线 / 客户运营",
+      "tech_stack": "PHP, Symfony, MySQL",
+      "license": "AGPL-3.0",
+      "best_for": "需要自托管传统 CRM、客户账户、联系人、线索、商机、活动记录、销售流程和基础报表的团队。",
+      "avoid_when": "不能接受 AGPL-3.0 网络服务义务，或希望获得现代轻量 UI 和低维护成本的项目。",
+      "integration_cost": "中",
+      "alternatives": "Odoo, ERPNext, Twenty",
+      "score": "3/5",
+      "notes": "功能覆盖传统 CRM 场景，但技术栈和体验要评估；上线前要确认 AGPL 合规、字段模型、权限、邮件集成和升级路径。"
     },
     {
       "name": "Chatwoot",
