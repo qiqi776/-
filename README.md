@@ -15,6 +15,7 @@
 - API 文档与接口契约
 - 工程化与多包仓库
 - 数据库与 ORM
+- 数据库迁移与 Schema 版本管理
 - AI / RAG / Agent
 - 工作流与任务编排
 - 内容管理与编辑
@@ -48,6 +49,7 @@
 | 工程化 | [catalog/dev-tooling.md](catalog/dev-tooling.md) | Monorepo、包管理、构建缓存、任务编排、CI 加速 |
 | 认证 | [catalog/auth.md](catalog/auth.md) | 登录、身份、OAuth、用户管理、权限控制 |
 | 数据库 | [catalog/database.md](catalog/database.md) | 数据库、ORM、后端即服务、向量存储 |
+| 数据库迁移 | [catalog/database-migrations.md](catalog/database-migrations.md) | Schema 版本管理、SQL 迁移、数据库变更审计 |
 | AI | [catalog/ai.md](catalog/ai.md) | LLM 应用、RAG、Agent、工作流、模型接入工具 |
 | 内容管理 | [catalog/cms.md](catalog/cms.md) | Headless CMS、内容编辑、文档站、营销内容后台 |
 | 富文本编辑器 | [catalog/editors.md](catalog/editors.md) | 嵌入式编辑、结构化文档、协作编辑、内容编辑体验 |
@@ -103,7 +105,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、后端 API、API 文档、工程化、数据库、文件存储、文档处理、媒体处理、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、配置密钥、支付、部署、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、后端 API、API 文档、工程化、数据库、数据库迁移、文件存储、文档处理、媒体处理、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、配置密钥、支付、部署、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。
