@@ -1,5 +1,5 @@
 {
-  "component_count": 42,
+  "component_count": 45,
   "components": [
     {
       "name": "LangChain",
@@ -48,6 +48,54 @@
       "alternatives": "Dify, Langflow, n8n AI 节点",
       "score": "3/5",
       "notes": "适合探索；生产使用需要治理和部署评审。"
+    },
+    {
+      "name": "PostHog",
+      "category": "analytics",
+      "file": "catalog/analytics.md",
+      "github": "https://github.com/PostHog/posthog",
+      "website": "https://posthog.com",
+      "module": "产品分析 / 事件 / 实验",
+      "tech_stack": "Python, TypeScript, ClickHouse",
+      "license": "MIT（核心）/ 商业许可证（enterprise）",
+      "best_for": "SaaS 产品分析、事件采集、漏斗、留存、Feature Flags、A/B 测试和用户行为回放。",
+      "avoid_when": "只需要最轻量 PV 统计，或团队不想维护 ClickHouse 等分析基础设施的项目。",
+      "integration_cost": "中",
+      "alternatives": "Plausible Analytics, Matomo, Umami",
+      "score": "4/5",
+      "notes": "功能覆盖面强，open core 模式下要区分社区功能和企业功能。"
+    },
+    {
+      "name": "Plausible Analytics",
+      "category": "analytics",
+      "file": "catalog/analytics.md",
+      "github": "https://github.com/plausible/analytics",
+      "website": "https://plausible.io",
+      "module": "产品分析 / 网站统计",
+      "tech_stack": "Elixir, ClickHouse",
+      "license": "AGPL-3.0",
+      "best_for": "隐私友好的网站统计、营销站、内容站和不想使用重型产品分析套件的项目。",
+      "avoid_when": "需要复杂产品事件、实验平台、用户级行为回放或不能接受 AGPL 义务的项目。",
+      "integration_cost": "中",
+      "alternatives": "PostHog, Matomo, Umami",
+      "score": "4/5",
+      "notes": "自托管时要评估 AGPL 义务和 ClickHouse 运维成本。"
+    },
+    {
+      "name": "Matomo",
+      "category": "analytics",
+      "file": "catalog/analytics.md",
+      "github": "https://github.com/matomo-org/matomo",
+      "website": "https://matomo.org",
+      "module": "产品分析 / Web Analytics",
+      "tech_stack": "PHP, MySQL",
+      "license": "GPL-3.0",
+      "best_for": "需要成熟 Web Analytics、报表、合规可控数据归属和较传统部署方式的组织。",
+      "avoid_when": "主要做现代事件驱动产品分析，或团队不能接受 GPL 许可证约束的项目。",
+      "integration_cost": "中",
+      "alternatives": "Plausible Analytics, PostHog, Umami",
+      "score": "4/5",
+      "notes": "历史成熟度高，但新产品事件分析体验不一定是最轻快的选择。"
     },
     {
       "name": "Supabase Auth",
