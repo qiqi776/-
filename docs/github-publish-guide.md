@@ -16,6 +16,8 @@ open-source-component-catalog
 按模块整理可拼装项目的开源组件目录。
 ```
 
+更多仓库描述、Topics 和发布后检查项见 [repository-profile.md](repository-profile.md)。
+
 创建仓库时不要勾选自动生成 README、.gitignore 或 License，因为本地仓库已经有这些基础文件。
 
 ## 2. 添加远程地址
@@ -71,4 +73,3 @@ python -m unittest tests.test_validate_catalog -v
 ```
 
 如果 `catalog/index.json` 没有同步更新，CI 会失败，提醒你重新生成索引并提交。
-
