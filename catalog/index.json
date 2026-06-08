@@ -1,5 +1,5 @@
 {
-  "component_count": 216,
+  "component_count": 219,
   "components": [
     {
       "name": "Frappe Books",
@@ -192,6 +192,54 @@
       "alternatives": "Envoy ratelimit, express-rate-limit, API 网关限流插件",
       "score": "4/5",
       "notes": "适合在应用层按用户、租户和业务动作做精细限制；要设计 Redis/数据库故障策略、滑动窗口、封禁时长、误伤申诉和监控告警。"
+    },
+    {
+      "name": "OpenAPI Generator",
+      "category": "api-client-generation",
+      "file": "catalog/api-client-generation.md",
+      "github": "https://github.com/OpenAPITools/openapi-generator",
+      "website": "https://openapi-generator.tech",
+      "module": "API 客户端生成 / 多语言 SDK / 服务端 Stub",
+      "tech_stack": "Java, OpenAPI, Mustache Templates",
+      "license": "Apache-2.0",
+      "best_for": "需要从 OpenAPI 规范生成多语言 SDK、客户端、服务端 Stub、文档和模板化代码的团队。",
+      "avoid_when": "只需要前端 TypeScript 类型，或项目不想维护生成模板、配置和规范兼容性差异。",
+      "integration_cost": "中",
+      "alternatives": "Orval, Hey API OpenAPI TS, openapi-typescript",
+      "score": "4/5",
+      "notes": "生态覆盖面最广；生产前要锁定生成器版本、模板改动、规范校验、CI 生成流程和生成代码的安全审查。"
+    },
+    {
+      "name": "Orval",
+      "category": "api-client-generation",
+      "file": "catalog/api-client-generation.md",
+      "github": "https://github.com/orval-labs/orval",
+      "website": "https://orval.dev",
+      "module": "API 客户端生成 / TypeScript / 前端查询 Hooks",
+      "tech_stack": "TypeScript, OpenAPI, React Query, SWR, Vue Query",
+      "license": "MIT",
+      "best_for": "前端团队需要从 OpenAPI 生成类型安全请求函数、React/Vue/Svelte/Solid Query Hooks、Mock 和 Zod Schema。",
+      "avoid_when": "需要生成 Java、Go、Python 等多语言 SDK，或不使用现代前端数据请求生态的项目。",
+      "integration_cost": "中",
+      "alternatives": "Hey API OpenAPI TS, openapi-typescript, OpenAPI Generator",
+      "score": "4/5",
+      "notes": "适合把前后端契约接入前端工程流；上线前要确认生成目录、缓存键、错误模型、Mock 策略和接口变更审查。"
+    },
+    {
+      "name": "Hey API OpenAPI TS",
+      "category": "api-client-generation",
+      "file": "catalog/api-client-generation.md",
+      "github": "https://github.com/hey-api/openapi-ts",
+      "website": "https://heyapi.dev",
+      "module": "API 客户端生成 / TypeScript SDK / Schema",
+      "tech_stack": "TypeScript, OpenAPI, Fetch, Axios, TanStack Query, Zod",
+      "license": "MIT",
+      "best_for": "TypeScript 项目需要生成生产级 SDK、类型、Schema、TanStack Query Hooks，并通过插件扩展客户端行为。",
+      "avoid_when": "需要传统多语言企业 SDK 生成，或团队只想生成纯类型而不需要 SDK、客户端和插件体系。",
+      "integration_cost": "中",
+      "alternatives": "Orval, openapi-typescript, OpenAPI Generator",
+      "score": "4/5",
+      "notes": "插件体系灵活，适合前端和全栈 TypeScript；生产前要确认 Node 版本、插件组合、生成代码边界、认证注入和规范来源可信度。"
     },
     {
       "name": "Swagger UI",
