@@ -1,5 +1,5 @@
 {
-  "component_count": 111,
+  "component_count": 114,
   "components": [
     {
       "name": "LangChain",
@@ -1584,6 +1584,54 @@
       "alternatives": "Nuclei, Burp Suite, Nikto",
       "score": "4/5",
       "notes": "建议先在预发环境做基线扫描，再逐步引入主动扫描；主动扫描可能触发写操作或告警。"
+    },
+    {
+      "name": "Istio",
+      "category": "service-mesh",
+      "file": "catalog/service-mesh.md",
+      "github": "https://github.com/istio/istio",
+      "website": "https://istio.io",
+      "module": "服务网格 / 流量治理 / mTLS",
+      "tech_stack": "Go, Envoy, Kubernetes",
+      "license": "Apache-2.0",
+      "best_for": "Kubernetes 平台需要服务间 mTLS、流量拆分、重试熔断、遥测、策略控制和多集群流量治理。",
+      "avoid_when": "小型单体或服务数量很少的项目，或团队没有能力维护控制平面和代理调试。",
+      "integration_cost": "高",
+      "alternatives": "Linkerd, Cilium Service Mesh, Kuma",
+      "score": "4/5",
+      "notes": "能力完整但复杂度高；建议先在关键命名空间试点，明确 sidecar/ambient 模式、证书、遥测和故障排查流程。"
+    },
+    {
+      "name": "Linkerd",
+      "category": "service-mesh",
+      "file": "catalog/service-mesh.md",
+      "github": "https://github.com/linkerd/linkerd2",
+      "website": "https://linkerd.io",
+      "module": "服务网格 / 轻量 mTLS",
+      "tech_stack": "Rust, Go, Kubernetes",
+      "license": "Apache-2.0",
+      "best_for": "团队需要较轻量的 Kubernetes 服务网格，重点关注自动 mTLS、基础流量指标、重试和渐进式交付集成。",
+      "avoid_when": "需要极复杂流量治理、深度 Envoy 生态插件或多维 API 网关能力。",
+      "integration_cost": "中",
+      "alternatives": "Istio, Cilium Service Mesh, Consul",
+      "score": "4/5",
+      "notes": "上手成本通常低于重型网格；要核对边缘路由、HA 控制平面、证书轮换和扩展能力是否满足平台需求。"
+    },
+    {
+      "name": "Cilium",
+      "category": "service-mesh",
+      "file": "catalog/service-mesh.md",
+      "github": "https://github.com/cilium/cilium",
+      "website": "https://cilium.io",
+      "module": "服务网格 / eBPF 网络 / 网络策略",
+      "tech_stack": "Go, eBPF, Kubernetes",
+      "license": "Apache-2.0",
+      "best_for": "Kubernetes 集群需要 eBPF 网络、网络策略、可观测性、负载均衡，并希望把服务网格能力和 CNI 网络层结合。",
+      "avoid_when": "不愿引入 eBPF 运行时要求，或团队只需要应用层 sidecar 网格。",
+      "integration_cost": "高",
+      "alternatives": "Calico, Istio, Linkerd",
+      "score": "4/5",
+      "notes": "仓库用户态组件是 Apache-2.0，BPF 模板有 GPL-2.0-only / BSD-2-Clause 双许可细节；生产前要核对内核版本、网络策略和 Hubble 可观测性。"
     },
     {
       "name": "MinIO",
