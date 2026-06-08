@@ -1,0 +1,35 @@
+name: 校验组件目录
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  validate:
+    name: 运行目录校验和单元测试
+    runs-on: ubuntu-latest
+
+    steps:
+      # 拉取仓库代码，后续步骤才能读取 catalog、tools 和 tests。
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      # 安装 Python，用于运行组件目录校验脚本和 unittest 测试。
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 校验 catalog 条目字段，并确认生成的 index.json 没有遗漏更新。
+      - name: 校验组件目录
+        run: |
+          python tools/validate_catalog.py --write-index
+          git diff --exit-code catalog/index.json
+
+      # 运行校验脚本自身的单元测试，防止后续改坏解析和报错逻辑。
+      - name: 运行单元测试
+        run: python -m unittest tests.test_validate_catalog -v
+
