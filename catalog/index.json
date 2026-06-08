@@ -1,5 +1,5 @@
 {
-  "component_count": 117,
+  "component_count": 120,
   "components": [
     {
       "name": "LangChain",
@@ -1152,6 +1152,54 @@
       "alternatives": "Salt, Chef, Puppet",
       "score": "4/5",
       "notes": "适合传统服务器和混合环境自动化；要维护幂等性、主机清单、凭据边界和剧本评审流程。"
+    },
+    {
+      "name": "Appsmith",
+      "category": "internal-tools",
+      "file": "catalog/internal-tools.md",
+      "github": "https://github.com/appsmithorg/appsmith",
+      "website": "https://www.appsmith.com",
+      "module": "内部工具 / 低代码应用构建器",
+      "tech_stack": "TypeScript, Java, React, Docker",
+      "license": "Apache-2.0",
+      "best_for": "团队需要快速搭建内部 CRUD、运营工具、数据看板、审批页面，并连接数据库、REST API、GraphQL 或第三方 SaaS。",
+      "avoid_when": "面向公众的高品牌体验，或需要把内部工具深度嵌入主应用代码库的项目。",
+      "integration_cost": "中",
+      "alternatives": "ToolJet, Budibase, Retool",
+      "score": "4/5",
+      "notes": "适合把内部工具从一次性脚本提升为可维护应用；上线前要核对数据源权限、环境隔离、审计日志和 SSO 配置。"
+    },
+    {
+      "name": "ToolJet",
+      "category": "internal-tools",
+      "file": "catalog/internal-tools.md",
+      "github": "https://github.com/ToolJet/ToolJet",
+      "website": "https://www.tooljet.com",
+      "module": "内部工具 / 低代码平台 / 工作流",
+      "tech_stack": "TypeScript, NestJS, React, Docker",
+      "license": "AGPL-3.0",
+      "best_for": "需要自托管低代码内部应用、可视化页面搭建、数据源集成、表单流程和轻量自动化的团队。",
+      "avoid_when": "团队不能接受 AGPL 网络服务义务，或内部工具必须完全由代码和普通 CI/CD 管理。",
+      "integration_cost": "中",
+      "alternatives": "Appsmith, Budibase, NocoBase",
+      "score": "4/5",
+      "notes": "AGPL-3.0 对网络服务分发有合规要求；生产前要确认企业功能边界、插件能力、权限模型和数据连接密钥管理。"
+    },
+    {
+      "name": "Budibase",
+      "category": "internal-tools",
+      "file": "catalog/internal-tools.md",
+      "github": "https://github.com/Budibase/budibase",
+      "website": "https://budibase.com",
+      "module": "内部工具 / 低代码后台 / 表单流程",
+      "tech_stack": "TypeScript, Svelte, Node.js, Docker",
+      "license": "GPL-3.0（整体）",
+      "best_for": "需要快速构建内部表单、审批流、数据库驱动后台、简单自动化和自托管低代码平台的团队。",
+      "avoid_when": "团队必须使用宽松许可证，或希望每个内部工具都以常规应用源码方式长期演进。",
+      "integration_cost": "中",
+      "alternatives": "Appsmith, ToolJet, NocoBase",
+      "score": "4/5",
+      "notes": "仓库说明整体可按 GPLv3 看待，且 package 可能有各自许可证；上线前要复核目标版本许可证、用户权限和数据源访问范围。"
     },
     {
       "name": "MapLibre GL JS",
