@@ -1,5 +1,5 @@
 {
-  "component_count": 268,
+  "component_count": 269,
   "components": [
     {
       "name": "axe-core",
@@ -1616,6 +1616,22 @@
       "alternatives": "Drizzle ORM, TypeORM, Sequelize",
       "score": "4/5",
       "notes": "开发体验好，但 schema 和迁移流程会成为架构的一部分。"
+    },
+    {
+      "name": "SQLite",
+      "category": "database",
+      "file": "catalog/database.md",
+      "github": "https://github.com/sqlite/sqlite",
+      "website": "https://www.sqlite.org",
+      "module": "数据库 / 嵌入式关系型数据库",
+      "tech_stack": "C, SQL",
+      "license": "Public Domain",
+      "best_for": "本地优先应用、移动端、桌面端、边缘节点、测试环境、小型服务和需要零运维嵌入式数据库的项目。",
+      "avoid_when": "高并发多写入服务、复杂权限隔离、多租户数据库后端，或需要独立数据库服务器运维能力的系统。",
+      "integration_cost": "低",
+      "alternatives": "PostgreSQL, DuckDB, LiteFS",
+      "score": "4/5",
+      "notes": "GitHub 仓库是官方镜像，上游以 SQLite Fossil 仓库为准；上线前要确认并发写入、备份、迁移、加密、文件锁和部署介质。"
     },
     {
       "name": "Dokku",
