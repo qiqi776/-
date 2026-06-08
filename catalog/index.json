@@ -1,5 +1,5 @@
 {
-  "component_count": 57,
+  "component_count": 60,
   "components": [
     {
       "name": "LangChain",
@@ -864,6 +864,54 @@
       "alternatives": "FilePond, Dropzone, 自研上传组件",
       "score": "4/5",
       "notes": "适合和对象存储、后端签名上传流程组合使用。"
+    },
+    {
+      "name": "Playwright",
+      "category": "testing",
+      "file": "catalog/testing.md",
+      "github": "https://github.com/microsoft/playwright",
+      "website": "https://playwright.dev",
+      "module": "测试 / 端到端测试",
+      "tech_stack": "TypeScript, JavaScript, Python, Java, .NET",
+      "license": "Apache-2.0",
+      "best_for": "Web 应用需要跨浏览器端到端测试、截图回归、用户流程验证和 CI 自动化。",
+      "avoid_when": "只需要纯函数单元测试，或项目没有浏览器交互场景。",
+      "integration_cost": "中",
+      "alternatives": "Cypress, Selenium, WebdriverIO",
+      "score": "4/5",
+      "notes": "适合验证登录、支付、后台流程等关键路径，但要控制测试数量和运行时间。"
+    },
+    {
+      "name": "Vitest",
+      "category": "testing",
+      "file": "catalog/testing.md",
+      "github": "https://github.com/vitest-dev/vitest",
+      "website": "https://vitest.dev",
+      "module": "测试 / 前端单元测试",
+      "tech_stack": "TypeScript, JavaScript, Vite",
+      "license": "MIT",
+      "best_for": "Vite、Vue、React、Svelte 等前端项目需要快速单元测试、组件测试和覆盖率报告。",
+      "avoid_when": "非 JavaScript/TypeScript 项目，或项目构建链完全不基于 Vite 生态。",
+      "integration_cost": "低",
+      "alternatives": "Jest, Node.js test runner, uvu",
+      "score": "4/5",
+      "notes": "对 Vite 项目接入成本很低，适合和 Testing Library 组合验证组件行为。"
+    },
+    {
+      "name": "pytest",
+      "category": "testing",
+      "file": "catalog/testing.md",
+      "github": "https://github.com/pytest-dev/pytest",
+      "website": "https://pytest.org",
+      "module": "测试 / Python 单元测试",
+      "tech_stack": "Python",
+      "license": "MIT",
+      "best_for": "Python 后端、数据处理、脚本工具和自动化任务需要清晰的测试夹具与断言体验。",
+      "avoid_when": "非 Python 项目，或团队必须完全使用标准库 unittest。",
+      "integration_cost": "低",
+      "alternatives": "unittest, nose2, Robot Framework",
+      "score": "4/5",
+      "notes": "插件生态成熟，适合从小型脚本到大型后端服务持续扩展测试覆盖。"
     },
     {
       "name": "Temporal",
