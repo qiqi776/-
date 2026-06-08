@@ -1,5 +1,5 @@
 {
-  "component_count": 78,
+  "component_count": 81,
   "components": [
     {
       "name": "LangChain",
@@ -96,6 +96,54 @@
       "alternatives": "Plausible Analytics, PostHog, Umami",
       "score": "4/5",
       "notes": "历史成熟度高，但新产品事件分析体验不一定是最轻快的选择。"
+    },
+    {
+      "name": "Swagger UI",
+      "category": "api-docs",
+      "file": "catalog/api-docs.md",
+      "github": "https://github.com/swagger-api/swagger-ui",
+      "website": "https://swagger.io/tools/swagger-ui",
+      "module": "API 文档 / OpenAPI 交互文档",
+      "tech_stack": "JavaScript, OpenAPI",
+      "license": "Apache-2.0",
+      "best_for": "需要把 OpenAPI 规范渲染成交互式接口文档，并支持在线调试请求的后端项目。",
+      "avoid_when": "需要高度品牌化开发者门户，或希望文档体验更接近现代产品文档站的项目。",
+      "integration_cost": "低",
+      "alternatives": "Redoc, Scalar, Stoplight Elements",
+      "score": "4/5",
+      "notes": "是 OpenAPI 生态中最通用的默认选择，适合放在服务启动后的开发和测试环境。"
+    },
+    {
+      "name": "Redoc",
+      "category": "api-docs",
+      "file": "catalog/api-docs.md",
+      "github": "https://github.com/Redocly/redoc",
+      "website": "https://redocly.com/redoc",
+      "module": "API 文档 / OpenAPI 阅读文档",
+      "tech_stack": "TypeScript, React, OpenAPI",
+      "license": "MIT",
+      "best_for": "需要把 OpenAPI 规范渲染成阅读体验较好的静态 API 文档和开发者文档页面。",
+      "avoid_when": "主要需求是直接在页面里发起接口调试，或需要复杂协作工作台。",
+      "integration_cost": "低",
+      "alternatives": "Swagger UI, Scalar, Stoplight Elements",
+      "score": "4/5",
+      "notes": "阅读体验比传统 Swagger UI 更清爽，适合公开 API 文档和产品化接口说明。"
+    },
+    {
+      "name": "Scalar",
+      "category": "api-docs",
+      "file": "catalog/api-docs.md",
+      "github": "https://github.com/scalar/scalar",
+      "website": "https://scalar.com",
+      "module": "API 文档 / 接口文档与调试",
+      "tech_stack": "TypeScript, Vue, OpenAPI",
+      "license": "MIT",
+      "best_for": "需要现代化 OpenAPI 文档、接口调试、API 客户端体验和较强前端呈现效果的项目。",
+      "avoid_when": "团队只需要最保守、最通用的 OpenAPI 文档渲染器。",
+      "integration_cost": "中",
+      "alternatives": "Swagger UI, Redoc, Bruno",
+      "score": "4/5",
+      "notes": "适合希望文档和调试体验更像产品的团队，生产前要确认部署方式和版本稳定性。"
     },
     {
       "name": "Supabase Auth",
