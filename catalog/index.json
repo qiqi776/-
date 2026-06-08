@@ -1,5 +1,5 @@
 {
-  "component_count": 136,
+  "component_count": 139,
   "components": [
     {
       "name": "LangChain",
@@ -2032,6 +2032,54 @@
       "alternatives": "FilePond, Dropzone, 自研上传组件",
       "score": "4/5",
       "notes": "适合和对象存储、后端签名上传流程组合使用。"
+    },
+    {
+      "name": "Apache Flink",
+      "category": "stream-processing",
+      "file": "catalog/stream-processing.md",
+      "github": "https://github.com/apache/flink",
+      "website": "https://flink.apache.org",
+      "module": "流处理 / 状态计算 / 事件时间",
+      "tech_stack": "Java, Scala, Python",
+      "license": "Apache-2.0",
+      "best_for": "需要高吞吐低延迟流计算、窗口聚合、Exactly-once 状态、复杂事件处理和流批一体数据应用的平台团队。",
+      "avoid_when": "只需要简单消息转发、轻量 ETL，或团队没有能力维护集群、checkpoint 和状态后端。",
+      "integration_cost": "高",
+      "alternatives": "Apache Beam, Kafka Streams, Spark Structured Streaming",
+      "score": "4/5",
+      "notes": "能力强但运维要求高；生产前要验证状态大小、checkpoint 存储、反压、作业升级和灾备恢复。"
+    },
+    {
+      "name": "Kafka Streams",
+      "category": "stream-processing",
+      "file": "catalog/stream-processing.md",
+      "github": "https://github.com/apache/kafka",
+      "website": "https://kafka.apache.org/documentation/streams",
+      "module": "流处理 / Kafka 应用库 / 状态转换",
+      "tech_stack": "Java, Scala",
+      "license": "Apache-2.0",
+      "best_for": "已经使用 Kafka，且希望在普通应用进程内完成事件转换、聚合、Join、状态存储和拓扑部署的团队。",
+      "avoid_when": "需要跨多种流引擎运行、独立作业调度平台，或团队不想把流处理逻辑绑定在 Kafka 生态。",
+      "integration_cost": "中",
+      "alternatives": "Apache Flink, Apache Beam, Faust",
+      "score": "4/5",
+      "notes": "适合 Kafka 原生实时业务逻辑；要设计 topic、分区、状态目录、重平衡和应用版本兼容策略。"
+    },
+    {
+      "name": "Apache Beam",
+      "category": "stream-processing",
+      "file": "catalog/stream-processing.md",
+      "github": "https://github.com/apache/beam",
+      "website": "https://beam.apache.org",
+      "module": "流处理 / 批流统一 / 数据处理 SDK",
+      "tech_stack": "Java, Python, Go",
+      "license": "Apache-2.0",
+      "best_for": "希望用统一模型编写批处理和流处理，并在 Flink、Spark、Google Dataflow 等 Runner 之间迁移的数据工程团队。",
+      "avoid_when": "只会固定使用单一执行引擎，或项目更看重引擎原生 API 和最低运行复杂度。",
+      "integration_cost": "高",
+      "alternatives": "Apache Flink, Spark Structured Streaming, Kafka Streams",
+      "score": "4/5",
+      "notes": "抽象层带来可移植性，也会增加调试和 Runner 差异成本；要先验证窗口、触发器和状态语义。"
     },
     {
       "name": "Playwright",
