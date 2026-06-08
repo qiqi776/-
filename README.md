@@ -12,6 +12,7 @@
 - 数据库与 ORM
 - AI / RAG / Agent
 - 工作流与任务编排
+- 内容管理与编辑
 - 产品分析与转化
 - 支付与订阅
 - 部署与托管
@@ -28,6 +29,7 @@
 | 认证 | [catalog/auth.md](catalog/auth.md) | 登录、身份、OAuth、用户管理、权限控制 |
 | 数据库 | [catalog/database.md](catalog/database.md) | 数据库、ORM、后端即服务、向量存储 |
 | AI | [catalog/ai.md](catalog/ai.md) | LLM 应用、RAG、Agent、工作流、模型接入工具 |
+| 内容管理 | [catalog/cms.md](catalog/cms.md) | Headless CMS、内容编辑、文档站、营销内容后台 |
 | 支付 | [catalog/payment.md](catalog/payment.md) | 支付 SDK、电商引擎、结账、订阅 |
 | 存储 | [catalog/storage.md](catalog/storage.md) | 对象存储、文件上传、媒体资源 |
 | 邮件通知 | [catalog/email.md](catalog/email.md) | 邮件发送、Newsletter、多渠道通知 |
@@ -71,7 +73,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、数据库、文件存储、AI、工作流、产品分析、支付、部署、监控。
+1. 先列出项目需要的能力：认证、UI、数据库、文件存储、AI、内容管理、工作流、产品分析、支付、部署、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。

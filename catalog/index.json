@@ -1,5 +1,5 @@
 {
-  "component_count": 45,
+  "component_count": 48,
   "components": [
     {
       "name": "LangChain",
@@ -240,6 +240,54 @@
       "alternatives": "Redis, Valkey, KeyDB",
       "score": "3/5",
       "notes": "性能方向明确，但许可证和兼容性需要评估。"
+    },
+    {
+      "name": "Strapi",
+      "category": "cms",
+      "file": "catalog/cms.md",
+      "github": "https://github.com/strapi/strapi",
+      "website": "https://strapi.io",
+      "module": "内容管理 / Headless CMS",
+      "tech_stack": "TypeScript, Node.js",
+      "license": "MIT",
+      "best_for": "需要快速搭建内容模型、管理后台、API 和多角色内容编辑流程的产品。",
+      "avoid_when": "只需要静态 Markdown 内容，或团队不想维护独立 CMS 服务的项目。",
+      "integration_cost": "中",
+      "alternatives": "Payload CMS, Directus, Keystone",
+      "score": "4/5",
+      "notes": "生态成熟，适合内容模型变化较多的应用。"
+    },
+    {
+      "name": "Payload CMS",
+      "category": "cms",
+      "file": "catalog/cms.md",
+      "github": "https://github.com/payloadcms/payload",
+      "website": "https://payloadcms.com",
+      "module": "内容管理 / TypeScript CMS",
+      "tech_stack": "TypeScript, Node.js, React",
+      "license": "MIT",
+      "best_for": "TypeScript 项目、需要代码定义内容模型、可定制 Admin 和与应用后端深度集成的场景。",
+      "avoid_when": "团队希望完全低代码配置 CMS，或不想把 CMS 作为应用代码的一部分维护。",
+      "integration_cost": "中",
+      "alternatives": "Strapi, Keystone, TinaCMS",
+      "score": "4/5",
+      "notes": "对现代 TypeScript 团队友好，适合把 CMS 当作应用模块而不是外部平台。"
+    },
+    {
+      "name": "TinaCMS",
+      "category": "cms",
+      "file": "catalog/cms.md",
+      "github": "https://github.com/tinacms/tinacms",
+      "website": "https://tina.io",
+      "module": "内容管理 / Git-backed CMS",
+      "tech_stack": "TypeScript, React, GraphQL",
+      "license": "Apache-2.0",
+      "best_for": "Markdown/MDX 内容、文档站、营销站和希望内容变更能进入 Git 工作流的项目。",
+      "avoid_when": "复杂多角色内容平台、非 Git 内容源，或需要传统数据库 CMS 的项目。",
+      "integration_cost": "中",
+      "alternatives": "Decap CMS, Payload CMS, Strapi",
+      "score": "4/5",
+      "notes": "很适合内容和代码一起版本化的站点。"
     },
     {
       "name": "PostgreSQL",
