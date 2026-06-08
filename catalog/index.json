@@ -1,5 +1,5 @@
 {
-  "component_count": 249,
+  "component_count": 252,
   "components": [
     {
       "name": "axe-core",
@@ -2576,6 +2576,54 @@
       "alternatives": "Appsmith, ToolJet, NocoBase",
       "score": "4/5",
       "notes": "仓库说明整体可按 GPLv3 看待，且 package 可能有各自许可证；上线前要复核目标版本许可证、用户权限和数据源访问范围。"
+    },
+    {
+      "name": "Grafana Loki",
+      "category": "log-management",
+      "file": "catalog/log-management.md",
+      "github": "https://github.com/grafana/loki",
+      "website": "https://grafana.com/oss/loki/",
+      "module": "日志管理 / 日志聚合 / 标签查询",
+      "tech_stack": "Go, Prometheus, Grafana, Object Storage",
+      "license": "AGPL-3.0",
+      "best_for": "已经使用 Prometheus/Grafana，希望用标签索引和对象存储低成本管理 Kubernetes、服务和基础设施日志的团队。",
+      "avoid_when": "需要全文倒排索引、复杂日志分析 DSL、长期安全审计检索，或团队不能接受 AGPL 许可证义务的项目。",
+      "integration_cost": "中",
+      "alternatives": "OpenSearch, Elasticsearch, ClickHouse, VictoriaLogs",
+      "score": "4/5",
+      "notes": "成本模型依赖标签设计和对象存储；生产前要确认多租户、日志保留、查询限制、告警规则、Grafana 集成和许可证边界。"
+    },
+    {
+      "name": "Fluent Bit",
+      "category": "log-management",
+      "file": "catalog/log-management.md",
+      "github": "https://github.com/fluent/fluent-bit",
+      "website": "https://fluentbit.io",
+      "module": "日志管理 / 采集代理 / 边缘转发",
+      "tech_stack": "C, Lua, Kubernetes, OpenTelemetry",
+      "license": "Apache-2.0",
+      "best_for": "需要轻量日志采集、容器日志 tail、边缘节点转发、多输出插件和低资源占用 agent 的项目。",
+      "avoid_when": "需要复杂事件路由、强类型转换、全链路可观测性数据处理，或希望用一个管道统一 metrics/traces/logs 的团队。",
+      "integration_cost": "低",
+      "alternatives": "Vector, Fluentd, OpenTelemetry Collector",
+      "score": "4/5",
+      "notes": "适合先解决日志采集与转发；上线前要确认 buffer、背压、日志丢弃策略、Kubernetes metadata、输出端重试和配置热更新方式。"
+    },
+    {
+      "name": "Vector",
+      "category": "log-management",
+      "file": "catalog/log-management.md",
+      "github": "https://github.com/vectordotdev/vector",
+      "website": "https://vector.dev",
+      "module": "日志管理 / 可观测性管道 / 数据转换",
+      "tech_stack": "Rust, VRL, OpenTelemetry, Kafka, HTTP",
+      "license": "MPL-2.0",
+      "best_for": "平台团队需要统一采集、转换、采样和路由 logs、metrics、traces，并用声明式管道接入多个后端。",
+      "avoid_when": "只需要最简单容器日志 tail，或团队不想维护管道 DSL、状态缓存和多目的地故障处理。",
+      "integration_cost": "中",
+      "alternatives": "Fluent Bit, Fluentd, OpenTelemetry Collector",
+      "score": "4/5",
+      "notes": "适合把日志管道平台化；落地前要设计拓扑、VRL 转换测试、端到端延迟、磁盘缓冲、schema 版本和目标端失败降级。"
     },
     {
       "name": "MapLibre GL JS",
