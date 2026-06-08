@@ -1,5 +1,5 @@
 {
-  "component_count": 66,
+  "component_count": 69,
   "components": [
     {
       "name": "LangChain",
@@ -576,6 +576,54 @@
       "alternatives": "Remix, Nuxt, SvelteKit",
       "score": "5/5",
       "notes": "应把它视为应用基础框架，而不是小型可插拔组件。"
+    },
+    {
+      "name": "i18next",
+      "category": "i18n",
+      "file": "catalog/i18n.md",
+      "github": "https://github.com/i18next/i18next",
+      "website": "https://www.i18next.com",
+      "module": "国际化 / 通用多语言框架",
+      "tech_stack": "JavaScript, TypeScript",
+      "license": "MIT",
+      "best_for": "Web、Node.js、React、Vue、移动端等多端项目需要统一翻译资源、命名空间、语言探测和插件生态。",
+      "avoid_when": "只需要非常少量静态文案切换，或项目希望完全依赖框架内置国际化方案。",
+      "integration_cost": "中",
+      "alternatives": "FormatJS, vue-i18n, Lingui",
+      "score": "4/5",
+      "notes": "生态成熟但配置项较多，建议从资源结构、fallback 语言和命名空间规范开始设计。"
+    },
+    {
+      "name": "FormatJS",
+      "category": "i18n",
+      "file": "catalog/i18n.md",
+      "github": "https://github.com/formatjs/formatjs",
+      "website": "https://formatjs.io",
+      "module": "国际化 / ICU 消息与格式化",
+      "tech_stack": "TypeScript, JavaScript, React",
+      "license": "MIT",
+      "best_for": "需要 ICU MessageFormat、日期时间、数字、复数、相对时间和 React 国际化能力的项目。",
+      "avoid_when": "团队不熟悉 ICU 消息语法，或只需要简单键值翻译。",
+      "integration_cost": "中",
+      "alternatives": "i18next, Lingui, Globalize",
+      "score": "4/5",
+      "notes": "对复杂语言规则支持好，但要建立提取、翻译、校验和缺失文案检查流程。"
+    },
+    {
+      "name": "vue-i18n",
+      "category": "i18n",
+      "file": "catalog/i18n.md",
+      "github": "https://github.com/intlify/vue-i18n",
+      "website": "https://vue-i18n.intlify.dev",
+      "module": "国际化 / Vue 多语言",
+      "tech_stack": "TypeScript, Vue",
+      "license": "MIT",
+      "best_for": "Vue 项目需要组件级翻译、组合式 API、路由语言切换和本地化格式化。",
+      "avoid_when": "非 Vue 项目，或希望一套国际化核心同时覆盖多个前端框架。",
+      "integration_cost": "低",
+      "alternatives": "i18next, FormatJS, Lingui",
+      "score": "4/5",
+      "notes": "Vue 集成自然，适合和 Nuxt、组件库、内容管理系统一起设计多语言资源。"
     },
     {
       "name": "RabbitMQ",

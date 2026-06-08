@@ -10,6 +10,7 @@
 - 前端界面
 - 移动端应用
 - 表单与数据校验
+- 国际化与本地化
 - 后端 API
 - 数据库与 ORM
 - AI / RAG / Agent
@@ -33,6 +34,7 @@
 | 前端 | [catalog/frontend.md](catalog/frontend.md) | UI 系统、管理后台、组件库、前端框架 |
 | 移动端 | [catalog/mobile.md](catalog/mobile.md) | 跨平台 App、移动 UI、移动端构建工具链 |
 | 表单与校验 | [catalog/forms.md](catalog/forms.md) | 表单状态、字段校验、Schema 建模、复杂表单流程 |
+| 国际化 | [catalog/i18n.md](catalog/i18n.md) | 多语言文案、翻译资源、日期数字格式、复数规则 |
 | 后端 | [catalog/backend.md](catalog/backend.md) | API 框架、服务框架、后端基础设施 |
 | 认证 | [catalog/auth.md](catalog/auth.md) | 登录、身份、OAuth、用户管理、权限控制 |
 | 数据库 | [catalog/database.md](catalog/database.md) | 数据库、ORM、后端即服务、向量存储 |
@@ -85,7 +87,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、数据库、文件存储、AI、内容管理、工作流、产品分析、图表可视化、功能开关、支付、部署、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、数据库、文件存储、AI、内容管理、工作流、产品分析、图表可视化、功能开关、支付、部署、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。
