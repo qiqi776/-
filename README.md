@@ -23,6 +23,7 @@
 - 地图与地理位置
 - 实时通信与协作
 - 功能开关与实验发布
+- 文档处理与文件预览
 - 支付与订阅
 - 部署与托管
 - 测试与质量
@@ -48,6 +49,7 @@
 | 富文本编辑器 | [catalog/editors.md](catalog/editors.md) | 嵌入式编辑、结构化文档、协作编辑、内容编辑体验 |
 | 支付 | [catalog/payment.md](catalog/payment.md) | 支付 SDK、电商引擎、结账、订阅 |
 | 存储 | [catalog/storage.md](catalog/storage.md) | 对象存储、文件上传、媒体资源 |
+| 文档处理 | [catalog/document-processing.md](catalog/document-processing.md) | PDF 预览、Office 解析、文本抽取、文件内容入库 |
 | 邮件通知 | [catalog/email.md](catalog/email.md) | 邮件发送、Newsletter、多渠道通知 |
 | 搜索 | [catalog/search.md](catalog/search.md) | 全文搜索、站内搜索、日志搜索 |
 | 缓存 | [catalog/cache.md](catalog/cache.md) | 内存缓存、会话、低延迟数据结构 |
@@ -95,7 +97,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、后端 API、API 文档、数据库、文件存储、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、支付、部署、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、后端 API、API 文档、数据库、文件存储、文档处理、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、支付、部署、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。
