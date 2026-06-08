@@ -1,5 +1,5 @@
 {
-  "component_count": 139,
+  "component_count": 142,
   "components": [
     {
       "name": "LangChain",
@@ -336,6 +336,54 @@
       "alternatives": "FastAPI, Rails, Laravel",
       "score": "4/5",
       "notes": "更适合作为应用基础，而不是小模块。"
+    },
+    {
+      "name": "Celery",
+      "category": "background-jobs",
+      "file": "catalog/background-jobs.md",
+      "github": "https://github.com/celery/celery",
+      "website": "https://docs.celeryq.dev",
+      "module": "后台任务 / Python Worker / 分布式任务队列",
+      "tech_stack": "Python, Redis, RabbitMQ",
+      "license": "BSD-3-Clause",
+      "best_for": "Python / Django / Flask 项目需要成熟 worker、任务重试、定时任务、结果后端和多 broker 支持。",
+      "avoid_when": "只需要极轻量本地任务，或团队不想维护 broker、worker、beat 和结果存储。",
+      "integration_cost": "中",
+      "alternatives": "ARQ, RQ, Dramatiq",
+      "score": "4/5",
+      "notes": "生态成熟但配置面较大；生产前要设计幂等、超时、重试、任务序列化和 worker 监控。"
+    },
+    {
+      "name": "BullMQ",
+      "category": "background-jobs",
+      "file": "catalog/background-jobs.md",
+      "github": "https://github.com/taskforcesh/bullmq",
+      "website": "https://docs.bullmq.io",
+      "module": "后台任务 / Node.js Queue / Redis Worker",
+      "tech_stack": "TypeScript, Node.js, Redis",
+      "license": "MIT",
+      "best_for": "Node.js / NestJS 项目需要 Redis 驱动的队列、延迟任务、重复任务、优先级、并发 worker 和可观察任务状态。",
+      "avoid_when": "不想依赖 Redis，或需要跨语言统一 worker 协议和企业级编排平台的系统。",
+      "integration_cost": "中",
+      "alternatives": "Bee-Queue, Agenda, Temporal",
+      "score": "4/5",
+      "notes": "和 Node 生态贴合；要规划 Redis 高可用、job 幂等、失败队列、任务版本和清理策略。"
+    },
+    {
+      "name": "ARQ",
+      "category": "background-jobs",
+      "file": "catalog/background-jobs.md",
+      "github": "https://github.com/python-arq/arq",
+      "website": "https://arq-docs.helpmanual.io",
+      "module": "后台任务 / Async Python / Redis Queue",
+      "tech_stack": "Python, asyncio, Redis",
+      "license": "MIT",
+      "best_for": "FastAPI、asyncio 服务和轻中量 Python 项目需要简单 Redis 队列、异步 worker、延迟任务和定时任务。",
+      "avoid_when": "需要 Celery 级生态、复杂 routing、多 broker，或团队大量使用同步 Python 框架。",
+      "integration_cost": "低",
+      "alternatives": "Celery, RQ, Dramatiq",
+      "score": "4/5",
+      "notes": "轻量且适合 async 应用；生产前仍要处理任务幂等、Redis 持久化、重试上限和失败告警。"
     },
     {
       "name": "restic",
