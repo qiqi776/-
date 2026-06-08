@@ -34,3 +34,4 @@ jobs:
         run: |
           python -m unittest tests.test_validate_catalog -v
           python -m unittest tests.test_search_catalog -v
+          python -m unittest tests.test_assemble_stack -v
