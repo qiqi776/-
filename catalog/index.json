@@ -1,5 +1,5 @@
 {
-  "component_count": 105,
+  "component_count": 108,
   "components": [
     {
       "name": "LangChain",
@@ -144,6 +144,54 @@
       "alternatives": "Swagger UI, Redoc, Bruno",
       "score": "4/5",
       "notes": "适合希望文档和调试体验更像产品的团队，生产前要确认部署方式和版本稳定性。"
+    },
+    {
+      "name": "Kong Gateway",
+      "category": "api-gateway",
+      "file": "catalog/api-gateway.md",
+      "github": "https://github.com/Kong/kong",
+      "website": "https://konghq.com/products/kong-gateway",
+      "module": "API 网关 / 插件化网关",
+      "tech_stack": "Lua, Nginx, PostgreSQL",
+      "license": "Apache-2.0",
+      "best_for": "需要成熟 API 网关、插件生态、限流、认证、路由、上游服务治理和混合部署能力的团队。",
+      "avoid_when": "只需要简单反向代理，或不能接受部分高级治理能力属于企业版本。",
+      "integration_cost": "高",
+      "alternatives": "Traefik, APISIX, Envoy",
+      "score": "4/5",
+      "notes": "开源网关能力强，但企业管理面、治理和高级安全能力要单独核对版本；生产前要设计插件、数据库和配置发布流程。"
+    },
+    {
+      "name": "Traefik",
+      "category": "api-gateway",
+      "file": "catalog/api-gateway.md",
+      "github": "https://github.com/traefik/traefik",
+      "website": "https://traefik.io/traefik",
+      "module": "API 网关 / 边缘路由 / Ingress",
+      "tech_stack": "Go, Docker, Kubernetes",
+      "license": "MIT",
+      "best_for": "容器化或 Kubernetes 项目需要自动服务发现、反向代理、Ingress、TLS 自动化和较轻量边缘路由。",
+      "avoid_when": "需要复杂 API 生命周期管理、深度插件市场或专门的企业 API 门户。",
+      "integration_cost": "中",
+      "alternatives": "Caddy, Nginx, Kong Gateway",
+      "score": "4/5",
+      "notes": "适合中小型服务入口和自托管应用；要明确动态配置来源、证书存储、访问日志和限流策略。"
+    },
+    {
+      "name": "Envoy",
+      "category": "api-gateway",
+      "file": "catalog/api-gateway.md",
+      "github": "https://github.com/envoyproxy/envoy",
+      "website": "https://www.envoyproxy.io",
+      "module": "API 网关 / 边车代理 / L7 代理",
+      "tech_stack": "C++, xDS, HTTP/2, gRPC",
+      "license": "Apache-2.0",
+      "best_for": "需要高性能 L7 代理、服务网格数据面、gRPC、动态配置和复杂流量治理的平台团队。",
+      "avoid_when": "小团队只需要简单域名转发，或没有能力维护 xDS 配置和代理调试体系。",
+      "integration_cost": "高",
+      "alternatives": "HAProxy, Nginx, Linkerd proxy",
+      "score": "4/5",
+      "notes": "强大但配置和调试成本高；更适合作为平台底座或被 Istio、Contour 等上层项目托管使用。"
     },
     {
       "name": "Supabase Auth",
