@@ -1,5 +1,5 @@
 {
-  "component_count": 263,
+  "component_count": 266,
   "components": [
     {
       "name": "axe-core",
@@ -2560,6 +2560,54 @@
       "alternatives": "Appsmith, ToolJet, NocoBase",
       "score": "4/5",
       "notes": "仓库说明整体可按 GPLv3 看待，且 package 可能有各自许可证；上线前要复核目标版本许可证、用户权限和数据源访问范围。"
+    },
+    {
+      "name": "Guardrails AI",
+      "category": "llm-guardrails-structured-output",
+      "file": "catalog/llm-guardrails-structured-output.md",
+      "github": "https://github.com/guardrails-ai/guardrails",
+      "website": "https://www.guardrailsai.com",
+      "module": "LLM 护栏 / 输出校验 / 结构化数据",
+      "tech_stack": "Python, Pydantic, Validators, LLM API",
+      "license": "Apache-2.0",
+      "best_for": "AI 应用需要对模型输入输出做格式校验、内容风险检测、自动重试、结构化数据生成和自定义 Validator。",
+      "avoid_when": "只需要模型网关路由，或团队不愿维护校验规则、失败处理和业务级安全策略。",
+      "integration_cost": "中",
+      "alternatives": "NeMo Guardrails, Outlines, 自研 Pydantic 校验",
+      "score": "4/5",
+      "notes": "适合把 LLM 输出变成可验证契约；上线前要确认校验失败时的降级逻辑、延迟、重试成本、敏感字段脱敏和规则维护责任。"
+    },
+    {
+      "name": "NVIDIA NeMo Guardrails",
+      "category": "llm-guardrails-structured-output",
+      "file": "catalog/llm-guardrails-structured-output.md",
+      "github": "https://github.com/NVIDIA/NeMo-Guardrails",
+      "website": "https://docs.nvidia.com/nemo/guardrails",
+      "module": "LLM 护栏 / 对话策略 / 安全控制",
+      "tech_stack": "Python, Colang, YAML, LLM API",
+      "license": "Apache-2.0",
+      "best_for": "对话式 AI 应用需要可编程护栏、对话路径控制、安全策略、工具调用约束和企业级聊天边界。",
+      "avoid_when": "只需要简单 JSON 输出格式，或团队无法维护独立的对话规则语言和策略测试集。",
+      "integration_cost": "高",
+      "alternatives": "Guardrails AI, LangChain Guardrails, 自研策略层",
+      "score": "4/5",
+      "notes": "适合严肃对话产品和企业助手；接入前要验证策略覆盖率、误拒率、工具调用边界、规则版本管理、测试集和人工升级流程。"
+    },
+    {
+      "name": "Outlines",
+      "category": "llm-guardrails-structured-output",
+      "file": "catalog/llm-guardrails-structured-output.md",
+      "github": "https://github.com/dottxt-ai/outlines",
+      "website": "https://dottxt-ai.github.io/outlines/",
+      "module": "LLM 结构化输出 / 约束式生成 / 类型约束",
+      "tech_stack": "Python, Pydantic, JSON Schema, Transformers, vLLM",
+      "license": "Apache-2.0",
+      "best_for": "应用需要在生成阶段约束 JSON、枚举、正则、Pydantic 模型或其他结构化输出，减少后处理解析失败。",
+      "avoid_when": "主要问题是内容安全、越狱防护、对话策略或多步骤 Agent 行为治理。",
+      "integration_cost": "中",
+      "alternatives": "Guardrails AI, Instructor, Guidance",
+      "score": "4/5",
+      "notes": "更偏结构化生成引擎，不是完整安全平台；要确认目标模型后端支持、流式输出、schema 复杂度、生成速度和失败回退路径。"
     },
     {
       "name": "Langfuse",
