@@ -24,6 +24,7 @@
 - 地图与地理位置
 - 实时通信与协作
 - 功能开关与实验发布
+- 配置与密钥管理
 - 文档处理与文件预览
 - 媒体处理与图片视频转码
 - 支付与订阅
@@ -64,6 +65,7 @@
 | 图表与可视化 | [catalog/visualization.md](catalog/visualization.md) | 业务仪表盘、运营报表、交互式图表、数据探索 |
 | 地图与地理位置 | [catalog/maps.md](catalog/maps.md) | 交互式地图、瓦片渲染、空间数据、Web GIS |
 | 功能开关 | [catalog/feature-flags.md](catalog/feature-flags.md) | 灰度发布、实验平台、远程配置、渐进式交付 |
+| 配置与密钥管理 | [catalog/secrets-management.md](catalog/secrets-management.md) | 环境变量、密钥托管、加密入库、运行时注入 |
 | 部署 | [catalog/deployment.md](catalog/deployment.md) | 自托管、PaaS、应用部署、基础设施胶水 |
 | 测试与质量 | [catalog/testing.md](catalog/testing.md) | 单元测试、端到端测试、集成测试、自动化回归 |
 | 安全扫描 | [catalog/security.md](catalog/security.md) | 依赖漏洞、密钥泄露、Web DAST、容器与 IaC 扫描 |
@@ -101,7 +103,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、后端 API、API 文档、工程化、数据库、文件存储、文档处理、媒体处理、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、支付、部署、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、UI、移动端、表单与校验、国际化、后端 API、API 文档、工程化、数据库、文件存储、文档处理、媒体处理、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、配置密钥、支付、部署、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。

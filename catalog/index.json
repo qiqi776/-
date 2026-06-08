@@ -1,5 +1,5 @@
 {
-  "component_count": 90,
+  "component_count": 93,
   "components": [
     {
       "name": "LangChain",
@@ -1200,6 +1200,54 @@
       "alternatives": "Elasticsearch, Meilisearch, Typesense",
       "score": "4/5",
       "notes": "能力强，但引入后会成为重要基础设施。"
+    },
+    {
+      "name": "Infisical",
+      "category": "secrets-management",
+      "file": "catalog/secrets-management.md",
+      "github": "https://github.com/Infisical/infisical",
+      "website": "https://infisical.com",
+      "module": "配置与密钥管理 / 密钥平台",
+      "tech_stack": "TypeScript, Node.js, PostgreSQL, Docker",
+      "license": "MIT",
+      "best_for": "团队需要集中管理环境变量、密钥、访问控制、审计日志、轮换流程和多环境配置。",
+      "avoid_when": "只需要单项目本地 `.env` 文件，或不想维护额外密钥平台。",
+      "integration_cost": "中",
+      "alternatives": "HashiCorp Vault, Doppler, Bitwarden Secrets Manager",
+      "score": "4/5",
+      "notes": "适合从 `.env` 迁移到团队级密钥管理；自托管时要优先保护备份、管理员账号和审计日志。"
+    },
+    {
+      "name": "SOPS",
+      "category": "secrets-management",
+      "file": "catalog/secrets-management.md",
+      "github": "https://github.com/getsops/sops",
+      "website": "https://getsops.io",
+      "module": "配置与密钥管理 / GitOps 加密",
+      "tech_stack": "Go, CLI, YAML, JSON",
+      "license": "MPL-2.0",
+      "best_for": "需要把加密后的密钥文件提交进 Git，并用 KMS、PGP、age 等方式控制解密权限。",
+      "avoid_when": "需要完整 Web 管理台、运行时动态密钥租约或集中审计流程。",
+      "integration_cost": "中",
+      "alternatives": "Sealed Secrets, git-crypt, External Secrets Operator",
+      "score": "4/5",
+      "notes": "适合 GitOps 和基础设施配置；要严格管理解密密钥、审查明文落盘路径，并避免把未加密文件提交进仓库。"
+    },
+    {
+      "name": "External Secrets Operator",
+      "category": "secrets-management",
+      "file": "catalog/secrets-management.md",
+      "github": "https://github.com/external-secrets/external-secrets",
+      "website": "https://external-secrets.io",
+      "module": "配置与密钥管理 / Kubernetes Secret 同步",
+      "tech_stack": "Go, Kubernetes, CRD",
+      "license": "Apache-2.0",
+      "best_for": "Kubernetes 项目需要从 AWS Secrets Manager、Vault、GCP Secret Manager、Azure Key Vault 等外部系统同步 Secret。",
+      "avoid_when": "不使用 Kubernetes，或集群里不能安全管理外部密钥访问凭据。",
+      "integration_cost": "高",
+      "alternatives": "Sealed Secrets, Vault CSI Provider, SOPS",
+      "score": "4/5",
+      "notes": "适合生产集群密钥同步；必须设计 RBAC、命名空间边界、刷新周期和外部密钥读权限。"
     },
     {
       "name": "Trivy",
