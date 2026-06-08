@@ -1,5 +1,5 @@
 {
-  "component_count": 108,
+  "component_count": 111,
   "components": [
     {
       "name": "LangChain",
@@ -480,6 +480,54 @@
       "alternatives": "Decap CMS, Payload CMS, Strapi",
       "score": "4/5",
       "notes": "很适合内容和代码一起版本化的站点。"
+    },
+    {
+      "name": "Podman",
+      "category": "containers",
+      "file": "catalog/containers.md",
+      "github": "https://github.com/containers/podman",
+      "website": "https://podman.io",
+      "module": "容器 / 本地运行时 / Docker 替代",
+      "tech_stack": "Go, Linux, OCI",
+      "license": "Apache-2.0",
+      "best_for": "需要无守护进程、rootless 容器、本地开发和服务器容器管理，并希望兼容 Docker CLI 习惯的团队。",
+      "avoid_when": "团队强依赖 Docker Desktop 生态，或需要完整 Kubernetes 编排能力。",
+      "integration_cost": "中",
+      "alternatives": "Docker Engine, containerd, nerdctl",
+      "score": "4/5",
+      "notes": "适合开发机和服务器侧容器运行；要确认 Windows/macOS 虚拟化体验、Compose 兼容性和镜像网络配置。"
+    },
+    {
+      "name": "BuildKit",
+      "category": "containers",
+      "file": "catalog/containers.md",
+      "github": "https://github.com/moby/buildkit",
+      "website": "https://github.com/moby/buildkit",
+      "module": "容器 / 镜像构建",
+      "tech_stack": "Go, OCI, Dockerfile",
+      "license": "Apache-2.0",
+      "best_for": "需要高性能 Dockerfile/OCI 镜像构建、并行构建、缓存复用、多平台镜像和 CI 构建加速的团队。",
+      "avoid_when": "只需要最简单本地镜像构建，或团队不想理解缓存、构建上下文和远程 builder。",
+      "integration_cost": "中",
+      "alternatives": "Kaniko, Buildah, Docker Buildx",
+      "score": "4/5",
+      "notes": "是现代 Docker 构建能力的核心；要治理缓存来源、secret mount、SBOM/签名流程和多架构构建环境。"
+    },
+    {
+      "name": "Harbor",
+      "category": "containers",
+      "file": "catalog/containers.md",
+      "github": "https://github.com/goharbor/harbor",
+      "website": "https://goharbor.io",
+      "module": "容器 / 镜像仓库 / 制品治理",
+      "tech_stack": "Go, Docker, OCI Registry",
+      "license": "Apache-2.0",
+      "best_for": "企业或团队需要自托管镜像仓库、项目权限、复制策略、漏洞扫描、镜像签名和制品生命周期管理。",
+      "avoid_when": "只需要公共镜像仓库，或团队不想维护数据库、对象存储和仓库高可用。",
+      "integration_cost": "高",
+      "alternatives": "Docker Distribution, Zot, GitLab Container Registry",
+      "score": "4/5",
+      "notes": "适合组织级制品治理；部署前要规划存储、备份、扫描器、保留策略和镜像复制拓扑。"
     },
     {
       "name": "Flyway",
