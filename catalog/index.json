@@ -1,5 +1,5 @@
 {
-  "component_count": 186,
+  "component_count": 189,
   "components": [
     {
       "name": "Frappe Books",
@@ -2832,6 +2832,54 @@
       "alternatives": "Formbricks, SurveyJS, Typeform",
       "score": "4/5",
       "notes": "问卷能力成熟但产品形态偏独立调研系统；集成前要确认主题定制、身份打通、数据导出和 GPL 合规。"
+    },
+    {
+      "name": "LiveKit",
+      "category": "video-conferencing",
+      "file": "catalog/video-conferencing.md",
+      "github": "https://github.com/livekit/livekit",
+      "website": "https://livekit.io",
+      "module": "音视频通话 / WebRTC / SFU",
+      "tech_stack": "Go, WebRTC, Redis",
+      "license": "Apache-2.0",
+      "best_for": "需要自托管实时音视频、低延迟直播、互动课堂、语音房、AI 语音代理和多端 SDK 的产品。",
+      "avoid_when": "只需要嵌入一个现成会议页面，或团队没有 WebRTC、TURN、带宽和媒体服务器运维经验。",
+      "integration_cost": "高",
+      "alternatives": "Jitsi Meet, mediasoup, Daily",
+      "score": "4/5",
+      "notes": "平台能力完整但运维复杂；上线前要确认 TURN/STUN、区域部署、录制、权限令牌、带宽成本和端到端延迟。"
+    },
+    {
+      "name": "Jitsi Meet",
+      "category": "video-conferencing",
+      "file": "catalog/video-conferencing.md",
+      "github": "https://github.com/jitsi/jitsi-meet",
+      "website": "https://jitsi.org/jitsi-meet",
+      "module": "视频会议 / WebRTC / 会议房间",
+      "tech_stack": "JavaScript, React, WebRTC, XMPP",
+      "license": "Apache-2.0",
+      "best_for": "需要开箱即用的视频会议房间、屏幕共享、会议链接、主持人控制和自托管会议应用。",
+      "avoid_when": "需要深度嵌入自定义产品流程、精细媒体管线控制，或团队不想维护 Jitsi Videobridge 和 XMPP 组件。",
+      "integration_cost": "高",
+      "alternatives": "LiveKit, BigBlueButton, Element Call",
+      "score": "4/5",
+      "notes": "更适合完整会议应用；集成前要验证部署拓扑、移动端体验、认证、录制、品牌定制和大会议性能。"
+    },
+    {
+      "name": "mediasoup",
+      "category": "video-conferencing",
+      "file": "catalog/video-conferencing.md",
+      "github": "https://github.com/versatica/mediasoup",
+      "website": "https://mediasoup.org",
+      "module": "WebRTC / SFU / 媒体服务器库",
+      "tech_stack": "TypeScript, Node.js, C++",
+      "license": "ISC",
+      "best_for": "团队要自研实时音视频产品，需要底层 SFU、媒体路由、生产者/消费者模型和灵活服务端控制。",
+      "avoid_when": "想快速上线会议产品、缺少 WebRTC 专业经验，或不想自己设计信令、房间、鉴权、录制和客户端 SDK。",
+      "integration_cost": "高",
+      "alternatives": "LiveKit, Pion WebRTC, Janus",
+      "score": "4/5",
+      "notes": "自由度高但工程责任重；必须自行设计信令协议、房间生命周期、带宽估计、NAT 穿透和故障恢复。"
     },
     {
       "name": "Apache ECharts",
