@@ -1,5 +1,5 @@
 {
-  "component_count": 131,
+  "component_count": 133,
   "components": [
     {
       "name": "LangChain",
@@ -384,6 +384,54 @@
       "alternatives": "Kasten K10, Stash, 云厂商备份服务",
       "score": "4/5",
       "notes": "适合集群级灾备，但不能替代数据库级一致性备份；要验证 CSI 快照、对象存储权限和恢复顺序。"
+    },
+    {
+      "name": "Lago",
+      "category": "billing-invoicing",
+      "file": "catalog/billing-invoicing.md",
+      "github": "https://github.com/getlago/lago",
+      "website": "https://www.getlago.com",
+      "module": "账单与发票 / 用量计费 / 订阅管理",
+      "tech_stack": "Ruby on Rails, TypeScript, PostgreSQL",
+      "license": "AGPL-3.0",
+      "best_for": "需要自托管用量计费、订阅账单、发票生成、多支付网关编排和收入分析的 SaaS 产品。",
+      "avoid_when": "只需要一个简单收款按钮，或无法接受 AGPL 网络服务义务的闭源商业系统。",
+      "integration_cost": "高",
+      "alternatives": "OpenMeter, Kill Bill, Stripe Billing",
+      "score": "4/5",
+      "notes": "账单领域模型完整，但许可证、数据同步和财务口径需要提前审查。"
+    },
+    {
+      "name": "OpenMeter",
+      "category": "billing-invoicing",
+      "file": "catalog/billing-invoicing.md",
+      "github": "https://github.com/openmeterio/openmeter",
+      "website": "https://openmeter.io",
+      "module": "账单与发票 / 用量计量 / 限额",
+      "tech_stack": "Go, TypeScript, ClickHouse, Kafka",
+      "license": "Apache-2.0",
+      "best_for": "AI、API、DevTool、FinOps 等需要高频用量采集、实时聚合、限额和用量计费的产品。",
+      "avoid_when": "没有事件流和用量维度的小型订阅产品，或团队不想维护 ClickHouse / Kafka。",
+      "integration_cost": "高",
+      "alternatives": "Lago, M3ter, 自建用量计量服务",
+      "score": "4/5",
+      "notes": "更偏实时用量计量基础设施，落地时要先定义事件 schema、幂等策略和计费窗口。"
+    },
+    {
+      "name": "Kill Bill",
+      "category": "billing-invoicing",
+      "file": "catalog/billing-invoicing.md",
+      "github": "https://github.com/killbill/killbill",
+      "website": "https://killbill.io",
+      "module": "账单与发票 / 订阅计费 / 支付编排",
+      "tech_stack": "Java",
+      "license": "Apache-2.0",
+      "best_for": "订阅计费、发票、支付工作流、账户账务和复杂计费领域。",
+      "avoid_when": "只需要简单 Checkout、轻量 SaaS 订阅，或团队没有 Java 计费系统运维经验。",
+      "integration_cost": "高",
+      "alternatives": "Lago, OpenMeter, Stripe Billing",
+      "score": "3/5",
+      "notes": "计费能力强且成熟，但会显著增加运维、集成和财务领域复杂度。"
     },
     {
       "name": "Redis",
@@ -1623,7 +1671,7 @@
       "file": "catalog/payment.md",
       "github": "https://github.com/stripe/stripe-node",
       "website": "https://stripe.com/docs",
-      "module": "支付 / 计费 SDK",
+      "module": "支付 / SDK / 结账",
       "tech_stack": "TypeScript, Node.js",
       "license": "MIT",
       "best_for": "在 Node.js 应用中接入 Stripe 支付、订阅、Checkout、发票和计费流程。",
@@ -1631,7 +1679,7 @@
       "integration_cost": "中",
       "alternatives": "Adyen SDK, Paddle SDK, 其他支付供应商 SDK",
       "score": "4/5",
-      "notes": "SDK 是开源的，但支付平台本身是商业依赖。"
+      "notes": "SDK 是开源的，但支付平台本身是商业依赖；复杂账单模型应单独评估账单与发票组件。"
     },
     {
       "name": "Medusa",
@@ -1648,22 +1696,6 @@
       "alternatives": "Saleor, Vendure, Shopify 集成",
       "score": "4/5",
       "notes": "应视为电商平台组件，不是小型支付工具。"
-    },
-    {
-      "name": "Kill Bill",
-      "category": "payment",
-      "file": "catalog/payment.md",
-      "github": "https://github.com/killbill/killbill",
-      "website": "https://killbill.io",
-      "module": "支付 / 计费",
-      "tech_stack": "Java",
-      "license": "Apache-2.0",
-      "best_for": "订阅计费、发票、支付工作流和复杂计费领域。",
-      "avoid_when": "只需要简单 Checkout 或轻量 SaaS 订阅。",
-      "integration_cost": "高",
-      "alternatives": "Lago, Stripe Billing, Chargebee 集成",
-      "score": "3/5",
-      "notes": "计费能力强，但会增加运维和领域复杂度。"
     },
     {
       "name": "Socket.IO",

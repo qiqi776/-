@@ -37,7 +37,8 @@
 - 文档处理与文件预览
 - 媒体处理与图片视频转码
 - 通知触达
-- 支付与订阅
+- 支付与结账
+- 账单与发票
 - 基础设施即代码
 - 容器与镜像构建
 - 部署与托管
@@ -72,7 +73,8 @@
 | AI | [catalog/ai.md](catalog/ai.md) | LLM 应用、RAG、Agent、工作流、模型接入工具 |
 | 内容管理 | [catalog/cms.md](catalog/cms.md) | Headless CMS、内容编辑、文档站、营销内容后台 |
 | 富文本编辑器 | [catalog/editors.md](catalog/editors.md) | 嵌入式编辑、结构化文档、协作编辑、内容编辑体验 |
-| 支付 | [catalog/payment.md](catalog/payment.md) | 支付 SDK、电商引擎、结账、订阅 |
+| 支付 | [catalog/payment.md](catalog/payment.md) | 支付 SDK、电商引擎、结账、收款通道 |
+| 账单与发票 | [catalog/billing-invoicing.md](catalog/billing-invoicing.md) | 订阅账单、用量计费、发票生成、客户账务 |
 | 存储 | [catalog/storage.md](catalog/storage.md) | 对象存储、文件上传、媒体资源 |
 | 文档处理 | [catalog/document-processing.md](catalog/document-processing.md) | PDF 预览、Office 解析、文本抽取、文件内容入库 |
 | 媒体处理 | [catalog/media-processing.md](catalog/media-processing.md) | 图片缩放、格式转换、音视频转码、缩略图生成 |
@@ -101,7 +103,7 @@
 
 这些蓝图可以作为新项目选型的起点：
 
-- [SaaS 起步项目](stacks/saas-starter.md)：认证、前端、后端、数据库、支付、部署、监控。
+- [SaaS 起步项目](stacks/saas-starter.md)：认证、前端、后端、数据库、支付、账单与发票、部署、监控。
 - [AI RAG 应用](stacks/ai-rag-app.md)：前端、API、LLM 编排、向量数据库、部署、监控。
 - [内部管理后台](stacks/internal-admin.md)：管理 UI、后端、身份、数据库、部署。
 
@@ -129,7 +131,7 @@
 
 ## 如何拼装一个项目
 
-1. 先列出项目需要的能力：认证、授权策略、UI、移动端、内部工具、表单与校验、国际化、后端 API、API 文档、API 网关、边缘交付、服务网格、工程化、数据库、数据库迁移、数据管道、数据仓库、备份恢复、文件存储、文档处理、媒体处理、邮件通知、通知触达、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、配置密钥、支付、基础设施即代码、容器镜像、部署、CI/CD、测试、安全扫描、监控。
+1. 先列出项目需要的能力：认证、授权策略、UI、移动端、内部工具、表单与校验、国际化、后端 API、API 文档、API 网关、边缘交付、服务网格、工程化、数据库、数据库迁移、数据管道、数据仓库、备份恢复、文件存储、文档处理、媒体处理、邮件通知、通知触达、AI、内容管理、富文本编辑、工作流、实时通信、产品分析、图表可视化、地图地理、功能开关、配置密钥、支付、账单与发票、基础设施即代码、容器镜像、部署、CI/CD、测试、安全扫描、监控。
 2. 打开对应的 `catalog/` 分类文件。
 3. 每个能力选择 1 个主组件和 1 个备选组件。
 4. 在确定技术栈前检查许可证、接入成本、托管方式和数据边界。
