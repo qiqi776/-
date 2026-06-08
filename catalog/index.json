@@ -1,5 +1,5 @@
 {
-  "component_count": 192,
+  "component_count": 195,
   "components": [
     {
       "name": "Frappe Books",
@@ -1536,6 +1536,54 @@
       "alternatives": "Tiptap, Lexical, ProseMirror",
       "score": "3/5",
       "notes": "灵活度高但工程成本也高，适合编辑器本身是核心能力的项目。"
+    },
+    {
+      "name": "Documenso",
+      "category": "electronic-signature",
+      "file": "catalog/electronic-signature.md",
+      "github": "https://github.com/documenso/documenso",
+      "website": "https://documenso.com",
+      "module": "电子签名 / 合同签署 / PDF 签署",
+      "tech_stack": "TypeScript, React Router, Prisma, PostgreSQL",
+      "license": "AGPL-3.0",
+      "best_for": "需要自托管电子签名、PDF 合同签署、签署人流程、模板、团队协作、API 接入和审计轨迹的 SaaS 或内部系统。",
+      "avoid_when": "无法接受 AGPL-3.0 许可证义务，或需要特定司法辖区合格电子签名认证、硬件证书和复杂线下身份核验的场景。",
+      "integration_cost": "高",
+      "alternatives": "DocuSeal, OpenSign, LibreSign",
+      "score": "4/5",
+      "notes": "功能覆盖完整但属于关键业务链路；上线前要确认 AGPL 合规、邮件送达、文件存储、签署证据、备份、品牌域名和法律合规边界。"
+    },
+    {
+      "name": "DocuSeal",
+      "category": "electronic-signature",
+      "file": "catalog/electronic-signature.md",
+      "github": "https://github.com/docusealco/docuseal",
+      "website": "https://www.docuseal.com",
+      "module": "电子签名 / 表单填署 / 文档签署",
+      "tech_stack": "Ruby on Rails, Vue, Tailwind CSS, PostgreSQL",
+      "license": "AGPL-3.0",
+      "best_for": "需要较快部署自托管签署门户、PDF 表单填署、签名字段、模板、API 和签署完成记录的团队。",
+      "avoid_when": "团队不想维护 Rails 应用，或闭源商业项目不能承担 AGPL-3.0 网络服务源码义务。",
+      "integration_cost": "中",
+      "alternatives": "Documenso, OpenSign, LibreSign",
+      "score": "4/5",
+      "notes": "单体 Rails 部署相对直接；生产前要确认数据库、对象存储、邮件、签署审计、租户隔离、备份恢复和许可证边界。"
+    },
+    {
+      "name": "OpenSign",
+      "category": "electronic-signature",
+      "file": "catalog/electronic-signature.md",
+      "github": "https://github.com/OpenSignLabs/OpenSign",
+      "website": "https://www.opensignlabs.com",
+      "module": "电子签名 / DocuSign 替代 / PDF 签署",
+      "tech_stack": "JavaScript, React, Node.js, Parse Server, MongoDB",
+      "license": "AGPL-3.0",
+      "best_for": "需要开源 DocuSign 替代、多人签署、模板、签署链接、OTP 验证、API、审计轨迹和 Docker 自托管的产品。",
+      "avoid_when": "不想维护 Node.js、Parse Server 和 MongoDB 组合，或要求许可证更宽松、代码结构更简单的项目。",
+      "integration_cost": "中",
+      "alternatives": "Documenso, DocuSeal, LibreSign",
+      "score": "4/5",
+      "notes": "功能面广且偏完整产品；部署前要确认 MongoDB 持久化、邮件配置、文件存储、API 权限、证书生成、升级路径和 AGPL 合规。"
     },
     {
       "name": "Postal",
