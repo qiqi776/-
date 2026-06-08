@@ -1,5 +1,5 @@
 {
-  "component_count": 180,
+  "component_count": 183,
   "components": [
     {
       "name": "Frappe Books",
@@ -2736,6 +2736,54 @@
       "alternatives": "unittest, nose2, Robot Framework",
       "score": "4/5",
       "notes": "插件生态成熟，适合从小型脚本到大型后端服务持续扩展测试覆盖。"
+    },
+    {
+      "name": "Formbricks",
+      "category": "user-feedback-research",
+      "file": "catalog/user-feedback-research.md",
+      "github": "https://github.com/formbricks/formbricks",
+      "website": "https://formbricks.com",
+      "module": "用户反馈 / 问卷 / 产品内调研",
+      "tech_stack": "TypeScript, Next.js, React, PostgreSQL",
+      "license": "AGPL-3.0 / MIT",
+      "best_for": "SaaS 产品需要产品内问卷、NPS、用户分群触发、反馈收集、调研分析和自托管客户体验数据。",
+      "avoid_when": "只需要静态表单收集，或无法接受主服务 AGPL 许可证义务的闭源商业系统。",
+      "integration_cost": "中",
+      "alternatives": "LimeSurvey, Fider, PostHog Surveys",
+      "score": "4/5",
+      "notes": "主服务以 AGPL 为主，部分 SDK 和 API 包使用 MIT；接入前要核对目录级许可证、事件触发和隐私合规边界。"
+    },
+    {
+      "name": "Fider",
+      "category": "user-feedback-research",
+      "file": "catalog/user-feedback-research.md",
+      "github": "https://github.com/getfider/fider",
+      "website": "https://fider.io",
+      "module": "用户反馈 / 功能建议 / 投票",
+      "tech_stack": "Go, TypeScript, React, PostgreSQL",
+      "license": "AGPL-3.0",
+      "best_for": "产品需要公开收集功能建议、用户投票、状态更新、路线图沟通和需求优先级排序。",
+      "avoid_when": "需要复杂问卷逻辑、匿名研究样本管理、客服工单流转，或不能接受 AGPL 网络服务义务。",
+      "integration_cost": "中",
+      "alternatives": "Astuto, Canny, GitHub Discussions",
+      "score": "4/5",
+      "notes": "适合把用户需求从客服和评论里分离出来；上线前要确认登录方式、审核、通知、去重和公开可见范围。"
+    },
+    {
+      "name": "LimeSurvey",
+      "category": "user-feedback-research",
+      "file": "catalog/user-feedback-research.md",
+      "github": "https://github.com/LimeSurvey/LimeSurvey",
+      "website": "https://www.limesurvey.org",
+      "module": "问卷调研 / 用户研究 / 数据收集",
+      "tech_stack": "PHP, Yii, MySQL, PostgreSQL",
+      "license": "GPL-2.0-or-later",
+      "best_for": "需要成熟问卷逻辑、题型、配额、匿名答卷、多语言、调研发布和结果导出的研究或运营团队。",
+      "avoid_when": "只需要轻量产品内弹窗反馈、实时功能投票，或团队不想维护传统 PHP 问卷系统。",
+      "integration_cost": "中",
+      "alternatives": "Formbricks, SurveyJS, Typeform",
+      "score": "4/5",
+      "notes": "问卷能力成熟但产品形态偏独立调研系统；集成前要确认主题定制、身份打通、数据导出和 GPL 合规。"
     },
     {
       "name": "Apache ECharts",
