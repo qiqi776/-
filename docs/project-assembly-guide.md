@@ -8,6 +8,16 @@
 
 可以直接复制 [../templates/project-assembly-worksheet.md](../templates/project-assembly-worksheet.md)，作为项目选型工作表。
 
+如果是在本仓库里先做选型，可以先复制一份工作表，再把脚本输出回填进去：
+
+```powershell
+Copy-Item templates/project-assembly-worksheet.md stack-selection.md
+python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
+python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
+```
+
+`assemble_stack.py` 的结果用于填写主组件、备选组件和选择理由；`check_stack.py` 的结果用于填写许可证检查、主要风险和优先验证项。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
+
 示例：
 
 ```md
@@ -189,6 +199,12 @@ python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
 ## 4. 形成技术栈决策
 
 把决策写进项目仓库。
+
+可以先用组合生成器生成一版 Markdown 表格，再粘贴到工作表或项目架构文档中：
+
+```powershell
+python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
+```
 
 ```md
 # 技术栈决策

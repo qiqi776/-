@@ -233,6 +233,16 @@
 
 开始新项目选型时，可以复制 [templates/project-assembly-worksheet.md](templates/project-assembly-worksheet.md) 作为项目技术栈工作表。
 
+推荐落地顺序：
+
+```powershell
+Copy-Item templates/project-assembly-worksheet.md stack-selection.md
+python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
+python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
+```
+
+把组合生成器输出的主组件、备选组件和选择理由填进工作表的“能力地图”，再把风险检查表填进“许可证检查”和“优先验证的集成”。脚本输出只是第一版草案，最终仍要按业务约束人工确认。
+
 发布到 GitHub 前，按 [docs/github-publish-guide.md](docs/github-publish-guide.md) 检查远程仓库、推送和 Actions 设置；仓库描述和 topics 可参考 [docs/repository-profile.md](docs/repository-profile.md)。
 
 ## 校验目录
