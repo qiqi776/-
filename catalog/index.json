@@ -1,5 +1,5 @@
 {
-  "component_count": 260,
+  "component_count": 263,
   "components": [
     {
       "name": "axe-core",
@@ -2560,6 +2560,54 @@
       "alternatives": "Appsmith, ToolJet, NocoBase",
       "score": "4/5",
       "notes": "仓库说明整体可按 GPLv3 看待，且 package 可能有各自许可证；上线前要复核目标版本许可证、用户权限和数据源访问范围。"
+    },
+    {
+      "name": "Langfuse",
+      "category": "llm-observability-evaluation",
+      "file": "catalog/llm-observability-evaluation.md",
+      "github": "https://github.com/langfuse/langfuse",
+      "website": "https://langfuse.com",
+      "module": "LLM 可观测性 / Prompt 管理 / 评估",
+      "tech_stack": "TypeScript, Next.js, PostgreSQL, ClickHouse, Redis",
+      "license": "MIT（ee 目录另行许可）",
+      "best_for": "生产级 LLM 应用需要记录模型调用、检索步骤、Agent 动作、提示词版本、用户反馈、数据集和自动/人工评估。",
+      "avoid_when": "只做少量提示词对比，或团队不想维护 ClickHouse、PostgreSQL、队列、权限和遥测采集平台。",
+      "integration_cost": "中",
+      "alternatives": "Phoenix, promptfoo, Helicone",
+      "score": "5/5",
+      "notes": "主体代码按 MIT 使用，企业目录有单独许可边界；接入前要确认提示词和用户数据脱敏、采样率、保留周期、租户隔离、成本口径和告警责任。"
+    },
+    {
+      "name": "Phoenix",
+      "category": "llm-observability-evaluation",
+      "file": "catalog/llm-observability-evaluation.md",
+      "github": "https://github.com/Arize-ai/phoenix",
+      "website": "https://phoenix.arize.com",
+      "module": "LLM 可观测性 / RAG 评估 / 实验",
+      "tech_stack": "Python, TypeScript, OpenTelemetry, OpenInference",
+      "license": "Elastic-2.0",
+      "best_for": "团队需要追踪 LLM/RAG 调用、构建评估数据集、比较提示词/模型/检索变化，并分析回答质量、检索相关性和实验结果。",
+      "avoid_when": "计划把该软件作为托管或管理服务对第三方提供，或团队只需要一个轻量 CLI 做提示词回归测试。",
+      "integration_cost": "中",
+      "alternatives": "Langfuse, promptfoo, OpenTelemetry + 自研评估管线",
+      "score": "4/5",
+      "notes": "Elastic-2.0 对托管服务、许可证功能和再分发有明确限制；商业产品集成前要单独审查许可证、数据保留、追踪字段脱敏和评估指标可信度。"
+    },
+    {
+      "name": "promptfoo",
+      "category": "llm-observability-evaluation",
+      "file": "catalog/llm-observability-evaluation.md",
+      "github": "https://github.com/promptfoo/promptfoo",
+      "website": "https://www.promptfoo.dev",
+      "module": "LLM 评估 / Prompt 测试 / 红队",
+      "tech_stack": "TypeScript, Node.js, CLI, YAML",
+      "license": "MIT",
+      "best_for": "在本地或 CI 中比较提示词、模型和供应商输出，做回归评估、越狱/注入/敏感输出红队扫描和上线前质量门禁。",
+      "avoid_when": "需要长期保存生产链路追踪、用户反馈、Prompt 版本协作和运营仪表盘的 LLMOps 平台。",
+      "integration_cost": "低",
+      "alternatives": "Langfuse, Phoenix, Ragas",
+      "score": "4/5",
+      "notes": "很适合做发布前评估门禁；要准备稳定的测试集、断言规则、人工复核样本和失败阈值，不能只依赖 LLM-as-a-judge 结论。"
     },
     {
       "name": "Grafana Loki",

@@ -12,14 +12,15 @@
 | 模型服务与推理网关 | LiteLLM | Ollama | 统一模型接口、密钥和成本治理 | 本地模型和云供应商的延迟与配额差异需要验证 |
 | RAG 框架 | LlamaIndex | LangChain | 数据到 LLM 的检索流程较强 | 抽象可能掩盖检索质量问题 |
 | 向量数据库与检索 | Qdrant | pgvector | 独立向量搜索，自托管路径清楚 | 需要多运维一个服务 |
+| LLM 可观测性与评估 | Langfuse | promptfoo | 同时覆盖生产调用追踪、Prompt 版本和评估数据集 | 需要处理敏感数据脱敏、采样和评估指标可信度 |
 | 认证 | Auth.js | Supabase Auth | Web 用户认证足够轻 | 不是完整企业 IAM 平台 |
 | 数据库 | PostgreSQL | Supabase | 可靠保存元数据和应用数据 | 需要负责 schema 和迁移 |
 | 部署 | Docker Compose + Coolify | Dokku | 适合自托管 API、前端和向量库 | 生产扩展需要额外规划 |
-| 监控 | OpenTelemetry Collector | Prometheus | 更适合追踪 LLM 和检索延迟 | 初始配置成本高于基础日志 |
+| 监控 | OpenTelemetry Collector | Prometheus | 负责通用服务指标、链路追踪和告警基础 | 初始配置成本高于基础日志 |
 
 ## 推荐优先验证
 
-先验证文档导入、向量化、检索质量和答案生成，再打磨聊天界面。这个产品成败主要取决于检索质量。
+先验证文档导入、向量化、检索质量、评估数据集、答案生成和调用追踪，再打磨聊天界面。这个产品成败主要取决于检索质量和可重复评估能力。
 
 ## 适合
 
