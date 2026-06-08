@@ -1,5 +1,5 @@
 {
-  "component_count": 204,
+  "component_count": 207,
   "components": [
     {
       "name": "Frappe Books",
@@ -1760,6 +1760,54 @@
       "alternatives": "Postal, Mautic, 商业邮件营销平台",
       "score": "4/5",
       "notes": "适合内容产品和社区产品沉淀用户触达能力。"
+    },
+    {
+      "name": "Exceptionless",
+      "category": "error-tracking",
+      "file": "catalog/error-tracking.md",
+      "github": "https://github.com/exceptionless/Exceptionless",
+      "website": "https://exceptionless.com",
+      "module": "错误跟踪 / 异常上报 / 日志",
+      "tech_stack": "C#, .NET, Svelte, JavaScript, Elasticsearch, Redis",
+      "license": "Apache-2.0",
+      "best_for": "需要自托管实时错误报告、异常聚合、事件日志、项目分组、告警和多语言客户端接入的团队。",
+      "avoid_when": "团队不想维护 .NET、Elasticsearch/OpenSearch、Redis 等服务，或主要需求是完整 APM 与分布式追踪平台。",
+      "integration_cost": "高",
+      "alternatives": "Highlight, Errbit, Sentry",
+      "score": "4/5",
+      "notes": "平台能力完整且许可证清楚；生产前要确认存储规模、索引保留、事件脱敏、告警噪音、版本标记和客户端 SDK 覆盖范围。"
+    },
+    {
+      "name": "Highlight",
+      "category": "error-tracking",
+      "file": "catalog/error-tracking.md",
+      "github": "https://github.com/highlight/highlight",
+      "website": "https://highlight.io",
+      "module": "错误跟踪 / 会话回放 / 全栈监控",
+      "tech_stack": "TypeScript, Go, React, ClickHouse, OpenTelemetry",
+      "license": "Apache-2.0 / Other",
+      "best_for": "Web 产品需要把前端异常、会话回放、日志、追踪和用户行为上下文放在一起排查线上问题。",
+      "avoid_when": "团队只需要轻量异常收集，或不能接受仓库中企业目录、子目录许可证和托管服务边界需要单独核对。",
+      "integration_cost": "高",
+      "alternatives": "Exceptionless, OpenReplay, Sentry",
+      "score": "4/5",
+      "notes": "适合前端体验和全栈排障联动；上线前要重点核对子目录许可证、采样率、隐私遮罩、会话数据保留、ClickHouse 成本和 SDK 注入范围。"
+    },
+    {
+      "name": "Errbit",
+      "category": "error-tracking",
+      "file": "catalog/error-tracking.md",
+      "github": "https://github.com/errbit/errbit",
+      "website": "https://errbit.com",
+      "module": "错误跟踪 / Airbrake 兼容 / Ruby",
+      "tech_stack": "Ruby, Rails, MongoDB",
+      "license": "MIT",
+      "best_for": "Ruby/Rails 或 Airbrake 协议生态项目需要轻量自托管错误收集、异常列表、通知和基础错误管理。",
+      "avoid_when": "需要现代前端会话回放、复杂性能追踪、多语言深度 SDK、日志聚合和大规模多租户错误平台的场景。",
+      "integration_cost": "中",
+      "alternatives": "Exceptionless, Sentry, GlitchTip",
+      "score": "3/5",
+      "notes": "简单直接、许可证宽松；选型时要复核维护活跃度、MongoDB 运维、通知插件、协议兼容和长期升级路径。"
     },
     {
       "name": "Unleash",
