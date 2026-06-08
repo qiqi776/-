@@ -1,5 +1,5 @@
 {
-  "component_count": 99,
+  "component_count": 102,
   "components": [
     {
       "name": "LangChain",
@@ -912,6 +912,54 @@
       "alternatives": "i18next, FormatJS, Lingui",
       "score": "4/5",
       "notes": "Vue 集成自然，适合和 Nuxt、组件库、内容管理系统一起设计多语言资源。"
+    },
+    {
+      "name": "OpenTofu",
+      "category": "infrastructure-as-code",
+      "file": "catalog/infrastructure-as-code.md",
+      "github": "https://github.com/opentofu/opentofu",
+      "website": "https://opentofu.org",
+      "module": "基础设施即代码 / Terraform 兼容",
+      "tech_stack": "Go, HCL, CLI",
+      "license": "MPL-2.0",
+      "best_for": "需要 Terraform 生态兼容、声明式管理云资源、模块复用和开源治理的团队。",
+      "avoid_when": "团队已经深度依赖 Terraform Cloud 专有能力，或只需要手动管理极少量云资源。",
+      "integration_cost": "高",
+      "alternatives": "Terraform, Pulumi, Crossplane",
+      "score": "4/5",
+      "notes": "适合多环境基础设施治理；要设计远程状态、锁、权限边界、模块版本和变更审批流程。"
+    },
+    {
+      "name": "Pulumi",
+      "category": "infrastructure-as-code",
+      "file": "catalog/infrastructure-as-code.md",
+      "github": "https://github.com/pulumi/pulumi",
+      "website": "https://www.pulumi.com",
+      "module": "基础设施即代码 / 编程语言式 IaC",
+      "tech_stack": "Go, TypeScript, Python, C#, Java",
+      "license": "Apache-2.0",
+      "best_for": "团队希望用熟悉的编程语言定义云资源，并复用类型系统、函数抽象和测试工具。",
+      "avoid_when": "团队更偏好纯声明式 HCL，或不希望基础设施定义里出现复杂程序逻辑。",
+      "integration_cost": "高",
+      "alternatives": "OpenTofu, Terraform, AWS CDK",
+      "score": "4/5",
+      "notes": "灵活度高但也容易过度抽象；要约束代码结构、状态后端、密钥处理和跨环境配置。"
+    },
+    {
+      "name": "Ansible",
+      "category": "infrastructure-as-code",
+      "file": "catalog/infrastructure-as-code.md",
+      "github": "https://github.com/ansible/ansible",
+      "website": "https://www.ansible.com",
+      "module": "基础设施即代码 / 配置管理",
+      "tech_stack": "Python, YAML, SSH",
+      "license": "GPL-3.0-or-later",
+      "best_for": "需要通过 SSH 管理服务器配置、应用部署、系统初始化和重复运维任务的团队。",
+      "avoid_when": "只管理云资源生命周期，或产品需要把 Ansible 作为嵌入式库分发但无法接受 GPL 义务。",
+      "integration_cost": "高",
+      "alternatives": "Salt, Chef, Puppet",
+      "score": "4/5",
+      "notes": "适合传统服务器和混合环境自动化；要维护幂等性、主机清单、凭据边界和剧本评审流程。"
     },
     {
       "name": "MapLibre GL JS",
