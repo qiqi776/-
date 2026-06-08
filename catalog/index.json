@@ -1,5 +1,5 @@
 {
-  "component_count": 165,
+  "component_count": 168,
   "components": [
     {
       "name": "LangChain",
@@ -2592,6 +2592,54 @@
       "alternatives": "Apache ECharts, Vega, Observable Plot",
       "score": "4/5",
       "notes": "自由度很高，但工程封装和交互设计成本也高；适合做底层能力而不是简单报表首选。"
+    },
+    {
+      "name": "Svix",
+      "category": "webhooks",
+      "file": "catalog/webhooks.md",
+      "github": "https://github.com/svix/svix-webhooks",
+      "website": "https://www.svix.com",
+      "module": "Webhook / 事件投递 / 开发者集成",
+      "tech_stack": "Rust, PostgreSQL, Redis, Kafka, 多语言 SDK",
+      "license": "MIT",
+      "best_for": "SaaS 或平台型产品需要对外提供可靠 Webhook，覆盖消息签名、重试、失败处理、端点管理、事件日志和多语言 SDK。",
+      "avoid_when": "只需要向内部 Slack 或运维工具发简单通知，或团队不想维护独立 Webhook 服务。",
+      "integration_cost": "中",
+      "alternatives": "Hookdeck Outpost, Convoy, Hook0",
+      "score": "4/5",
+      "notes": "适合把客户集成能力产品化；生产前要确认事件 schema、幂等键、签名轮换、失败队列、租户隔离和 SDK 版本策略。"
+    },
+    {
+      "name": "Hookdeck Outpost",
+      "category": "webhooks",
+      "file": "catalog/webhooks.md",
+      "github": "https://github.com/hookdeck/outpost",
+      "website": "https://outpost.hookdeck.com/docs",
+      "module": "Webhook / 事件目的地 / 出站事件基础设施",
+      "tech_stack": "Go, PostgreSQL, Redis, TypeScript, Python",
+      "license": "Apache-2.0",
+      "best_for": "事件生产方需要自托管出站 Webhook 和多种事件目的地，支持 HTTP Webhook、EventBridge、SQS、S3、Pub/Sub、RabbitMQ 和 Kafka。",
+      "avoid_when": "只需要应用内同步回调，或项目没有多租户、客户端点管理、事件目的地和交付可观测需求。",
+      "integration_cost": "中",
+      "alternatives": "Svix, Convoy, Hook0",
+      "score": "4/5",
+      "notes": "适合把出站事件投递做成平台能力；上线前要确认主题模型、目标类型、重试策略、用户门户、OpenTelemetry 和队列依赖。"
+    },
+    {
+      "name": "Convoy",
+      "category": "webhooks",
+      "file": "catalog/webhooks.md",
+      "github": "https://github.com/frain-dev/convoy",
+      "website": "https://getconvoy.io",
+      "module": "Webhook / 网关 / 双向事件",
+      "tech_stack": "Go, TypeScript, PostgreSQL",
+      "license": "Elastic License 2.0",
+      "best_for": "需要专门 Webhook 网关来接收、持久化、调试、投递和管理大规模事件，并支持重试、限流、滚动密钥和端点订阅的团队。",
+      "avoid_when": "团队只接受 OSI 宽松许可证，或只需要一个简单 HTTP 回调而不需要完整 Webhook 网关。",
+      "integration_cost": "中",
+      "alternatives": "Svix, Hookdeck Outpost, Hook0",
+      "score": "3/5",
+      "notes": "功能覆盖成熟但许可证不是常规宽松开源；生产前要重点审查 Elastic License v2.0、商业化限制、静态 IP、密钥轮换和失败告警策略。"
     },
     {
       "name": "Temporal",
