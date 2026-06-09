@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告和实施计划。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划和架构图。"""
 
 from __future__ import annotations
 
@@ -22,6 +22,25 @@ from stack_presets import format_presets, preset_exists, resolve_modules
 
 
 COST_RANK = {"低": 0, "中": 1, "高": 2}
+EDGE_TARGETS = {
+    "frontend": ["backend", "auth", "analytics"],
+    "internal-tools": ["backend", "auth"],
+    "backend": [
+        "auth",
+        "database",
+        "payment",
+        "billing-invoicing",
+        "feature-flags",
+        "ai",
+        "model-serving-inference",
+        "vector-database",
+        "deployment",
+        "observability",
+    ],
+    "ai": ["model-serving-inference", "vector-database", "llm-guardrails-structured-output"],
+    "model-serving-inference": ["llm-observability-evaluation"],
+    "deployment": ["observability"],
+}
 
 
 def selected_primary_names(decisions: list[dict]) -> list[str]:
@@ -86,6 +105,132 @@ def format_integration_plan(decisions: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def architecture_node_label(decision: dict | None) -> str:
+    """生成架构图节点名称，优先展示能力中文名和已选主组件。"""
+    if decision is None:
+        return ""
+    primary = decision["primary"]
+    primary_name = component_name(primary)
+    if primary_name:
+        return f"{capability_label(decision)} / {primary_name}"
+    return f"{capability_label(decision)} / 待选组件"
+
+
+def architecture_edges(decisions: list[dict]) -> list[tuple[str, str, str]]:
+    """根据常见项目数据流生成组件连接，帮助用户理解各模块如何拼装。"""
+    decisions_by_category = {str(decision["category"]): decision for decision in decisions}
+    edges: list[tuple[str, str, str]] = []
+
+    def add_edge(source_label: str, target_decision: dict | None, purpose: str) -> None:
+        """只在目标模块存在时添加连接，避免架构图出现无效节点。"""
+        target_label = architecture_node_label(target_decision)
+        if target_label:
+            edges.append((source_label, target_label, purpose))
+
+    entry_candidates = [category for category in ("frontend", "internal-tools") if category in decisions_by_category]
+    backend_decision = decisions_by_category.get("backend")
+    if backend_decision:
+        if entry_candidates:
+            for category in entry_candidates:
+                add_edge("前端/客户端", backend_decision, "用户请求进入后端 API")
+        else:
+            add_edge("前端/客户端", backend_decision, "外部客户端调用后端 API")
+
+    for source_category, target_categories in EDGE_TARGETS.items():
+        source_decision = decisions_by_category.get(source_category)
+        if not source_decision:
+            continue
+        source_label = architecture_node_label(source_decision)
+        for target_category in target_categories:
+            target_decision = decisions_by_category.get(target_category)
+            if not target_decision:
+                continue
+            target_label = architecture_node_label(target_decision)
+            if source_label == target_label:
+                continue
+            purpose = "模块间集成依赖"
+            if source_category == "backend":
+                purpose = "后端调用该能力完成业务闭环"
+            elif source_category == "frontend":
+                purpose = "前端直接接入该能力"
+            elif source_category == "deployment":
+                purpose = "部署后接入监控与告警"
+            edges.append((source_label, target_label, purpose))
+
+    unique_edges = []
+    seen = set()
+    for edge in edges:
+        key = (edge[0], edge[1])
+        if key in seen:
+            continue
+        seen.add(key)
+        unique_edges.append(edge)
+    return unique_edges
+
+
+def mermaid_node_id(index: int) -> str:
+    """生成 Mermaid 可用的稳定节点 ID，避免中文和符号影响渲染。"""
+    return f"n{index}"
+
+
+def format_architecture_map(decisions: list[dict]) -> str:
+    """生成组件架构图和连接说明，帮助新项目按模块落地集成关系。"""
+    edges = architecture_edges(decisions)
+    labels = []
+    for source, target, _purpose in edges:
+        labels.extend([source, target])
+    if not labels:
+        labels = [architecture_node_label(decision) for decision in decisions if architecture_node_label(decision)]
+
+    unique_labels = []
+    for label in labels:
+        if label not in unique_labels:
+            unique_labels.append(label)
+    node_ids = {label: mermaid_node_id(index) for index, label in enumerate(unique_labels, start=1)}
+
+    lines = [
+        "# 组件架构图",
+        "",
+        "这份图根据已选模块生成，用来说明新项目里各组件的默认连接方向。真实项目可以按业务边界删减或调整。",
+        "",
+        "```mermaid",
+        "flowchart LR",
+    ]
+    for label in unique_labels:
+        lines.append(f'  {node_ids[label]}["{label}"]')
+    for source, target, _purpose in edges:
+        lines.append(f"  {node_ids[source]} --> {node_ids[target]}")
+    lines.extend(
+        [
+            "```",
+            "",
+            "## 连接清单",
+            "",
+        ]
+    )
+    if edges:
+        for source, target, _purpose in edges:
+            lines.append(f"- {source} --> {target}")
+    else:
+        lines.append("- 当前模块之间没有生成默认连接，请按项目业务手动补充。")
+
+    lines.extend(
+        [
+            "",
+            "## 连接说明",
+            "",
+            "| 来源 | 目标 | 说明 |",
+            "| --- | --- | --- |",
+        ]
+    )
+    if edges:
+        for source, target, purpose in edges:
+            lines.append(f"| {source} | {target} | {purpose} |")
+    else:
+        lines.append("| 待补充 | 待补充 | 当前模块组合缺少可推断的默认连接。 |")
+    return "\n".join(lines)
+
+
 def package_readme(project_name: str) -> str:
     """生成拼装包说明，帮助用户理解每个文件的用途。"""
     title = project_name or "未命名项目"
@@ -100,13 +245,15 @@ def package_readme(project_name: str) -> str:
         "- `component-manifest.md`: 可放入新项目仓库的组件清单，记录能力、主组件、链接、首个动作和待确认事项。",
         "- `risk-check.md`: 根据目录字段生成的风险检查表，用于先复核许可证、接入成本和缺失组件。",
         "- `integration-plan.md`: 按风险排序的集成实施计划，用于决定先验证哪个组件。",
+        "- `architecture-map.md`: 根据已选模块生成的组件连接图，用于理解各组件如何拼装。",
         "",
         "## 使用建议",
         "",
         "1. 先阅读 `risk-check.md`，处理高风险许可证和高接入成本组件。",
-        "2. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
-        "3. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "4. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "2. 查看 `architecture-map.md`，确认组件之间的连接方向是否符合项目边界。",
+        "3. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
+        "4. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "5. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -131,6 +278,7 @@ def generate_project_package(
         "component-manifest.md": format_component_manifest(decisions) + "\n",
         "risk-check.md": format_risk_table(risk_checks) + "\n",
         "integration-plan.md": format_integration_plan(decisions) + "\n",
+        "architecture-map.md": format_architecture_map(decisions) + "\n",
     }
 
     written_paths = []

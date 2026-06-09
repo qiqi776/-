@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单和风险报告。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告和架构图。"""
 
 import json
 import shutil
@@ -92,6 +92,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "component-manifest.md").exists())
         self.assertTrue((output_dir / "risk-check.md").exists())
         self.assertTrue((output_dir / "integration-plan.md").exists())
+        self.assertTrue((output_dir / "architecture-map.md").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -103,6 +104,11 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("# 集成实施计划", integration_plan)
         self.assertIn("| 1 | 认证 / IAM / Keycloak | 只需要轻量登录。 |", integration_plan)
         self.assertLess(integration_plan.index("Keycloak"), integration_plan.index("FastAPI"))
+        architecture_map = (output_dir / "architecture-map.md").read_text(encoding="utf-8")
+        self.assertIn("# 组件架构图", architecture_map)
+        self.assertIn("前端/客户端 --> 后端 / API / FastAPI", architecture_map)
+        self.assertIn("后端 / API / FastAPI --> 认证 / IAM / Keycloak", architecture_map)
+        self.assertIn("| 前端/客户端 | 后端 / API / FastAPI |", architecture_map)
 
 
 if __name__ == "__main__":
