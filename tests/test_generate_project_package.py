@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、PR 模板、贡献指南和决策记录。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、PR 模板、贡献指南、决策记录和集成契约。"""
 
 import json
 import shutil
@@ -96,6 +96,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "assembly-checklist.md").exists())
         self.assertTrue((output_dir / ".env.example").exists())
         self.assertTrue((output_dir / "PROJECT-README.md").exists())
+        self.assertTrue((output_dir / "integration-contracts.md").exists())
         self.assertTrue((output_dir / "github-issues.md").exists())
         self.assertTrue((output_dir / "github-labels.json").exists())
         self.assertTrue((output_dir / "github-import-commands.md").exists())
@@ -197,6 +198,15 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("- 备选组件: NestJS", decisions)
         self.assertIn("- [ ] 许可证与业务分发方式兼容", decisions)
         self.assertLess(decisions.index("Keycloak"), decisions.index("FastAPI"))
+        contracts = (output_dir / "integration-contracts.md").read_text(encoding="utf-8")
+        self.assertIn("# 集成契约清单", contracts)
+        self.assertIn("| 前端/客户端 | 后端 / API / FastAPI | 外部客户端调用后端 API |", contracts)
+        self.assertIn("| 后端 / API / FastAPI | 认证 / IAM / Keycloak | 后端调用该能力完成业务闭环 |", contracts)
+        self.assertIn("## 契约 1: 前端/客户端 -> 后端 / API / FastAPI", contracts)
+        self.assertIn("- [ ] 接口入口、请求方法、认证方式和错误码已记录", contracts)
+        self.assertIn("- [ ] 数据字段、状态流转和幂等规则已确认", contracts)
+        self.assertIn("- [ ] 环境变量、密钥、回调地址和部署地址已同步", contracts)
+        self.assertIn("- [ ] 超时、重试、降级和人工回退方案已写清楚", contracts)
 
 
 if __name__ == "__main__":

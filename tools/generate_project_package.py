@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、决策记录、配置样例和项目 README 草案。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、集成契约、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、决策记录、配置样例和项目 README 草案。"""
 
 from __future__ import annotations
 
@@ -231,6 +231,59 @@ def format_architecture_map(decisions: list[dict]) -> str:
     else:
         lines.append("| 待补充 | 待补充 | 当前模块组合缺少可推断的默认连接。 |")
     return "\n".join(lines)
+
+
+def format_integration_contracts(decisions: list[dict]) -> str:
+    """生成组件间集成契约清单，把架构连接拆成接口、数据和配置交接项。"""
+    edges = architecture_edges(decisions)
+    lines = [
+        "# 集成契约清单",
+        "",
+        "这份清单从组件架构图推导而来，用于在不同模块拼装前明确接口、数据、配置和失败处理责任。",
+        "",
+        "## 连接总览",
+        "",
+        "| 来源 | 目标 | 说明 |",
+        "| --- | --- | --- |",
+    ]
+    if edges:
+        for source, target, purpose in edges:
+            lines.append(f"| {source} | {target} | {purpose} |")
+    else:
+        lines.append("| 待补充 | 待补充 | 当前模块组合缺少可推断的默认连接。 |")
+
+    lines.extend(["", "## 契约明细", ""])
+    if not edges:
+        lines.extend(
+            [
+                "## 契约 1: 待补充 -> 待补充",
+                "",
+                "- 说明: 当前模块组合没有默认连接，请按业务流程补充来源、目标和交互方式。",
+                "- [ ] 接口入口、请求方法、认证方式和错误码已记录",
+                "- [ ] 数据字段、状态流转和幂等规则已确认",
+                "- [ ] 环境变量、密钥、回调地址和部署地址已同步",
+                "- [ ] 超时、重试、降级和人工回退方案已写清楚",
+            ]
+        )
+        return "\n".join(lines)
+
+    for index, (source, target, purpose) in enumerate(edges, start=1):
+        lines.extend(
+            [
+                f"## 契约 {index}: {source} -> {target}",
+                "",
+                f"- 说明: {purpose}",
+                "- 负责人:",
+                "- 验收证据:",
+                "- [ ] 接口入口、请求方法、认证方式和错误码已记录",
+                "- [ ] 数据字段、状态流转和幂等规则已确认",
+                "- [ ] 环境变量、密钥、回调地址和部署地址已同步",
+                "- [ ] 超时、重试、降级和人工回退方案已写清楚",
+                "- [ ] 监控指标、日志字段和告警责任已确认",
+                "",
+            ]
+        )
+    return "\n".join(lines).rstrip()
 
 
 def format_assembly_checklist(decisions: list[dict]) -> str:
@@ -749,6 +802,7 @@ def package_readme(project_name: str) -> str:
         "- `risk-check.md`: 根据目录字段生成的风险检查表，用于先复核许可证、接入成本和缺失组件。",
         "- `integration-plan.md`: 按风险排序的集成实施计划，用于决定先验证哪个组件。",
         "- `architecture-map.md`: 根据已选模块生成的组件连接图，用于理解各组件如何拼装。",
+        "- `integration-contracts.md`: 根据架构连接生成的接口、数据、配置和失败处理契约清单。",
         "- `assembly-checklist.md`: 可复制到项目看板或 GitHub Issue 的拼装执行清单。",
         "- `component-decisions.md`: 记录主备组件取舍、风险和切换条件的组件决策记录。",
         "- `github-issues.md`: 可复制到 GitHub Issues 的组件接入任务草案。",
@@ -764,19 +818,20 @@ def package_readme(project_name: str) -> str:
         "",
         "1. 先阅读 `risk-check.md`，处理高风险许可证和高接入成本组件。",
         "2. 查看 `architecture-map.md`，确认组件之间的连接方向是否符合项目边界。",
-        "3. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
-        "4. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
-        "5. 用 `component-decisions.md` 记录主备组件取舍，后续替换组件时先更新这份决策记录。",
-        "6. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
-        "7. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
-        "8. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
-        "9. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
-        "10. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
-        "11. 把 `CONTRIBUTING.md` 放入目标项目仓库，统一新增或替换开源组件的贡献规则。",
-        "12. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "13. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
-        "14. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "15. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "3. 用 `integration-contracts.md` 明确每条组件连接的接口、数据、配置和失败处理责任。",
+        "4. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
+        "5. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
+        "6. 用 `component-decisions.md` 记录主备组件取舍，后续替换组件时先更新这份决策记录。",
+        "7. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
+        "8. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
+        "9. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
+        "10. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
+        "11. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
+        "12. 把 `CONTRIBUTING.md` 放入目标项目仓库，统一新增或替换开源组件的贡献规则。",
+        "13. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "14. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "15. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "16. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -802,6 +857,7 @@ def generate_project_package(
         "risk-check.md": format_risk_table(risk_checks) + "\n",
         "integration-plan.md": format_integration_plan(decisions) + "\n",
         "architecture-map.md": format_architecture_map(decisions) + "\n",
+        "integration-contracts.md": format_integration_contracts(decisions) + "\n",
         "assembly-checklist.md": format_assembly_checklist(decisions) + "\n",
         "component-decisions.md": format_component_decisions(decisions) + "\n",
         "github-issues.md": format_github_issues(decisions) + "\n",
