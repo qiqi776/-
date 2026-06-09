@@ -205,15 +205,17 @@ python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
 python tools/assemble_stack.py --list-presets
 python tools/assemble_stack.py --preset saas-starter
 python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
+python tools/assemble_stack.py --modules 后端,认证,数据库
 ```
 
-组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本；如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
+组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本。`--modules` 支持英文分类名，也支持常用中文模块名，例如 `后端,认证,数据库`；如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
 
 如果需要完整工作表，优先使用：
 
 ```powershell
 python tools/generate_worksheet.py --list-presets
 python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
+python tools/generate_worksheet.py --project-name "中文模块示例" --modules 后端,认证,数据库 --output stack-selection.md
 ```
 
 ```md

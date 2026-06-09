@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from stack_presets import STACK_PRESETS, format_presets
+from stack_presets import STACK_PRESETS, format_presets, resolve_modules
 
 
 COST_RANK = {"低": 0, "中": 1, "高": 2}
@@ -112,21 +112,6 @@ def format_stack_table(decisions: list[dict[str, Any]]) -> str:
             )
         )
     return "\n".join(lines)
-
-
-def parse_modules(raw_modules: str) -> list[str]:
-    """解析逗号分隔的模块列表，并去掉空白项。"""
-    return [module.strip() for module in raw_modules.split(",") if module.strip()]
-
-
-def resolve_modules(raw_modules: str, preset: str | None) -> list[str]:
-    """根据显式模块或内置项目预设得到最终模块列表。"""
-    modules = parse_modules(raw_modules)
-    if modules:
-        return modules
-    if not preset:
-        return []
-    return list(STACK_PRESETS.get(preset, []))
 
 
 def main(argv: list[str] | None = None) -> int:

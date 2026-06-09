@@ -56,6 +56,50 @@ STACK_PRESET_DETAILS = {
     },
 }
 
+MODULE_ALIASES = {
+    "前端": "frontend",
+    "后端": "backend",
+    "认证": "auth",
+    "登录": "auth",
+    "数据库": "database",
+    "支付": "payment",
+    "账单": "billing-invoicing",
+    "发票": "billing-invoicing",
+    "部署": "deployment",
+    "监控": "observability",
+    "可观测性": "observability",
+    "内部工具": "internal-tools",
+    "管理后台": "internal-tools",
+    "AI": "ai",
+    "模型服务": "model-serving-inference",
+    "向量数据库": "vector-database",
+    "LLM护栏": "llm-guardrails-structured-output",
+    "LLM 护栏": "llm-guardrails-structured-output",
+    "LLM评估": "llm-observability-evaluation",
+    "LLM 评估": "llm-observability-evaluation",
+}
+
+
+def normalize_module_name(module: str) -> str:
+    """把常用中文模块名转换成 catalog 分类 slug；未知项保持原样。"""
+    stripped = module.strip()
+    return MODULE_ALIASES.get(stripped, stripped)
+
+
+def parse_modules(raw_modules: str) -> list[str]:
+    """解析逗号分隔模块列表，同时支持常用中文模块名别名。"""
+    return [normalize_module_name(module) for module in raw_modules.split(",") if module.strip()]
+
+
+def resolve_modules(raw_modules: str, preset: str | None) -> list[str]:
+    """根据显式模块或内置项目预设得到最终模块列表。"""
+    modules = parse_modules(raw_modules)
+    if modules:
+        return modules
+    if not preset:
+        return []
+    return list(STACK_PRESETS.get(preset, []))
+
 
 def format_presets() -> str:
     """生成命令行可读的项目预设清单，方便用户先查看再生成拼装草案。"""

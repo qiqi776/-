@@ -40,6 +40,16 @@ class StackPresetTests(unittest.TestCase):
         self.assertIn("ai-rag-app", stack_presets.STACK_PRESETS)
         self.assertIn("internal-admin", stack_presets.STACK_PRESETS)
 
+    def test_tools_resolve_common_chinese_module_names(self):
+        # 验证两个拼装入口都能接受常用中文模块名，避免用户必须记住英文分类 slug。
+        assemble_stack = load_module("assemble_stack", ASSEMBLE_SCRIPT)
+        generate_worksheet = load_module("generate_worksheet", WORKSHEET_SCRIPT)
+
+        expected = ["backend", "auth", "database"]
+
+        self.assertEqual(assemble_stack.resolve_modules("后端,认证,数据库", None), expected)
+        self.assertEqual(generate_worksheet.resolve_modules("后端,认证,数据库", None), expected)
+
     def test_format_presets_outputs_chinese_names_and_usage_notes(self):
         # 验证预设清单能直接说明项目类型和适用场景，减少用户对照文档的成本。
         tools_path = str(TOOLS_DIR)
