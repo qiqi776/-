@@ -172,6 +172,53 @@ class CatalogValidationTests(unittest.TestCase):
             errors,
         )
 
+    def test_validate_repository_reports_incomplete_stack_blueprint_sections(self):
+        # 验证 stacks 蓝图必须保留关键章节，便于读者按统一结构理解项目组合。
+        validator = load_validator()
+        with temporary_workspace() as tmp:
+            root = Path(tmp)
+            catalog = root / "catalog"
+            stacks = root / "stacks"
+            catalog.mkdir()
+            stacks.mkdir()
+            (catalog / "backend.md").write_text(
+                """# Backend Components
+
+## FastAPI
+
+- GitHub: https://github.com/fastapi/fastapi
+- 官网: https://fastapi.tiangolo.com
+- 模块: 后端 / API
+- 技术栈: Python, Starlette, Pydantic
+- 许可证: MIT
+- 适合: Python API。
+- 不适合: 需要完整全栈框架。
+- 接入成本: 低
+- 替代方案: Django REST Framework, Flask
+- 评分: 5/5
+- 备注: Python 服务的好默认选择。
+""",
+                encoding="utf-8",
+            )
+            (stacks / "broken-stack.md").write_text(
+                """# 缺失章节的组合蓝图
+
+## 模块地图
+
+| 能力 | 主组件 | 备选组件 | 选择理由 | 主要风险 |
+| --- | --- | --- | --- | --- |
+| 后端 | FastAPI | Django | Python API 开发快 | 团队可能偏好 TypeScript |
+""",
+                encoding="utf-8",
+            )
+
+            errors = validator.validate_repository(root, stack_presets={"broken-stack": ["backend"]})
+
+        self.assertTrue(
+            any("broken-stack" in error and "推荐优先验证" in error for error in errors),
+            errors,
+        )
+
     def test_write_index_outputs_all_components_as_json(self):
         # 验证脚本能生成机器可读的 catalog/index.json。
         validator = load_validator()

@@ -31,6 +31,7 @@ REQUIRED_FIELDS = [
 VALID_COSTS = {"低", "中", "高"}
 GITHUB_URL_RE = re.compile(r"^https://github\.com/[^/\s]+/[^/\s]+/?$")
 SCORE_RE = re.compile(r"^[1-5]/5$")
+REQUIRED_STACK_SECTIONS = ["模块地图", "推荐优先验证", "适合", "不适合"]
 
 
 def catalog_categories(root: Path) -> set[str]:
@@ -93,6 +94,12 @@ def validate_stack_presets(root: Path, stack_presets: dict[str, list[str]]) -> l
         stack_file = stacks_dir / f"{preset_name}.md"
         if not stack_file.exists():
             errors.append(f"项目预设 {preset_name}: 缺少 stacks/{preset_name}.md 蓝图文档。")
+        else:
+            stack_text = stack_file.read_text(encoding="utf-8")
+            # stacks 蓝图面向人工阅读，固定章节能让不同项目组合保持可扫描。
+            for section in REQUIRED_STACK_SECTIONS:
+                if f"## {section}" not in stack_text:
+                    errors.append(f"项目预设 {preset_name}: stacks/{preset_name}.md 缺少章节 ## {section}。")
 
         for category in preset_categories:
             if category not in categories:
