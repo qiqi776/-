@@ -150,6 +150,13 @@ def format_stack_table(decisions: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
+def render_stack_decisions(decisions: list[dict[str, Any]], output_format: str) -> str:
+    """按用户选择的格式渲染技术栈清单。"""
+    if output_format == "json":
+        return format_stack_json(decisions)
+    return format_stack_table(decisions)
+
+
 def main(argv: list[str] | None = None) -> int:
     """命令行入口：读取索引并输出技术栈决策草案。"""
     parser = argparse.ArgumentParser(description="生成项目技术栈决策草案")
@@ -179,6 +186,11 @@ def main(argv: list[str] | None = None) -> int:
         default="markdown",
         help="输出格式：markdown 适合人工阅读，json 适合脚手架和自动化继续处理。",
     )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="把技术栈清单写入指定文件；不提供时输出到终端。",
+    )
     args = parser.parse_args(argv)
 
     if args.list_presets:
@@ -193,10 +205,12 @@ def main(argv: list[str] | None = None) -> int:
             parser.error(f"未知项目预设: {args.preset}。请先运行 --list-presets 查看可用写法。")
         parser.error("必须提供 --modules 或 --preset。")
     decisions = build_stack_decisions(components, modules)
-    if args.format == "json":
-        print(format_stack_json(decisions))
+    output_text = render_stack_decisions(decisions, args.format)
+    if args.output:
+        args.output.write_text(output_text + "\n", encoding="utf-8")
+        print(f"已生成技术栈清单: {args.output}")
     else:
-        print(format_stack_table(decisions))
+        print(output_text)
     return 0
 
 

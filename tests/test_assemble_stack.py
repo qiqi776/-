@@ -174,6 +174,44 @@ class AssembleStackTests(unittest.TestCase):
         self.assertEqual(payload["modules"][1]["primary"]["name"], "Keycloak")
         self.assertIn("适合企业身份", payload["modules"][1]["reason"])
 
+    def test_cli_writes_stack_plan_to_output_file(self):
+        # 验证技术栈清单可以直接写入文件，便于复制到新项目仓库或交给后续自动化。
+        tmp_dir = ROOT / "tmp"
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        tmp_index = tmp_dir / "assemble-output-index.json"
+        tmp_output = tmp_dir / "stack-plan.json"
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        if tmp_output.exists():
+            tmp_output.unlink()
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--modules",
+                "backend,auth",
+                "--format",
+                "json",
+                "--output",
+                str(tmp_output),
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertTrue(tmp_output.exists())
+        payload = json.loads(tmp_output.read_text(encoding="utf-8"))
+        self.assertEqual(payload["modules"][0]["primary"]["name"], "FastAPI")
+        self.assertIn("已生成技术栈清单", result.stdout)
+        self.assertNotIn("\"modules\"", result.stdout)
+
     def test_cli_outputs_stack_decision_table_from_preset(self):
         # 验证命令行可以通过项目预设直接生成技术栈草案。
         tmp_index = ROOT / "tmp" / "assemble-preset-index.json"
