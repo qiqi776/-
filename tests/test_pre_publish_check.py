@@ -27,6 +27,7 @@ class PrePublishCheckTests(unittest.TestCase):
         module = load_pre_publish_module()
 
         self.assertIn("tests.test_pre_publish_check", module.DEFAULT_TEST_MODULES)
+        self.assertIn("tests.test_generate_project_package", module.DEFAULT_TEST_MODULES)
 
     def test_cli_runs_selected_validation_and_tests(self):
         # 验证脚本能运行选定目录校验和测试模块。

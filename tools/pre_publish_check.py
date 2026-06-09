@@ -17,6 +17,7 @@ DEFAULT_TEST_MODULES = [
     "tests.test_summarize_catalog",
     "tests.test_check_stack",
     "tests.test_generate_worksheet",
+    "tests.test_generate_project_package",
     "tests.test_pre_publish_check",
 ]
 CHECK_CHOICES = ["validate", "tests", "remote"]
