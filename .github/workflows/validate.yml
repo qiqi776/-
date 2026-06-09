@@ -39,3 +39,4 @@ jobs:
           python -m unittest tests.test_summarize_catalog -v
           python -m unittest tests.test_check_stack -v
           python -m unittest tests.test_generate_worksheet -v
+          python -m unittest tests.test_pre_publish_check -v

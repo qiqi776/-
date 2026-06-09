@@ -52,9 +52,16 @@ python -m unittest tests.test_assemble_stack -v
 python -m unittest tests.test_summarize_catalog -v
 python -m unittest tests.test_check_stack -v
 python -m unittest tests.test_generate_worksheet -v
+python -m unittest tests.test_pre_publish_check -v
 ```
 
-第一条命令校验组件目录并更新 `catalog/index.json`，后面的命令验证校验、搜索、项目预设、项目组合、分类概览、技术栈风险检查和工作表生成脚本。
+第一条命令校验组件目录并更新 `catalog/index.json`，后面的命令验证校验、搜索、项目预设、项目组合、分类概览、技术栈风险检查、工作表生成和发布前检查脚本。
+
+也可以在发布到 GitHub 前运行整合检查：
+
+```powershell
+python tools/pre_publish_check.py
+```
 
 ## 写作风格
 

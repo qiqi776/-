@@ -36,7 +36,17 @@ git remote add origin git@github.com:<your-user>/open-source-component-catalog.g
 git remote -v
 ```
 
-## 3. 推送主分支
+## 3. 运行发布前检查
+
+推送前先运行整合检查：
+
+```powershell
+python tools/pre_publish_check.py
+```
+
+这个命令会运行组件目录校验、完整单元测试，并提示是否已经配置 GitHub 远端。没有远端时不会让本地校验失败，但发布前仍需要添加 `origin`。
+
+## 4. 推送主分支
 
 当前本地分支是 `master`。可以直接推送：
 
@@ -51,7 +61,7 @@ git branch -M main
 git push -u origin main
 ```
 
-## 4. 替换 CODEOWNERS
+## 5. 替换 CODEOWNERS
 
 发布后编辑 [.github/CODEOWNERS](../.github/CODEOWNERS)，把占位负责人替换成真实 GitHub 用户或团队。
 
@@ -61,7 +71,7 @@ git push -u origin main
 * @your-github-user
 ```
 
-## 5. 检查 Actions
+## 6. 检查 Actions
 
 推送后打开 GitHub 仓库的 Actions 页面，确认“校验组件目录”工作流通过。
 
@@ -76,6 +86,7 @@ python -m unittest tests.test_assemble_stack -v
 python -m unittest tests.test_summarize_catalog -v
 python -m unittest tests.test_check_stack -v
 python -m unittest tests.test_generate_worksheet -v
+python -m unittest tests.test_pre_publish_check -v
 ```
 
-如果 `catalog/index.json` 没有同步更新，或搜索、预设、拼装、概览、风险检查和工作表生成脚本出现回归，CI 会失败，提醒你修复后再推送。
+如果 `catalog/index.json` 没有同步更新，或搜索、预设、拼装、概览、风险检查、工作表生成和发布前检查脚本出现回归，CI 会失败，提醒你修复后再推送。
