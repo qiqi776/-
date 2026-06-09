@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令和 Issue 模板。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板和 PR 模板。"""
 
 import json
 import shutil
@@ -100,6 +100,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "github-labels.json").exists())
         self.assertTrue((output_dir / "github-import-commands.md").exists())
         self.assertTrue((output_dir / "github-issue-template.yml").exists())
+        self.assertTrue((output_dir / "github-pr-template.md").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -167,6 +168,13 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("label: 主组件", issue_template)
         self.assertIn("label: 风险等级", issue_template)
         self.assertIn("label: 验收标准", issue_template)
+        pr_template = (output_dir / "github-pr-template.md").read_text(encoding="utf-8")
+        self.assertIn("# 组件接入 Pull Request 模板", pr_template)
+        self.assertIn("关联组件 Issue", pr_template)
+        self.assertIn("最小样例验证", pr_template)
+        self.assertIn("component-manifest.md", pr_template)
+        self.assertIn("risk-check.md", pr_template)
+        self.assertIn("PROJECT-README.md", pr_template)
 
 
 if __name__ == "__main__":

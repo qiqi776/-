@@ -513,6 +513,46 @@ def format_github_issue_template() -> str:
     return "\n".join(lines)
 
 
+def format_github_pr_template() -> str:
+    """生成目标项目可放入 .github 的组件接入 Pull Request 模板。"""
+    lines = [
+        "# 组件接入 Pull Request 模板",
+        "",
+        "## 关联组件 Issue",
+        "",
+        "- 关联 Issue:",
+        "- 能力:",
+        "- 主组件:",
+        "- 备选组件:",
+        "",
+        "## 变更范围",
+        "",
+        "- [ ] 新增或替换开源组件",
+        "- [ ] 更新配置、环境变量或部署说明",
+        "- [ ] 更新组件清单、风险检查或项目 README",
+        "",
+        "## 最小样例验证",
+        "",
+        "- [ ] 已跑通最小样例，并记录可重复执行的命令",
+        "- 验证命令:",
+        "- 关键日志、截图或输出:",
+        "",
+        "## 同步检查",
+        "",
+        "- [ ] 更新 `component-manifest.md`",
+        "- [ ] 更新 `risk-check.md`",
+        "- [ ] 更新 `.env.example` 或部署平台变量说明",
+        "- [ ] 更新 `PROJECT-README.md`",
+        "",
+        "## 风险与回退",
+        "",
+        "- 风险等级:",
+        "- 回退方案:",
+        "- 切换到备选组件的触发条件:",
+    ]
+    return "\n".join(lines)
+
+
 def env_key_part(raw_text: str, fallback: str) -> str:
     """把模块名或组件名转换成适合环境变量使用的英文大写片段。"""
     normalized = re.sub(r"[^A-Za-z0-9]+", "_", raw_text).strip("_").upper()
@@ -632,6 +672,7 @@ def package_readme(project_name: str) -> str:
         "- `github-labels.json`: 与 Issue 草案匹配的 GitHub Labels 配置。",
         "- `github-import-commands.md`: 可复制执行的 GitHub CLI 标签和 Issue 创建命令。",
         "- `github-issue-template.yml`: 可放入 `.github/ISSUE_TEMPLATE/` 的组件接入表单模板。",
+        "- `github-pr-template.md`: 可放入 `.github/pull_request_template.md` 的组件接入 PR 模板。",
         "- `.env.example`: 按已选组件生成的环境变量样例，提醒不要提交真实密钥。",
         "- `PROJECT-README.md`: 可放入目标项目仓库的 README 草案，用于记录技术栈和维护规则。",
         "",
@@ -645,10 +686,11 @@ def package_readme(project_name: str) -> str:
         "6. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
         "7. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
         "8. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
-        "9. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "10. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
-        "11. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "12. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "9. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
+        "10. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "11. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "12. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "13. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -679,6 +721,7 @@ def generate_project_package(
         "github-labels.json": format_github_labels(decisions) + "\n",
         "github-import-commands.md": format_github_import_commands(decisions) + "\n",
         "github-issue-template.yml": format_github_issue_template() + "\n",
+        "github-pr-template.md": format_github_pr_template() + "\n",
         ".env.example": format_env_example(decisions, project_name) + "\n",
         "PROJECT-README.md": format_project_readme(decisions, project_name) + "\n",
     }
