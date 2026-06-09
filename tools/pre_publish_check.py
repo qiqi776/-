@@ -8,10 +8,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+from stack_presets import STACK_PRESETS
+
 
 DEFAULT_TEST_MODULES = [
     "tests.test_validate_catalog",
     "tests.test_search_catalog",
+    "tests.test_audit_mature_coverage",
     "tests.test_stack_presets",
     "tests.test_assemble_stack",
     "tests.test_summarize_catalog",
@@ -20,7 +23,7 @@ DEFAULT_TEST_MODULES = [
     "tests.test_generate_project_package",
     "tests.test_pre_publish_check",
 ]
-CHECK_CHOICES = ["validate", "tests", "remote"]
+CHECK_CHOICES = ["validate", "coverage", "tests", "remote"]
 
 
 def run_command(command: list[str], root: Path) -> int:
@@ -41,6 +44,26 @@ def run_unit_tests(root: Path, test_modules: list[str]) -> int:
     for module in test_modules:
         print(f"-- {module}", flush=True)
         exit_code = run_command([sys.executable, "-m", "unittest", module, "-v"], root)
+        if exit_code != 0:
+            return exit_code
+    return 0
+
+
+def run_mature_coverage_audit(root: Path) -> int:
+    """审计内置项目预设是否都有成熟开源组件候选。"""
+    print("== 成熟开源覆盖审计 ==", flush=True)
+    for preset in STACK_PRESETS:
+        print(f"-- {preset}", flush=True)
+        exit_code = run_command(
+            [
+                sys.executable,
+                "tools/audit_mature_coverage.py",
+                "--preset",
+                preset,
+                "--fail-on-missing",
+            ],
+            root,
+        )
         if exit_code != 0:
             return exit_code
     return 0
@@ -94,6 +117,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if "validate" in checks:
         exit_code = run_catalog_validation(root)
+        if exit_code != 0:
+            return exit_code
+
+    if "coverage" in checks:
+        exit_code = run_mature_coverage_audit(root)
         if exit_code != 0:
             return exit_code
 

@@ -44,7 +44,7 @@ git remote -v
 python tools/pre_publish_check.py
 ```
 
-这个命令会运行组件目录校验、完整单元测试，并提示是否已经配置 GitHub 远端。没有远端时不会让本地校验失败，但发布前仍需要添加 `origin`。
+这个命令会运行组件目录校验、内置项目预设的成熟开源覆盖审计、完整单元测试，并提示是否已经配置 GitHub 远端。没有远端时不会让本地校验失败，但发布前仍需要添加 `origin`。
 
 ## 4. 推送主分支
 
@@ -79,14 +79,19 @@ git push -u origin main
 
 ```powershell
 python tools/validate_catalog.py --write-index
+python tools/audit_mature_coverage.py --preset saas-starter --fail-on-missing
+python tools/audit_mature_coverage.py --preset ai-rag-app --fail-on-missing
+python tools/audit_mature_coverage.py --preset internal-admin --fail-on-missing
 python -m unittest tests.test_validate_catalog -v
 python -m unittest tests.test_search_catalog -v
+python -m unittest tests.test_audit_mature_coverage -v
 python -m unittest tests.test_stack_presets -v
 python -m unittest tests.test_assemble_stack -v
 python -m unittest tests.test_summarize_catalog -v
 python -m unittest tests.test_check_stack -v
 python -m unittest tests.test_generate_worksheet -v
+python -m unittest tests.test_generate_project_package -v
 python -m unittest tests.test_pre_publish_check -v
 ```
 
-如果 `catalog/index.json` 没有同步更新，或搜索、预设、拼装、概览、风险检查、工作表生成和发布前检查脚本出现回归，CI 会失败，提醒你修复后再推送。
+如果 `catalog/index.json` 没有同步更新，或搜索、成熟开源覆盖审计、预设、拼装、概览、风险检查、工作表生成和发布前检查脚本出现回归，CI 会失败，提醒你修复后再推送。

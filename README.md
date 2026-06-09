@@ -280,6 +280,18 @@ python tools/search_catalog.py --category backend --mature-only
 
 输出是 Markdown 表格，可以直接复制到项目选型工作表或技术栈决策文档里。`--mature-only` 会优先保留有 GitHub、许可证清楚且评分不低于 `4/5` 的候选，适合先筛出成熟开源方案，再进入许可证、托管方式和数据边界复核。
 
+## 审计成熟开源覆盖
+
+在拼装项目之前，可以先审计某个项目预设或模块列表是否都有成熟开源候选：
+
+```powershell
+python tools/audit_mature_coverage.py --preset saas-starter
+python tools/audit_mature_coverage.py --preset "内部管理后台" --fail-on-missing
+python tools/audit_mature_coverage.py --modules 后端,认证,数据库
+```
+
+输出会列出每个模块的组件总数、成熟开源数、状态和示例组件。`--fail-on-missing` 会在任一模块缺少成熟开源候选时返回非零退出码，适合放进发布前检查或 CI，避免项目蓝图引用了还没有成熟方案的分类。
+
 ## 生成技术栈草案
 
 确定项目需要哪些模块后，可以用组合生成器输出一份初始决策表：

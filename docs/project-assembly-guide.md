@@ -198,7 +198,19 @@ python tools/check_stack.py --stack-plan stack-plan.json
 
 脚本只根据目录中已有字段提示明显风险，不能替代正式的许可证、数据合规和生产架构审查。`--stack-plan` 可以直接读取组合生成器 JSON 清单里的主组件，适合在选型后批量检查许可证和接入成本风险。
 
-## 4. 形成技术栈决策
+## 4. 审计成熟开源覆盖
+
+在形成技术栈决策前，先确认目标模块都有成熟开源候选：
+
+```powershell
+python tools/audit_mature_coverage.py --preset saas-starter
+python tools/audit_mature_coverage.py --preset "内部管理后台" --fail-on-missing
+python tools/audit_mature_coverage.py --modules 后端,认证,数据库
+```
+
+审计结果会按模块列出组件总数、成熟开源数、状态和示例组件。默认模式只报告缺口，适合人工盘点目录；加上 `--fail-on-missing` 后会在缺少成熟开源候选时返回非零退出码，适合在发布前检查或 CI 中使用，防止项目预设引用还没有成熟方案的分类。
+
+## 5. 形成技术栈决策
 
 把决策写进项目仓库。
 
@@ -237,10 +249,10 @@ python tools/generate_worksheet.py --project-name "中文模块示例" --modules
 | 后端 | FastAPI | NestJS | Python API 开发快，适合 AI 项目 | 团队可能更偏好 TypeScript |
 ```
 
-## 5. 先验证风险最高的集成
+## 6. 先验证风险最高的集成
 
 不要因为 UI 最容易做就先做完整界面。如果项目最大的风险是认证、支付、账单与发票、AI 检索、LLM 护栏、LLM 评估或部署，应该先用最小样例验证这些模块。
 
-## 6. 沉淀可复用模板
+## 7. 沉淀可复用模板
 
 某个组件在真实项目中验证有效后，再把可运行示例或模板放到 `components/`。

@@ -29,14 +29,23 @@ jobs:
           python tools/validate_catalog.py --write-index
           git diff --exit-code catalog/index.json
 
+      # 审计内置项目预设，确保每个模块都有成熟开源候选。
+      - name: 审计成熟开源覆盖
+        run: |
+          python tools/audit_mature_coverage.py --preset saas-starter --fail-on-missing
+          python tools/audit_mature_coverage.py --preset ai-rag-app --fail-on-missing
+          python tools/audit_mature_coverage.py --preset internal-admin --fail-on-missing
+
       # 运行校验脚本自身的单元测试，防止后续改坏解析和报错逻辑。
       - name: 运行单元测试
         run: |
           python -m unittest tests.test_validate_catalog -v
           python -m unittest tests.test_search_catalog -v
+          python -m unittest tests.test_audit_mature_coverage -v
           python -m unittest tests.test_stack_presets -v
           python -m unittest tests.test_assemble_stack -v
           python -m unittest tests.test_summarize_catalog -v
           python -m unittest tests.test_check_stack -v
           python -m unittest tests.test_generate_worksheet -v
+          python -m unittest tests.test_generate_project_package -v
           python -m unittest tests.test_pre_publish_check -v

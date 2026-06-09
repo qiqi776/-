@@ -9,11 +9,15 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+TOOLS_DIR = ROOT / "tools"
 SCRIPT = ROOT / "tools" / "pre_publish_check.py"
 
 
 def load_pre_publish_module():
     """按文件路径加载发布前检查脚本，便于直接检查默认配置。"""
+    tools_path = str(TOOLS_DIR)
+    if tools_path not in sys.path:
+        sys.path.insert(0, tools_path)
     spec = importlib.util.spec_from_file_location("pre_publish_check", SCRIPT)
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
@@ -27,7 +31,9 @@ class PrePublishCheckTests(unittest.TestCase):
         module = load_pre_publish_module()
 
         self.assertIn("tests.test_pre_publish_check", module.DEFAULT_TEST_MODULES)
+        self.assertIn("tests.test_audit_mature_coverage", module.DEFAULT_TEST_MODULES)
         self.assertIn("tests.test_generate_project_package", module.DEFAULT_TEST_MODULES)
+        self.assertIn("coverage", module.CHECK_CHOICES)
 
     def test_cli_runs_selected_validation_and_tests(self):
         # 验证脚本能运行选定目录校验和测试模块。
@@ -94,6 +100,27 @@ class PrePublishCheckTests(unittest.TestCase):
 
         self.assertEqual(result.returncode, 0)
         self.assertIn("未配置 GitHub 远端", result.stdout)
+
+    def test_cli_runs_mature_coverage_audit(self):
+        # 验证发布前检查可以用真实目录审计内置项目预设的成熟开源覆盖。
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--root",
+                str(ROOT),
+                "--check",
+                "coverage",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("== 成熟开源覆盖审计 ==", result.stdout)
+        self.assertIn("saas-starter", result.stdout)
+        self.assertIn("所有模块都有成熟开源候选", result.stdout)
 
 
 if __name__ == "__main__":
