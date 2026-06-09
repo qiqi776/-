@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、集成契约、执行清单、交付里程碑、Issue 草案、标签配置、导入命令、Issue 模板、决策记录、配置样例和项目 README 草案。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、集成契约、执行清单、交付里程碑、兼容性矩阵、Issue 草案、标签配置、导入命令、Issue 模板、决策记录、配置样例和项目 README 草案。"""
 
 from __future__ import annotations
 
@@ -357,6 +357,59 @@ def format_delivery_milestones(decisions: list[dict]) -> str:
                 "- 完成后同步: `assembly-checklist.md`、`component-decisions.md`、`PROJECT-README.md`",
                 "",
             ]
+        )
+    return "\n".join(lines).rstrip()
+
+
+def format_compatibility_matrix(decisions: list[dict]) -> str:
+    """生成组件兼容性矩阵，把组件连接和单组件边界集中成拼装前检查表。"""
+    edges = architecture_edges(decisions)
+    lines = [
+        "# 组件兼容性矩阵",
+        "",
+        "这份矩阵用于在真正拼装组件前确认协议、认证、数据、运行环境和部署边界是否匹配。",
+        "",
+        "## 组件连接兼容性",
+        "",
+        "| 来源 | 目标 | 兼容性检查 | 需要确认 | 验收证据 |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    if edges:
+        for source, target, purpose in edges:
+            lines.append(
+                "| {source} | {target} | 模块间协议、认证方式、数据字段和错误处理是否匹配 | {purpose}；接口版本、超时、重试、回退和监控责任 | 契约记录、最小样例日志、接口示例和失败回退说明 |".format(
+                    source=source,
+                    target=target,
+                    purpose=purpose,
+                )
+            )
+    else:
+        lines.append(
+            "| 待补充 | 待补充 | 当前模块组合缺少可推断连接 | 手动确认业务调用链、数据流和责任边界 | 架构说明、接口样例和验收记录 |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "## 单组件兼容性复核",
+            "",
+            "| 组件 | 成熟度评分 | 接入成本 | 许可证 | 需要确认 | 验收证据 |",
+            "| --- | --- | --- | --- | --- | --- |",
+        ]
+    )
+    for decision in sorted(decisions, key=integration_priority_key):
+        primary = decision["primary"]
+        component_label = f"{capability_label(decision)} / {component_name(primary) or '待选组件'}"
+        integration_cost = str(primary.get("integration_cost", "待补充")) if primary else "待补充"
+        license_text = str(primary.get("license", "待补充")) if primary else "待补充"
+        maturity_score = str(primary.get("score", "待补充")) if primary else "待补充"
+        lines.append(
+            "| {component} | {score} | {cost} | {license} | 开源许可证、成熟度评分、运行环境、版本约束、托管方式、数据边界、密钥管理 | 安装命令、配置样例、许可证结论、成熟度复核和回退条件 |".format(
+                component=component_label,
+                score=maturity_score or "待补充",
+                cost=integration_cost or "待补充",
+                license=license_text or "待补充",
+            )
         )
     return "\n".join(lines).rstrip()
 
@@ -815,6 +868,7 @@ def format_project_readme(decisions: list[dict], project_name: str) -> str:
             "- [architecture-map.md](architecture-map.md): 记录组件连接方向。",
             "- [assembly-checklist.md](assembly-checklist.md): 记录可拆到看板或 Issue 的执行任务。",
             "- [delivery-milestones.md](delivery-milestones.md): 记录组件接入的阶段目标、交付物和验收证据。",
+            "- [compatibility-matrix.md](compatibility-matrix.md): 记录组件连接和单组件边界的兼容性检查。",
             "",
             "## 维护规则",
             "",
@@ -844,6 +898,7 @@ def package_readme(project_name: str) -> str:
         "- `integration-contracts.md`: 根据架构连接生成的接口、数据、配置和失败处理契约清单。",
         "- `assembly-checklist.md`: 可复制到项目看板或 GitHub Issue 的拼装执行清单。",
         "- `delivery-milestones.md`: 按风险顺序拆出的组件交付里程碑，用于排期和验收。",
+        "- `compatibility-matrix.md`: 汇总组件连接和单组件边界的兼容性检查表。",
         "- `component-decisions.md`: 记录主备组件取舍、风险和切换条件的组件决策记录。",
         "- `github-issues.md`: 可复制到 GitHub Issues 的组件接入任务草案。",
         "- `github-labels.json`: 与 Issue 草案匹配的 GitHub Labels 配置。",
@@ -862,17 +917,18 @@ def package_readme(project_name: str) -> str:
         "4. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
         "5. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
         "6. 用 `delivery-milestones.md` 排出组件接入阶段，确认每个里程碑的交付物和验收证据。",
-        "7. 用 `component-decisions.md` 记录主备组件取舍，后续替换组件时先更新这份决策记录。",
-        "8. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
-        "9. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
-        "10. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
-        "11. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
-        "12. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
-        "13. 把 `CONTRIBUTING.md` 放入目标项目仓库，统一新增或替换开源组件的贡献规则。",
-        "14. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "15. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
-        "16. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "17. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "7. 用 `compatibility-matrix.md` 逐项确认组件之间和单组件自身的兼容性边界。",
+        "8. 用 `component-decisions.md` 记录主备组件取舍，后续替换组件时先更新这份决策记录。",
+        "9. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
+        "10. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
+        "11. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
+        "12. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
+        "13. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
+        "14. 把 `CONTRIBUTING.md` 放入目标项目仓库，统一新增或替换开源组件的贡献规则。",
+        "15. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "16. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "17. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "18. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -901,6 +957,7 @@ def generate_project_package(
         "integration-contracts.md": format_integration_contracts(decisions) + "\n",
         "assembly-checklist.md": format_assembly_checklist(decisions) + "\n",
         "delivery-milestones.md": format_delivery_milestones(decisions) + "\n",
+        "compatibility-matrix.md": format_compatibility_matrix(decisions) + "\n",
         "component-decisions.md": format_component_decisions(decisions) + "\n",
         "github-issues.md": format_github_issues(decisions) + "\n",
         "github-labels.json": format_github_labels(decisions) + "\n",

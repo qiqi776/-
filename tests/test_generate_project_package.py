@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、交付里程碑、Issue 草案、标签配置、导入命令、Issue 模板、PR 模板、贡献指南、决策记录和集成契约。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、交付里程碑、兼容性矩阵、Issue 草案、标签配置、导入命令、Issue 模板、PR 模板、贡献指南、决策记录和集成契约。"""
 
 import json
 import shutil
@@ -95,6 +95,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "architecture-map.md").exists())
         self.assertTrue((output_dir / "assembly-checklist.md").exists())
         self.assertTrue((output_dir / "delivery-milestones.md").exists())
+        self.assertTrue((output_dir / "compatibility-matrix.md").exists())
         self.assertTrue((output_dir / ".env.example").exists())
         self.assertTrue((output_dir / "PROJECT-README.md").exists())
         self.assertTrue((output_dir / "integration-contracts.md").exists())
@@ -137,6 +138,17 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("- 验收证据: 可重复运行命令、关键配置、日志或截图、回退方案", milestones)
         self.assertIn("## 里程碑 2: 后端 / API / FastAPI", milestones)
         self.assertLess(milestones.index("Keycloak"), milestones.index("FastAPI"))
+        compatibility = (output_dir / "compatibility-matrix.md").read_text(encoding="utf-8")
+        self.assertIn("# 组件兼容性矩阵", compatibility)
+        self.assertIn("| 来源 | 目标 | 兼容性检查 | 需要确认 | 验收证据 |", compatibility)
+        self.assertIn(
+            "| 后端 / API / FastAPI | 认证 / IAM / Keycloak | 模块间协议、认证方式、数据字段和错误处理是否匹配 |",
+            compatibility,
+        )
+        self.assertIn("## 单组件兼容性复核", compatibility)
+        self.assertIn("| 认证 / IAM / Keycloak | 4/5 | 高 | Apache-2.0 |", compatibility)
+        self.assertIn("开源许可证、成熟度评分、运行环境、版本约束、托管方式、数据边界、密钥管理", compatibility)
+        self.assertIn("| 后端 / API / FastAPI | 5/5 | 低 | MIT |", compatibility)
         env_example = (output_dir / ".env.example").read_text(encoding="utf-8")
         self.assertIn("# 后台示例 环境变量样例", env_example)
         self.assertIn("# 不要在这个文件里填写真实密钥", env_example)
