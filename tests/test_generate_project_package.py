@@ -91,6 +91,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "stack-plan.json").exists())
         self.assertTrue((output_dir / "component-manifest.md").exists())
         self.assertTrue((output_dir / "risk-check.md").exists())
+        self.assertTrue((output_dir / "integration-plan.md").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -98,6 +99,10 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("# 后台示例 组件拼装包", (output_dir / "README.md").read_text(encoding="utf-8"))
         self.assertIn("FastAPI", (output_dir / "component-manifest.md").read_text(encoding="utf-8"))
         self.assertIn("| Keycloak | auth | Apache-2.0 | 高 | 高 |", (output_dir / "risk-check.md").read_text(encoding="utf-8"))
+        integration_plan = (output_dir / "integration-plan.md").read_text(encoding="utf-8")
+        self.assertIn("# 集成实施计划", integration_plan)
+        self.assertIn("| 1 | 认证 / IAM / Keycloak | 只需要轻量登录。 |", integration_plan)
+        self.assertLess(integration_plan.index("Keycloak"), integration_plan.index("FastAPI"))
 
 
 if __name__ == "__main__":

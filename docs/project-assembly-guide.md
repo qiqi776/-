@@ -17,7 +17,7 @@ python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-st
 python tools/generate_worksheet.py --project-name "后台示例" --preset "内部管理后台" --output stack-selection.md
 ```
 
-`--list-presets` 会列出每个预设的中文项目类型、适用场景、可用写法和目录模块。`generate_project_package.py` 会一次生成 `stack-plan.json`、`component-manifest.md`、`risk-check.md` 和说明 README，适合直接放进新项目仓库作为拼装起点。`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查、项目接入清单和优先验证项写进同一份 Markdown。项目接入清单会集中列出主组件 GitHub、官网、接入成本和首个动作，优先验证项会把许可证、接入成本或缺失组件风险更高的集成排在更前面。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`，`--preset` 也可以直接写 `内部管理后台` 这类中文项目类型；如果这些蓝图不匹配项目，可以改用 `--modules` 传入自定义分类列表。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
+`--list-presets` 会列出每个预设的中文项目类型、适用场景、可用写法和目录模块。`generate_project_package.py` 会一次生成 `stack-plan.json`、`component-manifest.md`、`risk-check.md`、`integration-plan.md` 和说明 README，适合直接放进新项目仓库作为拼装起点。`integration-plan.md` 会按缺失组件、许可证和接入成本风险排序，提示先验证哪个集成。`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查、项目接入清单和优先验证项写进同一份 Markdown。项目接入清单会集中列出主组件 GitHub、官网、接入成本和首个动作，优先验证项会把许可证、接入成本或缺失组件风险更高的集成排在更前面。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`，`--preset` 也可以直接写 `内部管理后台` 这类中文项目类型；如果这些蓝图不匹配项目，可以改用 `--modules` 传入自定义分类列表。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
 
 示例：
 
@@ -217,7 +217,7 @@ python tools/assemble_stack.py --preset "内部管理后台" --format manifest -
 python tools/check_stack.py --stack-plan stack-plan.json
 ```
 
-组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本。`generate_project_package.py` 会把 JSON 技术栈、组件清单和风险报告集中写到一个目录；`--preset` 支持英文 slug 和中文项目类型，`--modules` 支持英文分类名和常用中文模块名，例如 `后端,认证,数据库`；默认 Markdown 输出适合复制到决策文档，`--format json` 适合交给脚手架、模板或后续自动化读取，`--format manifest` 适合放进新项目仓库追踪每个能力的主组件、链接、首个动作和待确认事项，`--output` 可以直接把清单保存到新项目仓库。保存 JSON 清单后，可以用 `check_stack.py --stack-plan` 继续检查所有主组件的目录风险。如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
+组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本。`generate_project_package.py` 会把 JSON 技术栈、组件清单、风险报告和集成实施计划集中写到一个目录；`--preset` 支持英文 slug 和中文项目类型，`--modules` 支持英文分类名和常用中文模块名，例如 `后端,认证,数据库`；默认 Markdown 输出适合复制到决策文档，`--format json` 适合交给脚手架、模板或后续自动化读取，`--format manifest` 适合放进新项目仓库追踪每个能力的主组件、链接、首个动作和待确认事项，`--output` 可以直接把清单保存到新项目仓库。保存 JSON 清单后，可以用 `check_stack.py --stack-plan` 继续检查所有主组件的目录风险。如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
 
 如果需要完整工作表，优先使用：
 

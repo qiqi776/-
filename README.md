@@ -244,7 +244,7 @@ python tools/check_stack.py --stack-plan stack-plan.json
 python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
 ```
 
-`generate_project_package.py` 会一次生成 `stack-plan.json`、`component-manifest.md`、`risk-check.md` 和说明 README，适合直接复制到新项目仓库作为拼装起点。`generate_worksheet.py` 会按评分和接入成本选择主组件与备选组件，并生成能力地图、许可证检查、项目接入清单和优先验证项。项目接入清单会把主组件的 GitHub、官网、接入成本和首个动作集中列出；优先验证项会把许可证、接入成本或缺失组件风险更高的集成排在前面。`assemble_stack.py --format json` 生成的技术栈清单可以继续交给 `check_stack.py --stack-plan`，直接检查所有已选主组件。脚本输出只是第一版草案，最终仍要按业务约束人工确认。
+`generate_project_package.py` 会一次生成 `stack-plan.json`、`component-manifest.md`、`risk-check.md`、`integration-plan.md` 和说明 README，适合直接复制到新项目仓库作为拼装起点。`integration-plan.md` 会按缺失组件、许可证和接入成本风险排序，提示先验证哪个集成。`generate_worksheet.py` 会按评分和接入成本选择主组件与备选组件，并生成能力地图、许可证检查、项目接入清单和优先验证项。项目接入清单会把主组件的 GitHub、官网、接入成本和首个动作集中列出；优先验证项会把许可证、接入成本或缺失组件风险更高的集成排在前面。`assemble_stack.py --format json` 生成的技术栈清单可以继续交给 `check_stack.py --stack-plan`，直接检查所有已选主组件。脚本输出只是第一版草案，最终仍要按业务约束人工确认。
 
 发布到 GitHub 前，按 [docs/github-publish-guide.md](docs/github-publish-guide.md) 检查远程仓库、推送和 Actions 设置；仓库描述和 topics 可参考 [docs/repository-profile.md](docs/repository-profile.md)。
 
@@ -295,7 +295,7 @@ python tools/assemble_stack.py --preset "内部管理后台" --format json --out
 python tools/assemble_stack.py --preset "内部管理后台" --format manifest --output component-manifest.md
 ```
 
-模块名称可以使用 `catalog/` 目录中的英文分类名，也可以使用常用中文别名，例如 `后端,认证,数据库`。`generate_project_package.py` 适合直接生成项目拼装包；`--preset` 适合快速套用常见项目蓝图，既支持 `saas-starter` 这类英文 slug，也支持 `内部管理后台` 这类中文项目类型；`--modules` 适合自定义能力清单。生成结果会按评分和接入成本选择主组件与备选组件，并直接带出主组件许可证和接入成本，适合作为项目工作表的第一版草案，再由人工检查托管方式和业务边界。如果后续要把技术栈清单交给脚手架、模板或其他自动化工具，可以使用 `--format json` 输出机器可读结构；如果要放进新项目仓库追踪每个能力的开源组件、链接、首个动作和待确认事项，可以使用 `--format manifest`。两种格式都能配合 `--output` 直接保存为项目仓库里的清单文件。
+模块名称可以使用 `catalog/` 目录中的英文分类名，也可以使用常用中文别名，例如 `后端,认证,数据库`。`generate_project_package.py` 适合直接生成项目拼装包，包内包含机器可读清单、组件清单、风险报告和集成实施计划；`--preset` 适合快速套用常见项目蓝图，既支持 `saas-starter` 这类英文 slug，也支持 `内部管理后台` 这类中文项目类型；`--modules` 适合自定义能力清单。生成结果会按评分和接入成本选择主组件与备选组件，并直接带出主组件许可证和接入成本，适合作为项目工作表的第一版草案，再由人工检查托管方式和业务边界。如果后续要把技术栈清单交给脚手架、模板或其他自动化工具，可以使用 `--format json` 输出机器可读结构；如果要放进新项目仓库追踪每个能力的开源组件、链接、首个动作和待确认事项，可以使用 `--format manifest`。两种格式都能配合 `--output` 直接保存为项目仓库里的清单文件。
 
 如果希望直接生成完整工作表，可以运行：
 
