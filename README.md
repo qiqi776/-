@@ -283,21 +283,23 @@ python tools/search_catalog.py --keyword PostgreSQL
 ```powershell
 python tools/assemble_stack.py --list-presets
 python tools/assemble_stack.py --preset saas-starter
+python tools/assemble_stack.py --preset "内部管理后台"
 python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
 python tools/assemble_stack.py --modules 后端,认证,数据库
 ```
 
-模块名称可以使用 `catalog/` 目录中的英文分类名，也可以使用常用中文别名，例如 `后端,认证,数据库`。`--preset` 适合快速套用常见项目蓝图，`--modules` 适合自定义能力清单。生成结果会按评分和接入成本选择主组件与备选组件，并直接带出主组件许可证和接入成本，适合作为项目工作表的第一版草案，再由人工检查托管方式和业务边界。
+模块名称可以使用 `catalog/` 目录中的英文分类名，也可以使用常用中文别名，例如 `后端,认证,数据库`。`--preset` 适合快速套用常见项目蓝图，既支持 `saas-starter` 这类英文 slug，也支持 `内部管理后台` 这类中文项目类型；`--modules` 适合自定义能力清单。生成结果会按评分和接入成本选择主组件与备选组件，并直接带出主组件许可证和接入成本，适合作为项目工作表的第一版草案，再由人工检查托管方式和业务边界。
 
 如果希望直接生成完整工作表，可以运行：
 
 ```powershell
 python tools/generate_worksheet.py --list-presets
 python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
+python tools/generate_worksheet.py --project-name "后台示例" --preset "内部管理后台" --output stack-selection.md
 python tools/generate_worksheet.py --project-name "中文模块示例" --modules 后端,认证,数据库 --output stack-selection.md
 ```
 
-`--list-presets` 会列出每个预设的中文项目类型、适用场景和目录模块。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`；如果项目不符合这些蓝图，仍然可以用 `--modules` 自行传入分类列表或常用中文模块名。
+`--list-presets` 会列出每个预设的中文项目类型、适用场景、可用写法和目录模块。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`；如果项目不符合这些蓝图，仍然可以用 `--modules` 自行传入分类列表或常用中文模块名。
 
 ## 检查技术栈风险
 

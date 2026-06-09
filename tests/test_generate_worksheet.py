@@ -150,6 +150,77 @@ class GenerateWorksheetTests(unittest.TestCase):
         self.assertIn("SaaS 示例", output_text)
         self.assertIn("FastAPI", output_text)
 
+    def test_cli_accepts_chinese_project_preset_name(self):
+        # 验证工作表生成器也能直接接受中文项目类型，保持两个拼装入口体验一致。
+        tmp_dir = ROOT / "tmp"
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        tmp_index = tmp_dir / "generate-worksheet-chinese-preset-index.json"
+        tmp_output = tmp_dir / "stack-selection-chinese-preset.md"
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        if tmp_output.exists():
+            tmp_output.unlink()
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--preset",
+                "内部管理后台",
+                "--project-name",
+                "内部管理后台示例",
+                "--output",
+                str(tmp_output),
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertTrue(tmp_output.exists())
+        output_text = tmp_output.read_text(encoding="utf-8")
+        self.assertIn("# 项目拼装工作表", output_text)
+        self.assertIn("内部管理后台示例", output_text)
+        self.assertIn("FastAPI", output_text)
+
+    def test_cli_reports_unknown_preset_name(self):
+        # 验证输错项目预设时提示查看预设列表，避免用户误以为命令参数缺失。
+        tmp_dir = ROOT / "tmp"
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        tmp_index = tmp_dir / "generate-worksheet-unknown-preset-index.json"
+        tmp_output = tmp_dir / "stack-selection-unknown-preset.md"
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        if tmp_output.exists():
+            tmp_output.unlink()
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--preset",
+                "未知项目",
+                "--output",
+                str(tmp_output),
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 2)
+        self.assertFalse(tmp_output.exists())
+        self.assertIn("未知项目预设", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -56,6 +56,24 @@ STACK_PRESET_DETAILS = {
     },
 }
 
+# 常用中文项目类型别名，方便命令行直接按业务语境选择项目蓝图。
+PRESET_ALIASES = {
+    "SaaS 起步项目": "saas-starter",
+    "SaaS起步项目": "saas-starter",
+    "SaaS": "saas-starter",
+    "订阅型产品": "saas-starter",
+    "AI RAG 应用": "ai-rag-app",
+    "AI RAG应用": "ai-rag-app",
+    "RAG 应用": "ai-rag-app",
+    "RAG应用": "ai-rag-app",
+    "AI 应用": "ai-rag-app",
+    "AI应用": "ai-rag-app",
+    "内部管理后台": "internal-admin",
+    "内部后台": "internal-admin",
+    "管理后台": "internal-admin",
+    "运营后台": "internal-admin",
+}
+
 MODULE_ALIASES = {
     "前端": "frontend",
     "后端": "backend",
@@ -80,6 +98,20 @@ MODULE_ALIASES = {
 }
 
 
+def normalize_preset_name(preset: str | None) -> str | None:
+    """把中文项目类型或英文预设 slug 统一成内置预设键名。"""
+    if preset is None:
+        return None
+    stripped = preset.strip()
+    return PRESET_ALIASES.get(stripped, stripped)
+
+
+def preset_exists(preset: str | None) -> bool:
+    """判断预设名或中文别名是否能对应到内置项目蓝图。"""
+    normalized_preset = normalize_preset_name(preset)
+    return bool(normalized_preset and normalized_preset in STACK_PRESETS)
+
+
 def normalize_module_name(module: str) -> str:
     """把常用中文模块名转换成 catalog 分类 slug；未知项保持原样。"""
     stripped = module.strip()
@@ -96,9 +128,10 @@ def resolve_modules(raw_modules: str, preset: str | None) -> list[str]:
     modules = parse_modules(raw_modules)
     if modules:
         return modules
-    if not preset:
+    normalized_preset = normalize_preset_name(preset)
+    if not normalized_preset:
         return []
-    return list(STACK_PRESETS.get(preset, []))
+    return list(STACK_PRESETS.get(normalized_preset, []))
 
 
 def format_presets() -> str:
@@ -111,6 +144,7 @@ def format_presets() -> str:
         details = STACK_PRESET_DETAILS[preset_name]
         modules = ", ".join(STACK_PRESETS[preset_name])
         lines.append(f"- {preset_name}（{details['name']}）")
+        lines.append(f"  - 可用写法: {preset_name} / {details['name']}")
         lines.append(f"  - 适合: {details['best_for']}")
         lines.append(f"  - 模块: {modules}")
     return "\n".join(lines)

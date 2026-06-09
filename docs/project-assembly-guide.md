@@ -13,9 +13,10 @@
 ```powershell
 python tools/generate_worksheet.py --list-presets
 python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
+python tools/generate_worksheet.py --project-name "后台示例" --preset "内部管理后台" --output stack-selection.md
 ```
 
-`--list-presets` 会列出每个预设的中文项目类型、适用场景和目录模块。`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查和优先验证项写进同一份 Markdown，并把许可证、接入成本或缺失组件风险更高的集成排在更前面。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`；如果这些蓝图不匹配项目，可以改用 `--modules` 传入自定义分类列表。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
+`--list-presets` 会列出每个预设的中文项目类型、适用场景、可用写法和目录模块。`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查和优先验证项写进同一份 Markdown，并把许可证、接入成本或缺失组件风险更高的集成排在更前面。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`，`--preset` 也可以直接写 `内部管理后台` 这类中文项目类型；如果这些蓝图不匹配项目，可以改用 `--modules` 传入自定义分类列表。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
 
 示例：
 
@@ -204,17 +205,19 @@ python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
 ```powershell
 python tools/assemble_stack.py --list-presets
 python tools/assemble_stack.py --preset saas-starter
+python tools/assemble_stack.py --preset "内部管理后台"
 python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
 python tools/assemble_stack.py --modules 后端,认证,数据库
 ```
 
-组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本。`--modules` 支持英文分类名，也支持常用中文模块名，例如 `后端,认证,数据库`；如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
+组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本。`--preset` 支持英文 slug 和中文项目类型，`--modules` 支持英文分类名和常用中文模块名，例如 `后端,认证,数据库`；如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
 
 如果需要完整工作表，优先使用：
 
 ```powershell
 python tools/generate_worksheet.py --list-presets
 python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
+python tools/generate_worksheet.py --project-name "后台示例" --preset "内部管理后台" --output stack-selection.md
 python tools/generate_worksheet.py --project-name "中文模块示例" --modules 后端,认证,数据库 --output stack-selection.md
 ```
 

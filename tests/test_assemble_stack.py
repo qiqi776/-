@@ -165,6 +165,60 @@ class AssembleStackTests(unittest.TestCase):
         self.assertIn("Keycloak", result.stdout)
         self.assertIn("| observability |", result.stdout)
 
+    def test_cli_accepts_chinese_project_preset_name(self):
+        # 验证用户可以直接输入中文项目类型，不必记住英文预设 slug。
+        tmp_index = ROOT / "tmp" / "assemble-chinese-preset-index.json"
+        tmp_index.parent.mkdir(parents=True, exist_ok=True)
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--preset",
+                "内部管理后台",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("FastAPI", result.stdout)
+        self.assertIn("Keycloak", result.stdout)
+        self.assertIn("| observability |", result.stdout)
+
+    def test_cli_reports_unknown_preset_name(self):
+        # 验证输错项目预设时给出明确错误，而不是误报为没有传入参数。
+        tmp_index = ROOT / "tmp" / "assemble-unknown-preset-index.json"
+        tmp_index.parent.mkdir(parents=True, exist_ok=True)
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--preset",
+                "未知项目",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("未知项目预设", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

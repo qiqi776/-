@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from stack_presets import STACK_PRESETS, format_presets, resolve_modules
+from stack_presets import STACK_PRESETS, format_presets, preset_exists, resolve_modules
 
 
 COST_RANK = {"低": 0, "中": 1, "高": 2}
@@ -130,8 +130,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--preset",
-        choices=sorted(STACK_PRESETS),
-        help="内置项目预设，例如 saas-starter、ai-rag-app、internal-admin；显式 --modules 会优先生效。",
+        help="内置项目预设，例如 saas-starter、AI RAG 应用、内部管理后台；显式 --modules 会优先生效。",
     )
     parser.add_argument(
         "--list-presets",
@@ -148,6 +147,8 @@ def main(argv: list[str] | None = None) -> int:
     components = load_components(args.index)
     modules = resolve_modules(args.modules, args.preset)
     if not modules:
+        if args.preset and not preset_exists(args.preset):
+            parser.error(f"未知项目预设: {args.preset}。请先运行 --list-presets 查看可用写法。")
         parser.error("必须提供 --modules 或 --preset。")
     decisions = build_stack_decisions(components, modules)
     print(format_stack_table(decisions))
