@@ -26,20 +26,20 @@ SBOM 与许可证合规组件覆盖软件物料清单生成、依赖许可证识
 - 适合: 需要扫描源码、依赖、版权声明、许可证文本、归因信息和第三方组件清单的开源合规团队。
 - 不适合: 只需要快速生成应用依赖 SBOM，或无法处理扫描结果中的许可证例外、误报和人工复核流程。
 - 接入成本: 高
-- 替代方案: Syft, LicenseFinder, FOSSology
+- 替代方案: Syft, OSS Review Toolkit, FOSSology
 - 评分: 4/5
 - 备注: 扫描深度强但结果解释成本高；上线前要确认扫描范围、规则版本、许可证例外库、归因模板、性能和报告归档。
 
-## LicenseFinder
+## OSS Review Toolkit
 
-- GitHub: https://github.com/pivotal/LicenseFinder
-- 官网: https://github.com/pivotal/LicenseFinder
-- 模块: 许可证合规 / 依赖策略 / 包管理器扫描
-- 技术栈: Ruby, Bundler, npm, pip, Maven, Gradle
-- 许可证: MIT
-- 适合: 多语言应用需要按包管理器识别依赖许可证，并用允许/禁止列表生成可执行的许可证例外报告。
-- 不适合: 需要生成完整 SBOM、扫描源码版权声明、识别 vendored 代码或做企业级第三方组件治理平台的场景。
-- 接入成本: 中
-- 替代方案: ScanCode Toolkit, REUSE, FOSSA
-- 评分: 3/5
-- 备注: 适合在 CI 中建立许可证门禁；选型时要复核维护活跃度、包管理器覆盖、许可证映射准确性和人工审批流程。
+- GitHub: https://github.com/oss-review-toolkit/ort
+- 官网: https://oss-review-toolkit.org
+- 模块: 许可证合规 / SBOM / 策略自动化
+- 技术栈: Kotlin, JVM, SPDX, CycloneDX
+- 许可证: Apache-2.0
+- 适合: 企业或团队需要自动化依赖分析、源码下载、许可证扫描、漏洞建议、策略评估、归因报告和 SBOM 输出。
+- 不适合: 只需要一个轻量 SBOM CLI，或团队没有资源维护许可证策略、扫描器配置和人工复核流程。
+- 接入成本: 高
+- 替代方案: ScanCode Toolkit, Syft, FOSSology
+- 评分: 4/5
+- 备注: Linux Foundation 相关治理下的成熟合规工具链；生产前要确认包管理器覆盖、策略规则、扫描器、例外审批和报告归档。

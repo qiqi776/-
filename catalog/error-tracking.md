@@ -12,7 +12,7 @@
 - 适合: 需要自托管实时错误报告、异常聚合、事件日志、项目分组、告警和多语言客户端接入的团队。
 - 不适合: 团队不想维护 .NET、Elasticsearch/OpenSearch、Redis 等服务，或主要需求是完整 APM 与分布式追踪平台。
 - 接入成本: 高
-- 替代方案: Highlight, Errbit, Sentry
+- 替代方案: Highlight, SigNoz, OpenReplay
 - 评分: 4/5
 - 备注: 平台能力完整且许可证清楚；生产前要确认存储规模、索引保留、事件脱敏、告警噪音、版本标记和客户端 SDK 覆盖范围。
 
@@ -26,20 +26,20 @@
 - 适合: Web 产品需要把前端异常、会话回放、日志、追踪和用户行为上下文放在一起排查线上问题。
 - 不适合: 团队只需要轻量异常收集，或不能接受仓库中企业目录、子目录许可证和托管服务边界需要单独核对。
 - 接入成本: 高
-- 替代方案: Exceptionless, OpenReplay, Sentry
+- 替代方案: Exceptionless, SigNoz, OpenReplay
 - 评分: 4/5
 - 备注: 适合前端体验和全栈排障联动；上线前要重点核对子目录许可证、采样率、隐私遮罩、会话数据保留、ClickHouse 成本和 SDK 注入范围。
 
-## Errbit
+## SigNoz
 
-- GitHub: https://github.com/errbit/errbit
-- 官网: https://errbit.com
-- 模块: 错误跟踪 / Airbrake 兼容 / Ruby
-- 技术栈: Ruby, Rails, MongoDB
-- 许可证: MIT
-- 适合: Ruby/Rails 或 Airbrake 协议生态项目需要轻量自托管错误收集、异常列表、通知和基础错误管理。
-- 不适合: 需要现代前端会话回放、复杂性能追踪、多语言深度 SDK、日志聚合和大规模多租户错误平台的场景。
-- 接入成本: 中
-- 替代方案: Exceptionless, Sentry, GlitchTip
-- 评分: 3/5
-- 备注: 简单直接、许可证宽松；选型时要复核维护活跃度、MongoDB 运维、通知插件、协议兼容和长期升级路径。
+- GitHub: https://github.com/SigNoz/signoz
+- 官网: https://signoz.io
+- 模块: 错误跟踪 / APM / OpenTelemetry
+- 技术栈: Go, TypeScript, ClickHouse, OpenTelemetry
+- 许可证: MIT Expat（核心；ee/cmd/enterprise 另行许可）
+- 适合: 团队希望把异常监控、日志、指标、链路追踪和告警统一在 OpenTelemetry 原生平台中排查线上问题。
+- 不适合: 只需要极轻量 Airbrake 兼容错误列表，或不想维护 ClickHouse 和完整观测平台的项目。
+- 接入成本: 高
+- 替代方案: Exceptionless, Highlight, OpenReplay
+- 评分: 4/5
+- 备注: 异常监控能力成熟且生态活跃；生产前要确认企业目录许可边界、采样率、ClickHouse 容量、数据保留和告警策略。
