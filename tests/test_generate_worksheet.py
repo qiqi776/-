@@ -27,6 +27,7 @@ class GenerateWorksheetTests(unittest.TestCase):
             {
                 "name": "FastAPI",
                 "category": "backend",
+                "module": "后端 / API",
                 "license": "MIT",
                 "integration_cost": "低",
                 "score": "5/5",
@@ -36,6 +37,7 @@ class GenerateWorksheetTests(unittest.TestCase):
             {
                 "name": "Django",
                 "category": "backend",
+                "module": "后端 / 全栈框架",
                 "license": "BSD-3-Clause",
                 "integration_cost": "中",
                 "score": "4/5",
@@ -45,6 +47,7 @@ class GenerateWorksheetTests(unittest.TestCase):
             {
                 "name": "Grafana",
                 "category": "observability",
+                "module": "监控 / 指标 / 仪表盘",
                 "license": "AGPL-3.0",
                 "integration_cost": "中",
                 "score": "4/5",
@@ -60,8 +63,8 @@ class GenerateWorksheetTests(unittest.TestCase):
         worksheet = generate_tool.build_worksheet(self.components, ["backend", "observability"], "SaaS 示例")
 
         self.assertIn("- 项目名称: SaaS 示例", worksheet)
-        self.assertIn("| backend | 是 | FastAPI | Django | 适合 AI 项目。 | 需要完整全栈框架。 |", worksheet)
-        self.assertIn("| observability | 是 | Grafana |  | 适合仪表盘。 | 团队不能接受 AGPL 义务。 |", worksheet)
+        self.assertIn("| 后端 / API | 是 | FastAPI | Django | 适合 AI 项目。 | 需要完整全栈框架。 |", worksheet)
+        self.assertIn("| 监控 / 指标 / 仪表盘 | 是 | Grafana |  | 适合仪表盘。 | 团队不能接受 AGPL 义务。 |", worksheet)
         self.assertIn("| Grafana | AGPL-3.0 | 待确认 | 许可证需要重点审查", worksheet)
 
     def test_cli_writes_worksheet_file(self):

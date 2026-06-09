@@ -70,6 +70,15 @@ def component_name(component: dict[str, Any] | None) -> str:
     return str(component.get("name", ""))
 
 
+def capability_label(decision: dict[str, Any]) -> str:
+    """优先使用目录里的中文模块名；缺失时回退到英文分类名。"""
+    primary = decision["primary"]
+    if primary is None:
+        return str(decision["category"])
+    module = str(primary.get("module", "")).strip()
+    return module or str(decision["category"])
+
+
 def license_needs_review(license_text: str) -> bool:
     """判断许可证文本是否包含需要重点审查的关键词。"""
     normalized = license_text.upper()
@@ -129,8 +138,8 @@ def format_capability_map(decisions: list[dict[str, Any]]) -> str:
     ]
     for decision in decisions:
         lines.append(
-            "| {category} | 是 | {primary} | {fallback} | {reason} | {risk} | 先做最小集成验证 |".format(
-                category=decision["category"],
+            "| {capability} | 是 | {primary} | {fallback} | {reason} | {risk} | 先做最小集成验证 |".format(
+                capability=capability_label(decision),
                 primary=component_name(decision["primary"]),
                 fallback=component_name(decision["fallback"]),
                 reason=decision["reason"],
@@ -177,9 +186,9 @@ def format_validation_table(decisions: list[dict[str, Any]]) -> str:
     for index, decision in enumerate(decisions, start=1):
         primary_name = component_name(decision["primary"]) or "待选组件"
         lines.append(
-            "| {index} | {category} / {primary} | {risk} | 跑通最小配置、认证、数据读写或部署路径 | 能稳定复现并记录失败回退方案 |".format(
+            "| {index} | {capability} / {primary} | {risk} | 跑通最小配置、认证、数据读写或部署路径 | 能稳定复现并记录失败回退方案 |".format(
                 index=index,
-                category=decision["category"],
+                capability=capability_label(decision),
                 primary=primary_name,
                 risk=decision["risk"],
             )
@@ -197,7 +206,7 @@ def format_final_decision(decisions: list[dict[str, Any]]) -> str:
         "",
     ]
     for decision in decisions:
-        lines.append(f"- {decision['category']}: {component_name(decision['primary'])}")
+        lines.append(f"- {capability_label(decision)}: {component_name(decision['primary'])}")
     lines.extend(
         [
             "",
