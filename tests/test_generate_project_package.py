@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、PR 模板、贡献指南、决策记录和集成契约。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、交付里程碑、Issue 草案、标签配置、导入命令、Issue 模板、PR 模板、贡献指南、决策记录和集成契约。"""
 
 import json
 import shutil
@@ -94,6 +94,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "integration-plan.md").exists())
         self.assertTrue((output_dir / "architecture-map.md").exists())
         self.assertTrue((output_dir / "assembly-checklist.md").exists())
+        self.assertTrue((output_dir / "delivery-milestones.md").exists())
         self.assertTrue((output_dir / ".env.example").exists())
         self.assertTrue((output_dir / "PROJECT-README.md").exists())
         self.assertTrue((output_dir / "integration-contracts.md").exists())
@@ -127,6 +128,15 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("- [ ] 先确认许可证和部署方式，再跑通最小样例", assembly_checklist)
         self.assertIn("## 2. 后端 / API / FastAPI", assembly_checklist)
         self.assertLess(assembly_checklist.index("Keycloak"), assembly_checklist.index("FastAPI"))
+        milestones = (output_dir / "delivery-milestones.md").read_text(encoding="utf-8")
+        self.assertIn("# 组件交付里程碑", milestones)
+        self.assertIn("| 阶段 | 目标 | 交付物 | 通过标准 |", milestones)
+        self.assertIn("## 里程碑 1: 认证 / IAM / Keycloak", milestones)
+        self.assertIn("- 风险确认: 只需要轻量登录。", milestones)
+        self.assertIn("- 第一交付物: 最小样例验证记录", milestones)
+        self.assertIn("- 验收证据: 可重复运行命令、关键配置、日志或截图、回退方案", milestones)
+        self.assertIn("## 里程碑 2: 后端 / API / FastAPI", milestones)
+        self.assertLess(milestones.index("Keycloak"), milestones.index("FastAPI"))
         env_example = (output_dir / ".env.example").read_text(encoding="utf-8")
         self.assertIn("# 后台示例 环境变量样例", env_example)
         self.assertIn("# 不要在这个文件里填写真实密钥", env_example)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、集成契约、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、决策记录、配置样例和项目 README 草案。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、集成契约、执行清单、交付里程碑、Issue 草案、标签配置、导入命令、Issue 模板、决策记录、配置样例和项目 README 草案。"""
 
 from __future__ import annotations
 
@@ -321,6 +321,44 @@ def format_assembly_checklist(decisions: list[dict]) -> str:
         ]
     )
     return "\n".join(lines)
+
+
+def format_delivery_milestones(decisions: list[dict]) -> str:
+    """生成按风险排序的组件交付里程碑，把选型结果转成可排期的验收节奏。"""
+    lines = [
+        "# 组件交付里程碑",
+        "",
+        "这份文档把组件拼装拆成阶段和里程碑，方便团队按风险顺序排期、验收和复盘。",
+        "",
+        "## 阶段总览",
+        "",
+        "| 阶段 | 目标 | 交付物 | 通过标准 |",
+        "| --- | --- | --- | --- |",
+        "| 1. 风险确认 | 先清除会阻断项目的许可证、托管和数据边界问题 | `risk-check.md`、`component-decisions.md` | 高风险项有负责人、确认结论和回退条件 |",
+        "| 2. 最小样例 | 用最小代码验证组件可运行、可配置、可回滚 | 最小样例验证记录 | 命令可重复运行，关键配置和日志已记录 |",
+        "| 3. 契约对齐 | 明确组件之间的接口、数据、密钥和失败处理责任 | `integration-contracts.md` | 每条连接都有负责人和验收证据 |",
+        "| 4. 拼装验收 | 把已验证组件接入目标项目骨架 | `assembly-checklist.md`、`PROJECT-README.md` | 必须模块完成验收，README 和环境变量同步 |",
+        "",
+        "## 组件里程碑",
+        "",
+    ]
+    for index, decision in enumerate(sorted(decisions, key=integration_priority_key), start=1):
+        primary = decision["primary"]
+        component_label = f"{capability_label(decision)} / {component_name(primary) or '待选组件'}"
+        lines.extend(
+            [
+                f"## 里程碑 {index}: {component_label}",
+                "",
+                f"- 风险确认: {integration_risk_reason(decision)}",
+                f"- 首个动作: {first_integration_action(primary)}",
+                "- 第一交付物: 最小样例验证记录",
+                "- 依赖文件: `component-manifest.md`、`risk-check.md`、`integration-contracts.md`",
+                "- 验收证据: 可重复运行命令、关键配置、日志或截图、回退方案",
+                "- 完成后同步: `assembly-checklist.md`、`component-decisions.md`、`PROJECT-README.md`",
+                "",
+            ]
+        )
+    return "\n".join(lines).rstrip()
 
 
 def format_component_decisions(decisions: list[dict]) -> str:
@@ -776,6 +814,7 @@ def format_project_readme(decisions: list[dict], project_name: str) -> str:
             "- [integration-plan.md](integration-plan.md): 记录先验证哪些关键集成。",
             "- [architecture-map.md](architecture-map.md): 记录组件连接方向。",
             "- [assembly-checklist.md](assembly-checklist.md): 记录可拆到看板或 Issue 的执行任务。",
+            "- [delivery-milestones.md](delivery-milestones.md): 记录组件接入的阶段目标、交付物和验收证据。",
             "",
             "## 维护规则",
             "",
@@ -804,6 +843,7 @@ def package_readme(project_name: str) -> str:
         "- `architecture-map.md`: 根据已选模块生成的组件连接图，用于理解各组件如何拼装。",
         "- `integration-contracts.md`: 根据架构连接生成的接口、数据、配置和失败处理契约清单。",
         "- `assembly-checklist.md`: 可复制到项目看板或 GitHub Issue 的拼装执行清单。",
+        "- `delivery-milestones.md`: 按风险顺序拆出的组件交付里程碑，用于排期和验收。",
         "- `component-decisions.md`: 记录主备组件取舍、风险和切换条件的组件决策记录。",
         "- `github-issues.md`: 可复制到 GitHub Issues 的组件接入任务草案。",
         "- `github-labels.json`: 与 Issue 草案匹配的 GitHub Labels 配置。",
@@ -821,17 +861,18 @@ def package_readme(project_name: str) -> str:
         "3. 用 `integration-contracts.md` 明确每条组件连接的接口、数据、配置和失败处理责任。",
         "4. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
         "5. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
-        "6. 用 `component-decisions.md` 记录主备组件取舍，后续替换组件时先更新这份决策记录。",
-        "7. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
-        "8. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
-        "9. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
-        "10. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
-        "11. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
-        "12. 把 `CONTRIBUTING.md` 放入目标项目仓库，统一新增或替换开源组件的贡献规则。",
-        "13. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "14. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
-        "15. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "16. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "6. 用 `delivery-milestones.md` 排出组件接入阶段，确认每个里程碑的交付物和验收证据。",
+        "7. 用 `component-decisions.md` 记录主备组件取舍，后续替换组件时先更新这份决策记录。",
+        "8. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
+        "9. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
+        "10. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
+        "11. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
+        "12. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
+        "13. 把 `CONTRIBUTING.md` 放入目标项目仓库，统一新增或替换开源组件的贡献规则。",
+        "14. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "15. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "16. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "17. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -859,6 +900,7 @@ def generate_project_package(
         "architecture-map.md": format_architecture_map(decisions) + "\n",
         "integration-contracts.md": format_integration_contracts(decisions) + "\n",
         "assembly-checklist.md": format_assembly_checklist(decisions) + "\n",
+        "delivery-milestones.md": format_delivery_milestones(decisions) + "\n",
         "component-decisions.md": format_component_decisions(decisions) + "\n",
         "github-issues.md": format_github_issues(decisions) + "\n",
         "github-labels.json": format_github_labels(decisions) + "\n",
