@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图和执行清单。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单和 Issue 草案。"""
 
 import json
 import shutil
@@ -96,6 +96,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "assembly-checklist.md").exists())
         self.assertTrue((output_dir / ".env.example").exists())
         self.assertTrue((output_dir / "PROJECT-README.md").exists())
+        self.assertTrue((output_dir / "github-issues.md").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -132,6 +133,13 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("## 优先集成顺序", project_readme)
         self.assertIn("1. 认证 / IAM / Keycloak", project_readme)
         self.assertIn("[component-manifest.md](component-manifest.md)", project_readme)
+        github_issues = (output_dir / "github-issues.md").read_text(encoding="utf-8")
+        self.assertIn("# GitHub Issue 草案", github_issues)
+        self.assertIn("## Issue 1: 接入 认证 / IAM / Keycloak", github_issues)
+        self.assertIn("标签: `component`, `integration`, `auth`, `risk-high`", github_issues)
+        self.assertIn("- [ ] 先确认许可证和部署方式，再跑通最小样例", github_issues)
+        self.assertIn("- [ ] 更新 `component-manifest.md`、`risk-check.md` 和 `PROJECT-README.md`", github_issues)
+        self.assertLess(github_issues.index("Keycloak"), github_issues.index("FastAPI"))
 
 
 if __name__ == "__main__":
