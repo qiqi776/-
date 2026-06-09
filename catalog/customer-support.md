@@ -12,7 +12,7 @@
 - 适合: 需要网站聊天组件、共享收件箱、多渠道会话、客服分配、自动化规则和客户沟通历史的 SaaS 或电商项目。
 - 不适合: 只需要简单邮件工单，或不希望维护 Rails、Redis、PostgreSQL 和实时通信部署的团队。
 - 接入成本: 中
-- 替代方案: Zammad, FreeScout, Intercom
+- 替代方案: Zammad, osTicket, Intercom
 - 评分: 4/5
 - 备注: 开源主体使用 MIT Expat，但 enterprise 目录有单独许可证；生产前要确认渠道接入、客服权限、会话保留和企业功能边界。
 
@@ -26,20 +26,20 @@
 - 适合: 需要成熟工单队列、邮件与渠道接入、客服 SLA、知识库、组织客户管理和服务台工作流的团队。
 - 不适合: 不能接受 AGPL-3.0 网络服务义务，或没有资源维护搜索、邮件接入和工单规则的项目。
 - 接入成本: 中
-- 替代方案: Chatwoot, FreeScout, OTOBO
+- 替代方案: Chatwoot, osTicket, OTOBO
 - 评分: 4/5
 - 备注: 功能更偏传统服务台；上线前要验证 AGPL 合规、邮件收发可靠性、搜索索引、权限分组和 SLA 规则。
 
-## FreeScout
+## osTicket
 
-- GitHub: https://github.com/freescout-helpdesk/freescout
-- 官网: https://freescout.net
-- 模块: 客户支持 / 帮助台 / 邮件工单
-- 技术栈: PHP, Laravel, MySQL
-- 许可证: AGPL-3.0
-- 适合: 需要轻量自托管帮助台、共享邮箱、邮件工单、客服分配和低成本替代闭源客服系统的小团队。
-- 不适合: 需要复杂实时聊天、全渠道客服运营、深度自动化或不能接受 AGPL-3.0 网络服务义务的项目。
+- GitHub: https://github.com/osTicket/osTicket
+- 官网: https://osticket.com
+- 模块: 客户支持 / 工单系统 / 帮助台
+- 技术栈: PHP, MySQL
+- 许可证: GPL-2.0
+- 适合: 需要成熟自托管工单系统、邮件转工单、客服分配、客户门户和基础 SLA 流程的团队。
+- 不适合: 需要现代实时聊天、全渠道客服运营、深度自动化或不想维护 PHP/MySQL 帮助台的项目。
 - 接入成本: 低
-- 替代方案: Zammad, Chatwoot, osTicket
-- 评分: 3/5
-- 备注: 部署门槛较低，适合作为邮件客服入口；要提前确认模块授权、备份、邮件送达、权限审计和 AGPL 合规要求。
+- 替代方案: Zammad, Chatwoot, OTOBO
+- 评分: 4/5
+- 备注: 适合传统工单和共享邮箱场景；上线前要确认 GPL 合规、邮件收发、权限分组、备份和升级路径。
