@@ -29,6 +29,18 @@ class GenerateProjectPackageTests(unittest.TestCase):
                 "avoid_when": "需要完整全栈框架。",
             },
             {
+                "name": "PrototypeAPI",
+                "category": "backend",
+                "github": "https://github.com/example/prototype-api",
+                "website": "https://example.com/prototype-api",
+                "module": "后端 / 原型",
+                "license": "MIT",
+                "integration_cost": "低",
+                "score": "2/5",
+                "notes": "只是原型项目。",
+                "avoid_when": "需要生产 API。",
+            },
+            {
                 "name": "NestJS",
                 "category": "backend",
                 "github": "https://github.com/nestjs/nest",
@@ -51,6 +63,18 @@ class GenerateProjectPackageTests(unittest.TestCase):
                 "score": "4/5",
                 "notes": "适合企业身份。",
                 "avoid_when": "只需要轻量登录。",
+            },
+            {
+                "name": "ClosedAuth",
+                "category": "auth",
+                "github": "https://github.com/example/closed-auth",
+                "website": "https://example.com/closed-auth",
+                "module": "认证 / 托管",
+                "license": "商业许可证",
+                "integration_cost": "低",
+                "score": "5/5",
+                "notes": "托管产品成熟但不是开源优先方案。",
+                "avoid_when": "需要标准开源许可证。",
             },
         ]
 
@@ -229,6 +253,50 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("- [ ] 数据字段、状态流转和幂等规则已确认", contracts)
         self.assertIn("- [ ] 环境变量、密钥、回调地址和部署地址已同步", contracts)
         self.assertIn("- [ ] 超时、重试、降级和人工回退方案已写清楚", contracts)
+
+    def test_cli_generates_package_with_mature_only_filter(self):
+        # 验证完整拼装包也能强制只使用成熟开源候选，避免项目草案混入低评分或商业许可证组件。
+        tmp_dir = ROOT / "tmp"
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        tmp_index = tmp_dir / "project-package-mature-index.json"
+        output_dir = tmp_dir / "project-package-mature"
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--modules",
+                "backend,auth",
+                "--project-name",
+                "成熟方案示例",
+                "--output-dir",
+                str(output_dir),
+                "--mature-only",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
+        self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
+        self.assertEqual(stack_plan["modules"][0]["fallback"]["name"], "NestJS")
+        self.assertEqual(stack_plan["modules"][1]["primary"]["name"], "Keycloak")
+        self.assertIsNone(stack_plan["modules"][1]["fallback"])
+        package_text = (output_dir / "component-manifest.md").read_text(encoding="utf-8")
+        self.assertIn("FastAPI", package_text)
+        self.assertIn("Keycloak", package_text)
+        self.assertNotIn("PrototypeAPI", package_text)
+        self.assertNotIn("ClosedAuth", package_text)
 
 
 if __name__ == "__main__":

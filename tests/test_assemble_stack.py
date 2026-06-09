@@ -39,6 +39,16 @@ class AssembleStackTests(unittest.TestCase):
                 "notes": "适合 AI 项目。",
             },
             {
+                "name": "PrototypeAPI",
+                "category": "backend",
+                "github": "https://github.com/example/prototype-api",
+                "module": "后端 / 原型",
+                "license": "MIT",
+                "integration_cost": "低",
+                "score": "2/5",
+                "notes": "只是原型项目。",
+            },
+            {
                 "name": "NestJS",
                 "category": "backend",
                 "github": "https://github.com/nestjs/nest",
@@ -58,6 +68,16 @@ class AssembleStackTests(unittest.TestCase):
                 "score": "4/5",
                 "notes": "适合企业身份。",
             },
+            {
+                "name": "ClosedAuth",
+                "category": "auth",
+                "github": "https://github.com/example/closed-auth",
+                "module": "认证 / 托管",
+                "license": "商业许可证",
+                "integration_cost": "低",
+                "score": "5/5",
+                "notes": "托管产品成熟但不是开源优先方案。",
+            },
         ]
 
     def test_select_components_returns_primary_and_fallback(self):
@@ -68,6 +88,18 @@ class AssembleStackTests(unittest.TestCase):
 
         self.assertEqual(decision["primary"]["name"], "FastAPI")
         self.assertEqual(decision["fallback"]["name"], "NestJS")
+
+    def test_select_components_can_ignore_non_mature_open_source_candidates(self):
+        # 验证成熟开源模式会跳过低评分或非标准开源许可证的组件。
+        assemble_tool = load_assemble_tool()
+
+        backend_decision = assemble_tool.select_for_category(self.components, "backend", mature_only=True)
+        auth_decision = assemble_tool.select_for_category(self.components, "auth", mature_only=True)
+
+        self.assertEqual(backend_decision["primary"]["name"], "FastAPI")
+        self.assertEqual(backend_decision["fallback"]["name"], "NestJS")
+        self.assertEqual(auth_decision["primary"]["name"], "Keycloak")
+        self.assertIsNone(auth_decision["fallback"])
 
     def test_build_stack_decisions_handles_missing_category(self):
         # 验证缺失模块会保留空决策，方便人工后续补齐。
@@ -136,6 +168,36 @@ class AssembleStackTests(unittest.TestCase):
         self.assertIn("FastAPI", result.stdout)
         self.assertIn("| backend | FastAPI | MIT | 低 | NestJS |", result.stdout)
         self.assertIn("Keycloak", result.stdout)
+
+    def test_cli_outputs_stack_decision_table_with_mature_only_filter(self):
+        # 验证命令行生成技术栈草案时可以只选择成熟开源候选。
+        tmp_index = ROOT / "tmp" / "assemble-mature-index.json"
+        tmp_index.parent.mkdir(parents=True, exist_ok=True)
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--modules",
+                "backend,auth",
+                "--mature-only",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("FastAPI", result.stdout)
+        self.assertIn("Keycloak", result.stdout)
+        self.assertNotIn("PrototypeAPI", result.stdout)
+        self.assertNotIn("ClosedAuth", result.stdout)
 
     def test_cli_outputs_machine_readable_stack_json(self):
         # 验证命令行可以输出机器可读技术栈清单，方便后续脚手架或模板继续消费。

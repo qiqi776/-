@@ -14,6 +14,8 @@ from stack_presets import STACK_PRESETS, format_presets, preset_exists, resolve_
 
 COST_RANK = {"低": 0, "中": 1, "高": 2}
 REVIEW_LICENSE_KEYWORDS = ("AGPL", "GPL", "BUSL", "BSL", "SSPL", "ELASTIC", "商业许可证")
+MIN_MATURE_SCORE = 4
+NON_OPEN_LICENSE_KEYWORDS = ("商业许可证", "SOURCE-AVAILABLE", "BUSL", "BSL", "SSPL", "ELASTIC")
 
 
 def load_components(path: Path) -> list[dict[str, Any]]:
@@ -31,18 +33,51 @@ def score_value(component: dict[str, Any]) -> int:
         return 0
 
 
-def component_sort_key(component: dict[str, Any]) -> tuple[int, int, str]:
-    """排序规则：评分高优先，接入成本低优先，名称稳定排序。"""
+def has_github_repo(component: dict[str, Any]) -> bool:
+    """判断组件是否有可追踪的 GitHub 仓库地址。"""
+    return str(component.get("github", "")).startswith("https://github.com/")
+
+
+def has_clear_open_source_license(component: dict[str, Any]) -> bool:
+    """判断许可证字段是否清楚且没有明显非标准开源或商业限制关键词。"""
+    license_text = str(component.get("license", "")).strip()
+    if not license_text:
+        return False
+    normalized = license_text.upper()
+    return not any(keyword.upper() in normalized for keyword in NON_OPEN_LICENSE_KEYWORDS)
+
+
+def is_mature_open_source(component: dict[str, Any]) -> bool:
+    """判断组件是否适合作为成熟开源候选：有 GitHub、许可证清楚且评分不低于 4/5。"""
+    return (
+        has_github_repo(component)
+        and has_clear_open_source_license(component)
+        and score_value(component) >= MIN_MATURE_SCORE
+    )
+
+
+def is_open_source_candidate(component: dict[str, Any]) -> bool:
+    """判断组件是否具备开源候选的基础条件：有 GitHub 且许可证没有明显商业或非标准开放限制。"""
+    return has_github_repo(component) and has_clear_open_source_license(component)
+
+
+def component_sort_key(component: dict[str, Any]) -> tuple[int, int, int, str]:
+    """排序规则：成熟开源优先，再按评分高、接入成本低和名称稳定排序。"""
     cost = COST_RANK.get(str(component.get("integration_cost", "")), 9)
-    return (-score_value(component), cost, str(component.get("name", "")))
+    maturity_rank = 0 if is_mature_open_source(component) else 1
+    return (maturity_rank, -score_value(component), cost, str(component.get("name", "")))
 
 
 def select_for_category(
     components: list[dict[str, Any]],
     category: str,
+    mature_only: bool = False,
 ) -> dict[str, Any]:
     """为单个模块选择主组件和备选组件。"""
     candidates = [component for component in components if component.get("category") == category]
+    candidates = [component for component in candidates if is_open_source_candidate(component)]
+    if mature_only:
+        candidates = [component for component in candidates if is_mature_open_source(component)]
     ordered = sorted(candidates, key=component_sort_key)
     primary = ordered[0] if ordered else None
     fallback = ordered[1] if len(ordered) > 1 else None
@@ -66,9 +101,10 @@ def select_for_category(
 def build_stack_decisions(
     components: list[dict[str, Any]],
     categories: list[str],
+    mature_only: bool = False,
 ) -> list[dict[str, Any]]:
     """为多个模块生成技术栈决策草案。"""
-    return [select_for_category(components, category) for category in categories]
+    return [select_for_category(components, category, mature_only=mature_only) for category in categories]
 
 
 def component_name(component: dict[str, Any] | None) -> str:
@@ -278,6 +314,11 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         help="把技术栈清单写入指定文件；不提供时输出到终端。",
     )
+    parser.add_argument(
+        "--mature-only",
+        action="store_true",
+        help="只从有 GitHub、许可证清楚且评分不低于 4/5 的成熟开源候选中选择组件。",
+    )
     args = parser.parse_args(argv)
 
     if args.list_presets:
@@ -291,7 +332,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.preset and not preset_exists(args.preset):
             parser.error(f"未知项目预设: {args.preset}。请先运行 --list-presets 查看可用写法。")
         parser.error("必须提供 --modules 或 --preset。")
-    decisions = build_stack_decisions(components, modules)
+    decisions = build_stack_decisions(components, modules, mature_only=args.mature_only)
     output_text = render_stack_decisions(decisions, args.format)
     if args.output:
         args.output.write_text(output_text + "\n", encoding="utf-8")

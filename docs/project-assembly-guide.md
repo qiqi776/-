@@ -11,13 +11,13 @@
 如果是在本仓库里先做选型，推荐先生成工作表草案：
 
 ```powershell
-python tools/generate_project_package.py --project-name "SaaS 示例" --preset saas-starter --output-dir project-package
+python tools/generate_project_package.py --project-name "SaaS 示例" --preset saas-starter --mature-only --output-dir project-package
 python tools/generate_worksheet.py --list-presets
 python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
 python tools/generate_worksheet.py --project-name "后台示例" --preset "内部管理后台" --output stack-selection.md
 ```
 
-`--list-presets` 会列出每个预设的中文项目类型、适用场景、可用写法和目录模块。`generate_project_package.py` 会一次生成 `stack-plan.json`、`component-manifest.md`、`risk-check.md`、`integration-plan.md`、`architecture-map.md`、`integration-contracts.md`、`assembly-checklist.md`、`delivery-milestones.md`、`compatibility-matrix.md`、`component-decisions.md`、`github-issues.md`、`github-labels.json`、`github-import-commands.md`、`github-issue-template.yml`、`github-pr-template.md`、`CONTRIBUTING.md`、`.env.example`、`PROJECT-README.md` 和说明 README，适合直接放进新项目仓库作为拼装起点。`integration-plan.md` 会按缺失组件、许可证和接入成本风险排序，提示先验证哪个集成；`architecture-map.md` 会把已选模块渲染成组件连接图和连接清单，方便先确认组件之间怎么拼；`integration-contracts.md` 会把架构连接拆成接口、数据、配置、密钥、失败处理和监控责任清单，适合在模块对接前逐条确认；`assembly-checklist.md` 会把每个组件拆成带负责人、状态、风险确认和验收动作的复选任务，适合复制到项目看板或 GitHub Issue；`delivery-milestones.md` 会把组件接入拆成风险确认、最小样例、契约对齐和拼装验收阶段，适合给团队排期和验收；`compatibility-matrix.md` 会集中复核组件连接、开源许可证、成熟度评分、运行环境和数据边界，避免把不成熟或边界不清的方案直接拼进项目；`component-decisions.md` 会记录每个能力的主组件、备选组件、选择理由、风险和切换条件，方便后续复用或替换组件；`github-issues.md` 会把每个组件接入拆成可复制到 GitHub Issues 的中文任务草案，并带上分类和风险标签；`github-labels.json` 会生成与这些 Issue 草案匹配的分类和风险标签配置；`github-import-commands.md` 会生成可复制执行的 GitHub CLI 命令清单，但不会自动访问或修改 GitHub；`github-issue-template.yml` 可复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单；`github-pr-template.md` 可复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项；`CONTRIBUTING.md` 可放入目标项目仓库，统一新增或替换开源组件的贡献规则；`.env.example` 会按已选组件生成启用开关、服务地址和 API Key 占位，提醒不要提交真实密钥；`PROJECT-README.md` 会生成可放进目标项目仓库的中文 README 草案，记录技术栈、优先集成、配置和维护规则。`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查、项目接入清单和优先验证项写进同一份 Markdown。项目接入清单会集中列出主组件 GitHub、官网、接入成本和首个动作，优先验证项会把许可证、接入成本或缺失组件风险更高的集成排在更前面。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`，`--preset` 也可以直接写 `内部管理后台` 这类中文项目类型；如果这些蓝图不匹配项目，可以改用 `--modules` 传入自定义分类列表。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
+`--list-presets` 会列出每个预设的中文项目类型、适用场景、可用写法和目录模块。`generate_project_package.py` 会一次生成 `stack-plan.json`、`component-manifest.md`、`risk-check.md`、`integration-plan.md`、`architecture-map.md`、`integration-contracts.md`、`assembly-checklist.md`、`delivery-milestones.md`、`compatibility-matrix.md`、`component-decisions.md`、`github-issues.md`、`github-labels.json`、`github-import-commands.md`、`github-issue-template.yml`、`github-pr-template.md`、`CONTRIBUTING.md`、`.env.example`、`PROJECT-README.md` 和说明 README，适合直接放进新项目仓库作为拼装起点。加上 `--mature-only` 时，项目包会只从 GitHub 地址明确、许可证清楚且评分不低于 `4/5` 的成熟开源候选中选择组件。`integration-plan.md` 会按缺失组件、许可证和接入成本风险排序，提示先验证哪个集成；`architecture-map.md` 会把已选模块渲染成组件连接图和连接清单，方便先确认组件之间怎么拼；`integration-contracts.md` 会把架构连接拆成接口、数据、配置、密钥、失败处理和监控责任清单，适合在模块对接前逐条确认；`assembly-checklist.md` 会把每个组件拆成带负责人、状态、风险确认和验收动作的复选任务，适合复制到项目看板或 GitHub Issue；`delivery-milestones.md` 会把组件接入拆成风险确认、最小样例、契约对齐和拼装验收阶段，适合给团队排期和验收；`compatibility-matrix.md` 会集中复核组件连接、开源许可证、成熟度评分、运行环境和数据边界，避免把不成熟或边界不清的方案直接拼进项目；`component-decisions.md` 会记录每个能力的主组件、备选组件、选择理由、风险和切换条件，方便后续复用或替换组件；`github-issues.md` 会把每个组件接入拆成可复制到 GitHub Issues 的中文任务草案，并带上分类和风险标签；`github-labels.json` 会生成与这些 Issue 草案匹配的分类和风险标签配置；`github-import-commands.md` 会生成可复制执行的 GitHub CLI 命令清单，但不会自动访问或修改 GitHub；`github-issue-template.yml` 可复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单；`github-pr-template.md` 可复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项；`CONTRIBUTING.md` 可放入目标项目仓库，统一新增或替换开源组件的贡献规则；`.env.example` 会按已选组件生成启用开关、服务地址和 API Key 占位，提醒不要提交真实密钥；`PROJECT-README.md` 会生成可放进目标项目仓库的中文 README 草案，记录技术栈、优先集成、配置和维护规则。`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查、项目接入清单和优先验证项写进同一份 Markdown。项目接入清单会集中列出主组件 GitHub、官网、接入成本和首个动作，优先验证项会把许可证、接入成本或缺失组件风险更高的集成排在更前面。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`，`--preset` 也可以直接写 `内部管理后台` 这类中文项目类型；如果这些蓝图不匹配项目，可以改用 `--modules` 传入自定义分类列表。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
 
 示例：
 
@@ -205,19 +205,19 @@ python tools/check_stack.py --stack-plan stack-plan.json
 可以先用组合生成器生成一版 Markdown 表格，再粘贴到工作表或项目架构文档中：
 
 ```powershell
-python tools/generate_project_package.py --project-name "后台示例" --preset "内部管理后台" --output-dir project-package
+python tools/generate_project_package.py --project-name "后台示例" --preset "内部管理后台" --mature-only --output-dir project-package
 python tools/assemble_stack.py --list-presets
 python tools/assemble_stack.py --preset saas-starter
 python tools/assemble_stack.py --preset "内部管理后台"
 python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
-python tools/assemble_stack.py --modules 后端,认证,数据库
+python tools/assemble_stack.py --modules 后端,认证,数据库 --mature-only
 python tools/assemble_stack.py --preset "内部管理后台" --format json
-python tools/assemble_stack.py --preset "内部管理后台" --format json --output stack-plan.json
+python tools/assemble_stack.py --preset "内部管理后台" --mature-only --format json --output stack-plan.json
 python tools/assemble_stack.py --preset "内部管理后台" --format manifest --output component-manifest.md
 python tools/check_stack.py --stack-plan stack-plan.json
 ```
 
-组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本。`generate_project_package.py` 会把 JSON 技术栈、组件清单、风险报告、集成实施计划、组件架构图、集成契约清单、拼装执行清单、组件交付里程碑、兼容性矩阵、组件决策记录、GitHub Issue 草案、GitHub Labels 配置、GitHub CLI 导入命令、GitHub Issue 表单模板、GitHub PR 模板、中文贡献指南、环境变量样例和目标项目 README 草案集中写到一个目录；`--preset` 支持英文 slug 和中文项目类型，`--modules` 支持英文分类名和常用中文模块名，例如 `后端,认证,数据库`；默认 Markdown 输出适合复制到决策文档，`--format json` 适合交给脚手架、模板或后续自动化读取，`--format manifest` 适合放进新项目仓库追踪每个能力的主组件、链接、首个动作和待确认事项，`--output` 可以直接把清单保存到新项目仓库。保存 JSON 清单后，可以用 `check_stack.py --stack-plan` 继续检查所有主组件的目录风险。如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
+组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本。`generate_project_package.py` 会把 JSON 技术栈、组件清单、风险报告、集成实施计划、组件架构图、集成契约清单、拼装执行清单、组件交付里程碑、兼容性矩阵、组件决策记录、GitHub Issue 草案、GitHub Labels 配置、GitHub CLI 导入命令、GitHub Issue 表单模板、GitHub PR 模板、中文贡献指南、环境变量样例和目标项目 README 草案集中写到一个目录；`--preset` 支持英文 slug 和中文项目类型，`--modules` 支持英文分类名和常用中文模块名，例如 `后端,认证,数据库`；默认会排除明显非开源或没有 GitHub 地址的候选，加上 `--mature-only` 后会进一步只保留 GitHub 地址明确、许可证清楚且评分不低于 `4/5` 的成熟开源组件；默认 Markdown 输出适合复制到决策文档，`--format json` 适合交给脚手架、模板或后续自动化读取，`--format manifest` 适合放进新项目仓库追踪每个能力的主组件、链接、首个动作和待确认事项，`--output` 可以直接把清单保存到新项目仓库。保存 JSON 清单后，可以用 `check_stack.py --stack-plan` 继续检查所有主组件的目录风险。如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
 
 如果需要完整工作表，优先使用：
 

@@ -940,9 +940,10 @@ def generate_project_package(
     modules: list[str],
     project_name: str,
     output_dir: Path,
+    mature_only: bool = False,
 ) -> list[Path]:
     """生成项目拼装包文件，并返回写出的文件路径。"""
-    decisions = build_stack_decisions(components, modules)
+    decisions = build_stack_decisions(components, modules, mature_only=mature_only)
     primary_names = selected_primary_names(decisions)
     risk_checks = build_component_checks(components, primary_names)
 
@@ -1007,6 +1008,11 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("project-package"),
         help="输出目录，默认写入 project-package",
     )
+    parser.add_argument(
+        "--mature-only",
+        action="store_true",
+        help="只从有 GitHub、许可证清楚且评分不低于 4/5 的成熟开源候选中生成拼装包。",
+    )
     args = parser.parse_args(argv)
 
     if args.list_presets:
@@ -1021,7 +1027,13 @@ def main(argv: list[str] | None = None) -> int:
             parser.error(f"未知项目预设: {args.preset}。请先运行 --list-presets 查看可用写法。")
         parser.error("必须提供 --modules 或 --preset。")
 
-    written_paths = generate_project_package(components, modules, args.project_name, args.output_dir)
+    written_paths = generate_project_package(
+        components,
+        modules,
+        args.project_name,
+        args.output_dir,
+        mature_only=args.mature_only,
+    )
     print(f"已生成项目拼装包: {args.output_dir}")
     for path in written_paths:
         print(f"- {path}")
