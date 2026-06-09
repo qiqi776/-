@@ -685,7 +685,7 @@
       "best_for": "需要自托管用量计费、订阅账单、发票生成、多支付网关编排和收入分析的 SaaS 产品。",
       "avoid_when": "只需要一个简单收款按钮，或无法接受 AGPL 网络服务义务的闭源商业系统。",
       "integration_cost": "高",
-      "alternatives": "OpenMeter, Kill Bill, Stripe Billing",
+      "alternatives": "OpenMeter, Kill Bill, 商业 Billing 服务",
       "score": "4/5",
       "notes": "账单领域模型完整，但许可证、数据同步和财务口径需要提前审查。"
     },
@@ -701,7 +701,7 @@
       "best_for": "AI、API、DevTool、FinOps 等需要高频用量采集、实时聚合、限额和用量计费的产品。",
       "avoid_when": "没有事件流和用量维度的小型订阅产品，或团队不想维护 ClickHouse / Kafka。",
       "integration_cost": "高",
-      "alternatives": "Lago, M3ter, 自建用量计量服务",
+      "alternatives": "Lago, Kill Bill, 自建用量计量服务",
       "score": "4/5",
       "notes": "更偏实时用量计量基础设施，落地时要先定义事件 schema、幂等策略和计费窗口。"
     },
@@ -717,9 +717,9 @@
       "best_for": "订阅计费、发票、支付工作流、账户账务和复杂计费领域。",
       "avoid_when": "只需要简单 Checkout、轻量 SaaS 订阅，或团队没有 Java 计费系统运维经验。",
       "integration_cost": "高",
-      "alternatives": "Lago, OpenMeter, Stripe Billing",
-      "score": "3/5",
-      "notes": "计费能力强且成熟，但会显著增加运维、集成和财务领域复杂度。"
+      "alternatives": "Lago, OpenMeter, 商业 Billing 服务",
+      "score": "4/5",
+      "notes": "计费能力强且成熟，但会显著增加运维、集成和财务领域复杂度；适合有复杂订阅和账务模型的团队。"
     },
     {
       "name": "Apache Superset",
@@ -1165,7 +1165,7 @@
       "best_for": "需要把 CRM、销售、库存、采购、会计、网站和自动化流程放进同一套业务应用平台的团队。",
       "avoid_when": "只需要轻量联系人管理，或不能接受大型业务套件带来的模块选择、定制和升级复杂度。",
       "integration_cost": "高",
-      "alternatives": "ERPNext, SuiteCRM, Twenty",
+      "alternatives": "ERPNext, SuiteCRM, Dolibarr",
       "score": "4/5",
       "notes": "社区版采用 LGPL-3.0，但企业功能和应用边界要单独确认；落地前要评估定制开发、数据迁移、权限模型和升级策略。"
     },
@@ -1181,7 +1181,7 @@
       "best_for": "中小企业希望用一套开源系统覆盖 CRM、销售、采购、库存、制造、会计和人事等核心业务流程。",
       "avoid_when": "只需要独立 CRM，或项目许可证策略不能接受 GPL-3.0 copyleft 义务。",
       "integration_cost": "高",
-      "alternatives": "Odoo, SuiteCRM, Dolibarr",
+      "alternatives": "Odoo, SuiteCRM, Twenty",
       "score": "4/5",
       "notes": "适合业务流程一体化，不适合作为随手接入的小组件；生产前要确认 GPL 合规、Frappe 定制能力、主数据建模和迁移计划。"
     },
@@ -1198,8 +1198,8 @@
       "avoid_when": "不能接受 AGPL-3.0 网络服务义务，或希望获得现代轻量 UI 和低维护成本的项目。",
       "integration_cost": "中",
       "alternatives": "Odoo, ERPNext, Twenty",
-      "score": "3/5",
-      "notes": "功能覆盖传统 CRM 场景，但技术栈和体验要评估；上线前要确认 AGPL 合规、字段模型、权限、邮件集成和升级路径。"
+      "score": "4/5",
+      "notes": "功能覆盖传统 CRM 场景且项目成熟；上线前要确认 AGPL 合规、字段模型、权限、邮件集成和升级路径。"
     },
     {
       "name": "Chatwoot",
@@ -3373,7 +3373,7 @@
       "best_for": "产品和工程团队需要自托管 Issue、Cycles、Modules、路线图、工作区和较现代的 Linear/Jira 替代方案。",
       "avoid_when": "不能接受 AGPL-3.0 网络服务义务，或只需要极轻量个人任务清单的项目。",
       "integration_cost": "中",
-      "alternatives": "OpenProject, Taiga, Linear",
+      "alternatives": "OpenProject, Redmine, Linear",
       "score": "4/5",
       "notes": "适合产品研发协作场景；生产前要确认 AGPL 合规、权限模型、导入导出、备份和通知集成。"
     },
@@ -3389,25 +3389,25 @@
       "best_for": "需要成熟项目计划、工作包、甘特图、时间线、看板、文档和组织级项目管理的团队。",
       "avoid_when": "只需要轻量敏捷看板，或项目许可证策略不能接受 GPL-3.0 copyleft 义务。",
       "integration_cost": "高",
-      "alternatives": "Plane, Taiga, Redmine",
+      "alternatives": "Plane, Redmine, Taiga",
       "score": "4/5",
       "notes": "功能覆盖完整但部署和配置较重；要评估权限、邮件通知、插件、备份、升级和企业功能边界。"
     },
     {
-      "name": "Taiga",
+      "name": "Redmine",
       "category": "project-management",
       "file": "catalog/project-management.md",
-      "github": "https://github.com/taigaio/taiga-back",
-      "website": "https://taiga.io",
-      "module": "项目管理 / 敏捷看板 / Scrum",
-      "tech_stack": "Python, Django, PostgreSQL",
-      "license": "MPL-2.0",
-      "best_for": "团队需要自托管敏捷项目管理、Backlog、Sprint、看板、史诗、任务和基础 Wiki。",
-      "avoid_when": "需要大型组织级计划、复杂资源管理、组合项目治理或深度报表的场景。",
+      "github": "https://github.com/redmine/redmine",
+      "website": "https://www.redmine.org",
+      "module": "项目管理 / Issue / Wiki / 路线图",
+      "tech_stack": "Ruby on Rails, SQL",
+      "license": "GPL-2.0-or-later",
+      "best_for": "团队需要成熟自托管项目管理、Issue、Wiki、路线图、里程碑、时间跟踪和多项目权限。",
+      "avoid_when": "追求现代极简 UI、实时协作体验，或项目许可证策略不能接受 GPL-2.0-or-later copyleft 义务。",
       "integration_cost": "中",
-      "alternatives": "Plane, OpenProject, Redmine",
-      "score": "3/5",
-      "notes": "适合敏捷团队轻量协作；落地前要确认前后端部署组合、权限、邮件、附件存储和维护活跃度。"
+      "alternatives": "Plane, OpenProject, Taiga",
+      "score": "4/5",
+      "notes": "项目管理领域成熟度高；落地前要确认插件、权限、邮件、附件存储、主题和升级路径。"
     },
     {
       "name": "Socket.IO",
@@ -3805,7 +3805,7 @@
       "best_for": "小团队或开源项目想用 GitHub Actions 自动检查端点，并把状态页、事故记录和历史数据托管在 GitHub Pages。",
       "avoid_when": "私有仓库状态页、复杂维护窗口审批、多租户状态页、企业级订阅通知或不能依赖 GitHub Actions 配额的场景。",
       "integration_cost": "低",
-      "alternatives": "Gatus, cState, Cachet",
+      "alternatives": "Gatus, Uptime Kuma, Cachet",
       "score": "4/5",
       "notes": "适合快速搭建零服务器状态页；生产前要确认公开仓库要求、检查频率、GitHub Actions 限额、Issues 数据保留和自定义域名配置。"
     },
@@ -3821,25 +3821,25 @@
       "best_for": "需要自托管端点健康检查、状态页、延迟图表、条件断言、告警通知和轻量事故展示的工程团队。",
       "avoid_when": "只想要静态公告页，或需要完整客户订阅管理、事故复盘流程、审批工作流和品牌化状态门户的产品团队。",
       "integration_cost": "低",
-      "alternatives": "Upptime, cState, Uptime Kuma",
+      "alternatives": "Upptime, Uptime Kuma, Cachet",
       "score": "4/5",
       "notes": "适合把监控探活和状态展示合在一起；上线前要设计检查位置、外部依赖、告警噪音、状态页访问权限和历史数据存储。"
     },
     {
-      "name": "cState",
+      "name": "Uptime Kuma",
       "category": "status-pages",
       "file": "catalog/status-pages.md",
-      "github": "https://github.com/cstate/cstate",
-      "website": "https://cstate.mnts.lt",
-      "module": "状态页 / 静态站点 / 事故公告",
-      "tech_stack": "Hugo, HTML, Netlify CMS, GitHub Pages",
+      "github": "https://github.com/louislam/uptime-kuma",
+      "website": "https://uptime.kuma.pet",
+      "module": "状态页 / 自托管监控 / 多状态页",
+      "tech_stack": "Node.js, Vue, SQLite",
       "license": "MIT",
-      "best_for": "团队需要轻量静态状态页，使用 Markdown 管理事故、维护窗口、系统状态、历史记录和只读 API。",
-      "avoid_when": "需要自动探活、复杂告警、多角色后台、客户订阅偏好或高频自动化状态更新的场景。",
+      "best_for": "团队需要自托管可用性监控、HTTP/TCP/Ping/DNS 检查、通知渠道和多个状态页。",
+      "avoid_when": "只想要静态公告页，或需要复杂审批、客户订阅偏好和企业级事故沟通流程。",
       "integration_cost": "低",
-      "alternatives": "Upptime, Gatus, Statusfy",
-      "score": "3/5",
-      "notes": "适合低运维成本的公开状态页；要提前确认内容发布流程、静态托管、主题维护、事件归档和自动化更新方式。"
+      "alternatives": "Upptime, Gatus, Cachet",
+      "score": "4/5",
+      "notes": "自托管监控和状态页成熟候选；上线前要确认数据持久化、通知渠道、反向代理、备份和升级方式。"
     },
     {
       "name": "Ceph",

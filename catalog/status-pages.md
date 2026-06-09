@@ -12,7 +12,7 @@
 - 适合: 小团队或开源项目想用 GitHub Actions 自动检查端点，并把状态页、事故记录和历史数据托管在 GitHub Pages。
 - 不适合: 私有仓库状态页、复杂维护窗口审批、多租户状态页、企业级订阅通知或不能依赖 GitHub Actions 配额的场景。
 - 接入成本: 低
-- 替代方案: Gatus, cState, Cachet
+- 替代方案: Gatus, Uptime Kuma, Cachet
 - 评分: 4/5
 - 备注: 适合快速搭建零服务器状态页；生产前要确认公开仓库要求、检查频率、GitHub Actions 限额、Issues 数据保留和自定义域名配置。
 
@@ -26,20 +26,20 @@
 - 适合: 需要自托管端点健康检查、状态页、延迟图表、条件断言、告警通知和轻量事故展示的工程团队。
 - 不适合: 只想要静态公告页，或需要完整客户订阅管理、事故复盘流程、审批工作流和品牌化状态门户的产品团队。
 - 接入成本: 低
-- 替代方案: Upptime, cState, Uptime Kuma
+- 替代方案: Upptime, Uptime Kuma, Cachet
 - 评分: 4/5
 - 备注: 适合把监控探活和状态展示合在一起；上线前要设计检查位置、外部依赖、告警噪音、状态页访问权限和历史数据存储。
 
-## cState
+## Uptime Kuma
 
-- GitHub: https://github.com/cstate/cstate
-- 官网: https://cstate.mnts.lt
-- 模块: 状态页 / 静态站点 / 事故公告
-- 技术栈: Hugo, HTML, Netlify CMS, GitHub Pages
+- GitHub: https://github.com/louislam/uptime-kuma
+- 官网: https://uptime.kuma.pet
+- 模块: 状态页 / 自托管监控 / 多状态页
+- 技术栈: Node.js, Vue, SQLite
 - 许可证: MIT
-- 适合: 团队需要轻量静态状态页，使用 Markdown 管理事故、维护窗口、系统状态、历史记录和只读 API。
-- 不适合: 需要自动探活、复杂告警、多角色后台、客户订阅偏好或高频自动化状态更新的场景。
+- 适合: 团队需要自托管可用性监控、HTTP/TCP/Ping/DNS 检查、通知渠道和多个状态页。
+- 不适合: 只想要静态公告页，或需要复杂审批、客户订阅偏好和企业级事故沟通流程。
 - 接入成本: 低
-- 替代方案: Upptime, Gatus, Statusfy
-- 评分: 3/5
-- 备注: 适合低运维成本的公开状态页；要提前确认内容发布流程、静态托管、主题维护、事件归档和自动化更新方式。
+- 替代方案: Upptime, Gatus, Cachet
+- 评分: 4/5
+- 备注: 自托管监控和状态页成熟候选；上线前要确认数据持久化、通知渠道、反向代理、备份和升级方式。
