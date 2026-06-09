@@ -2,33 +2,33 @@
 
 存储组件覆盖对象存储、文件上传、媒体资源和自托管文件服务。
 
-## MinIO
+## Ceph
 
-- GitHub: https://github.com/minio/minio
-- 官网: https://min.io
-- 模块: 存储 / 对象存储
-- 技术栈: Go, S3 API
+- GitHub: https://github.com/ceph/ceph
+- 官网: https://ceph.io
+- 模块: 存储 / 对象存储 / 块存储 / 文件存储
+- 技术栈: C++, Python, RADOS, S3 API
+- 许可证: LGPL-2.1-or-3.0（主体）/ BSD-style（部分）
+- 适合: 需要生产级对象存储、块存储、共享文件系统或统一分布式存储平台。
+- 不适合: 小团队只需要简单文件上传，或没有能力运维分布式存储集群。
+- 接入成本: 高
+- 替代方案: Garage, Rook, Uppy
+- 评分: 4/5
+- 备注: 成熟度和生产采用度高，但架构和运维复杂度也高，适合作为大型项目存储候选。
+
+## Garage
+
+- GitHub: https://github.com/deuxfleurs-org/garage
+- 官网: https://garagehq.deuxfleurs.fr
+- 模块: 存储 / S3 兼容对象存储
+- 技术栈: Rust, S3 API
 - 许可证: AGPL-3.0
-- 适合: 需要评估历史成熟的 S3 兼容对象存储，或能接受源码构建和 AGPL 义务的内部项目。
-- 不适合: 需要活跃维护的社区仓库、预编译社区版本、宽松许可证，或只想使用完全托管云存储。
-- 接入成本: 高
-- 替代方案: SeaweedFS, Garage, Ceph
-- 评分: 2/5
-- 备注: GitHub 仓库已于 2026-04-25 归档并标注不再维护；新项目应优先评估替代方案。
-
-## SeaweedFS
-
-- GitHub: https://github.com/seaweedfs/seaweedfs
-- 官网: https://github.com/seaweedfs/seaweedfs
-- 模块: 存储 / 分布式文件系统 / 对象存储
-- 技术栈: Go
-- 许可证: Apache-2.0
-- 适合: 需要分布式文件存储、对象存储、卷管理和较灵活部署方式的项目。
-- 不适合: 只需要最简单文件上传，或团队不想维护存储集群。
-- 接入成本: 高
-- 替代方案: MinIO, Ceph, Garage
-- 评分: 3/5
-- 备注: 功能覆盖面广，适合有明确存储规模需求时评估。
+- 适合: 自托管中小规模 S3 兼容对象存储，尤其是多地点轻量部署。
+- 不适合: 需要大型企业级存储生态、托管云服务或无法接受 AGPL 义务的项目。
+- 接入成本: 中
+- 替代方案: Ceph, Rook, Uppy
+- 评分: 4/5
+- 备注: 轻量、S3 兼容且面向自托管场景，适合在小到中等规模项目中评估。
 
 ## Uppy
 
