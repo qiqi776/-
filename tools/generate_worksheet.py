@@ -67,6 +67,13 @@ def component_name(component: dict[str, Any] | None) -> str:
     return str(component.get("name", ""))
 
 
+def component_field(component: dict[str, Any] | None, field_name: str) -> str:
+    """读取组件字段；缺失组件或字段为空时返回空字符串，避免表格出现 None。"""
+    if component is None:
+        return ""
+    return str(component.get(field_name, "")).strip()
+
+
 def capability_label(decision: dict[str, Any]) -> str:
     """优先使用目录里的中文模块名；缺失时回退到英文分类名。"""
     primary = decision["primary"]
@@ -123,6 +130,43 @@ def selected_components(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]
         seen.add(name)
         result.append(primary)
     return result
+
+
+def first_integration_action(component: dict[str, Any]) -> str:
+    """根据许可证和接入成本生成项目接入时的第一个动作。"""
+    license_text = component_field(component, "license")
+    integration_cost = component_field(component, "integration_cost")
+    if license_needs_review(license_text) or integration_cost in {"中", "高"}:
+        return "先确认许可证和部署方式，再跑通最小样例"
+    return "先阅读快速开始并跑通最小样例"
+
+
+def format_integration_checklist(decisions: list[dict[str, Any]]) -> str:
+    """生成项目接入清单，把主组件链接和首个动作集中给到落地阶段。"""
+    lines = [
+        "## 项目接入清单",
+        "",
+        "| 能力 | 主组件 | GitHub | 官网 | 接入成本 | 首个动作 |",
+        "| --- | --- | --- | --- | --- | --- |",
+    ]
+    for decision in decisions:
+        primary = decision["primary"]
+        if primary is None:
+            lines.append(
+                f"| {capability_label(decision)} | 待选组件 |  |  |  | 先补齐该模块候选组件 |"
+            )
+            continue
+        lines.append(
+            "| {capability} | {primary} | {github} | {website} | {cost} | {action} |".format(
+                capability=capability_label(decision),
+                primary=component_name(primary),
+                github=component_field(primary, "github"),
+                website=component_field(primary, "website"),
+                cost=component_field(primary, "integration_cost"),
+                action=first_integration_action(primary),
+            )
+        )
+    return "\n".join(lines)
 
 
 def format_capability_map(decisions: list[dict[str, Any]]) -> str:
@@ -260,6 +304,8 @@ def build_worksheet(
         format_capability_map(decisions),
         "",
         format_license_table(primary_components),
+        "",
+        format_integration_checklist(decisions),
         "",
         "## 数据与身份边界",
         "",

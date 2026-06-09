@@ -32,6 +32,8 @@ class GenerateWorksheetTests(unittest.TestCase):
                 "name": "FastAPI",
                 "category": "backend",
                 "module": "后端 / API",
+                "github": "https://github.com/fastapi/fastapi",
+                "website": "https://fastapi.tiangolo.com",
                 "license": "MIT",
                 "integration_cost": "低",
                 "score": "5/5",
@@ -42,6 +44,8 @@ class GenerateWorksheetTests(unittest.TestCase):
                 "name": "Django",
                 "category": "backend",
                 "module": "后端 / 全栈框架",
+                "github": "https://github.com/django/django",
+                "website": "https://www.djangoproject.com",
                 "license": "BSD-3-Clause",
                 "integration_cost": "中",
                 "score": "4/5",
@@ -52,6 +56,8 @@ class GenerateWorksheetTests(unittest.TestCase):
                 "name": "Grafana",
                 "category": "observability",
                 "module": "监控 / 指标 / 仪表盘",
+                "github": "https://github.com/grafana/grafana",
+                "website": "https://grafana.com",
                 "license": "AGPL-3.0",
                 "integration_cost": "中",
                 "score": "4/5",
@@ -70,6 +76,22 @@ class GenerateWorksheetTests(unittest.TestCase):
         self.assertIn("| 后端 / API | 是 | FastAPI | Django | 适合 AI 项目。 | 需要完整全栈框架。 |", worksheet)
         self.assertIn("| 监控 / 指标 / 仪表盘 | 是 | Grafana |  | 适合仪表盘。 | 团队不能接受 AGPL 义务。 |", worksheet)
         self.assertIn("| Grafana | AGPL-3.0 | 待确认 | 许可证需要重点审查", worksheet)
+
+    def test_build_worksheet_includes_project_integration_checklist(self):
+        # 验证工作表会把主组件的仓库、官网和首个接入动作集中列出，方便真正开始拼装项目。
+        generate_tool = load_generate_tool()
+
+        worksheet = generate_tool.build_worksheet(self.components, ["backend", "observability"], "SaaS 示例")
+
+        self.assertIn("## 项目接入清单", worksheet)
+        self.assertIn(
+            "| 后端 / API | FastAPI | https://github.com/fastapi/fastapi | https://fastapi.tiangolo.com | 低 | 先阅读快速开始并跑通最小样例 |",
+            worksheet,
+        )
+        self.assertIn(
+            "| 监控 / 指标 / 仪表盘 | Grafana | https://github.com/grafana/grafana | https://grafana.com | 中 | 先确认许可证和部署方式，再跑通最小样例 |",
+            worksheet,
+        )
 
     def test_validation_table_orders_high_risk_integrations_first(self):
         # 验证优先验证表会把许可证或高接入成本风险更高的模块排在前面。
