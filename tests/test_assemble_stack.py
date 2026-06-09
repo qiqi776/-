@@ -72,6 +72,35 @@ class AssembleStackTests(unittest.TestCase):
         self.assertIsNone(decisions[1]["primary"])
         self.assertEqual(decisions[1]["risk"], "目录中暂未收录该模块组件。")
 
+    def test_resolve_modules_accepts_named_preset(self):
+        # 验证快速技术栈草案也能复用常见项目蓝图，避免和工作表生成器入口不一致。
+        assemble_tool = load_assemble_tool()
+
+        modules = assemble_tool.resolve_modules("", "internal-admin")
+
+        self.assertIn("frontend", modules)
+        self.assertIn("internal-tools", modules)
+        self.assertIn("backend", modules)
+        self.assertIn("observability", modules)
+
+    def test_cli_lists_available_presets(self):
+        # 验证命令行可以先查看预设，方便用户决定使用蓝图还是手写模块。
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--list-presets",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("saas-starter", result.stdout)
+        self.assertIn("ai-rag-app", result.stdout)
+        self.assertIn("internal-admin", result.stdout)
+
     def test_cli_outputs_stack_decision_table(self):
         # 验证命令行能读取索引并输出可复制的技术栈决策表。
         tmp_index = ROOT / "tmp" / "assemble-test-index.json"
@@ -100,7 +129,34 @@ class AssembleStackTests(unittest.TestCase):
         self.assertIn("FastAPI", result.stdout)
         self.assertIn("Keycloak", result.stdout)
 
+    def test_cli_outputs_stack_decision_table_from_preset(self):
+        # 验证命令行可以通过项目预设直接生成技术栈草案。
+        tmp_index = ROOT / "tmp" / "assemble-preset-index.json"
+        tmp_index.parent.mkdir(parents=True, exist_ok=True)
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--preset",
+                "internal-admin",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("FastAPI", result.stdout)
+        self.assertIn("Keycloak", result.stdout)
+        self.assertIn("| observability |", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
-

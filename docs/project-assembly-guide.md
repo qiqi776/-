@@ -202,8 +202,12 @@ python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
 可以先用组合生成器生成一版 Markdown 表格，再粘贴到工作表或项目架构文档中：
 
 ```powershell
+python tools/assemble_stack.py --list-presets
+python tools/assemble_stack.py --preset saas-starter
 python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
 ```
+
+组合生成器适合先快速比较主组件和备选组件；如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
 
 如果需要完整工作表，优先使用：
 

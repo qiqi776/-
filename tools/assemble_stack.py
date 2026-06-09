@@ -11,6 +11,42 @@ from typing import Any
 
 
 COST_RANK = {"低": 0, "中": 1, "高": 2}
+STACK_PRESETS = {
+    "saas-starter": [
+        "frontend",
+        "backend",
+        "auth",
+        "database",
+        "payment",
+        "billing-invoicing",
+        "analytics",
+        "feature-flags",
+        "deployment",
+        "observability",
+    ],
+    "ai-rag-app": [
+        "frontend",
+        "backend",
+        "model-serving-inference",
+        "ai",
+        "vector-database",
+        "llm-guardrails-structured-output",
+        "llm-observability-evaluation",
+        "auth",
+        "database",
+        "deployment",
+        "observability",
+    ],
+    "internal-admin": [
+        "frontend",
+        "internal-tools",
+        "backend",
+        "auth",
+        "database",
+        "deployment",
+        "observability",
+    ],
+}
 
 
 def load_components(path: Path) -> list[dict[str, Any]]:
@@ -101,6 +137,28 @@ def parse_modules(raw_modules: str) -> list[str]:
     return [module.strip() for module in raw_modules.split(",") if module.strip()]
 
 
+def resolve_modules(raw_modules: str, preset: str | None) -> list[str]:
+    """根据显式模块或内置项目预设得到最终模块列表。"""
+    modules = parse_modules(raw_modules)
+    if modules:
+        return modules
+    if not preset:
+        return []
+    return list(STACK_PRESETS.get(preset, []))
+
+
+def format_presets() -> str:
+    """生成命令行可读的项目预设清单，方便快速查看蓝图范围。"""
+    lines = [
+        "可用项目预设:",
+        "",
+    ]
+    for preset_name in sorted(STACK_PRESETS):
+        modules = ", ".join(STACK_PRESETS[preset_name])
+        lines.append(f"- {preset_name}: {modules}")
+    return "\n".join(lines)
+
+
 def main(argv: list[str] | None = None) -> int:
     """命令行入口：读取索引并输出技术栈决策草案。"""
     parser = argparse.ArgumentParser(description="生成项目技术栈决策草案")
@@ -112,17 +170,34 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--modules",
-        required=True,
+        default="",
         help="逗号分隔的模块分类，例如 frontend,backend,auth,database",
+    )
+    parser.add_argument(
+        "--preset",
+        choices=sorted(STACK_PRESETS),
+        help="内置项目预设，例如 saas-starter、ai-rag-app、internal-admin；显式 --modules 会优先生效。",
+    )
+    parser.add_argument(
+        "--list-presets",
+        action="store_true",
+        help="列出内置项目预设及其包含的模块，不生成技术栈草案",
     )
     args = parser.parse_args(argv)
 
+    if args.list_presets:
+        # 只查看预设时不读取组件索引，便于在生成索引前先确认模块范围。
+        print(format_presets())
+        return 0
+
     components = load_components(args.index)
-    decisions = build_stack_decisions(components, parse_modules(args.modules))
+    modules = resolve_modules(args.modules, args.preset)
+    if not modules:
+        parser.error("必须提供 --modules 或 --preset。")
+    decisions = build_stack_decisions(components, modules)
     print(format_stack_table(decisions))
     return 0
 
 
 if __name__ == "__main__":
     sys.exit(main())
-
