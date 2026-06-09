@@ -12,7 +12,7 @@
 - 适合: 团队需要统一管理数据库、数据仓库、仪表盘、管道、数据质量、血缘和业务术语。
 - 不适合: 只需要轻量文档清单，或没有专人维护数据所有权和治理流程。
 - 接入成本: 高
-- 替代方案: DataHub, Amundsen, Atlan
+- 替代方案: DataHub, Apache Atlas, Marquez
 - 评分: 4/5
 - 备注: 覆盖面广，但生产前要验证连接器权限、元数据刷新频率、搜索索引和数据质量规则边界。
 
@@ -26,20 +26,20 @@
 - 适合: 中大型数据平台需要元数据摄取、数据发现、血缘、治理动作、实体模型扩展和平台级集成。
 - 不适合: 小团队只需要简单数据目录，或无法承担 Kafka、搜索和多服务部署复杂度。
 - 接入成本: 高
-- 替代方案: OpenMetadata, Amundsen, Metacat
+- 替代方案: OpenMetadata, Apache Atlas, Marquez
 - 评分: 4/5
 - 备注: 模型和生态强，适合平台团队；落地时要设计元数据所有权、变更审批和采集任务可观测性。
 
-## Amundsen
+## Apache Atlas
 
-- GitHub: https://github.com/amundsen-io/amundsen
-- 官网: https://www.amundsen.io
-- 模块: 数据治理 / 数据发现 / 元数据搜索
-- 技术栈: Python, React, Neo4j, Elasticsearch
+- GitHub: https://github.com/apache/atlas
+- 官网: https://atlas.apache.org
+- 模块: 数据治理 / 元数据管理 / 血缘
+- 技术栈: Java, Apache Hadoop, Solr, Kafka
 - 许可证: Apache-2.0
-- 适合: 需要以数据发现和搜索为核心，快速建立数据资产入口、表字段说明和使用上下文的团队。
-- 不适合: 需要一体化数据质量、复杂治理工作流和活跃平台路线图的组织。
-- 接入成本: 中
-- 替代方案: OpenMetadata, DataHub, Metacat
-- 评分: 3/5
-- 备注: 数据发现体验清晰，但活跃度和治理覆盖面要单独评估；适合作为轻量目录或迁移前过渡方案。
+- 适合: Hadoop、湖仓或企业数据平台需要元数据管理、分类、血缘、标签和治理策略。
+- 不适合: 小团队只需要轻量数据目录，或不想维护 Java/Hadoop 生态依赖。
+- 接入成本: 高
+- 替代方案: OpenMetadata, DataHub, Marquez
+- 评分: 4/5
+- 备注: Apache 基金会项目，适合偏企业数据治理场景；落地前要验证连接器、搜索索引、权限模型和血缘采集方式。
