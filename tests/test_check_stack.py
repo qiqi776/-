@@ -111,6 +111,62 @@ class StackCheckTests(unittest.TestCase):
         self.assertIn("| FastAPI | backend | MIT | 低 | 低 |", result.stdout)
         self.assertIn("| Grafana | observability | AGPL-3.0 | 中 | 高 |", result.stdout)
 
+    def test_cli_reads_primary_components_from_stack_plan_json(self):
+        # 验证风险检查可以直接读取技术栈 JSON 清单，避免用户手动复制主组件名称。
+        tmp_dir = ROOT / "tmp"
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        tmp_index = tmp_dir / "check-stack-plan-index.json"
+        tmp_plan = tmp_dir / "stack-plan-for-check.json"
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        tmp_plan.write_text(
+            json.dumps(
+                {
+                    "module_count": 3,
+                    "modules": [
+                        {"category": "backend", "primary": {"name": "FastAPI"}, "fallback": None},
+                        {"category": "observability", "primary": {"name": "Grafana"}, "fallback": None},
+                        {"category": "payment", "primary": None, "fallback": None},
+                    ],
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--index", str(tmp_index), "--stack-plan", str(tmp_plan)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("| FastAPI | backend | MIT | 低 | 低 |", result.stdout)
+        self.assertIn("| Grafana | observability | AGPL-3.0 | 中 | 高 |", result.stdout)
+        self.assertNotIn("payment", result.stdout)
+
+    def test_cli_requires_components_or_stack_plan(self):
+        # 验证没有提供组件名或技术栈清单时给出明确错误。
+        tmp_index = ROOT / "tmp" / "check-stack-empty-input-index.json"
+        tmp_index.parent.mkdir(parents=True, exist_ok=True)
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--index", str(tmp_index)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("必须提供 --components 或 --stack-plan", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -238,10 +238,12 @@
 ```powershell
 python tools/generate_worksheet.py --list-presets
 python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
+python tools/assemble_stack.py --preset saas-starter --format json --output stack-plan.json
+python tools/check_stack.py --stack-plan stack-plan.json
 python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
 ```
 
-`generate_worksheet.py` 会按评分和接入成本选择主组件与备选组件，并生成能力地图、许可证检查、项目接入清单和优先验证项。项目接入清单会把主组件的 GitHub、官网、接入成本和首个动作集中列出；优先验证项会把许可证、接入成本或缺失组件风险更高的集成排在前面。脚本输出只是第一版草案，最终仍要按业务约束人工确认。
+`generate_worksheet.py` 会按评分和接入成本选择主组件与备选组件，并生成能力地图、许可证检查、项目接入清单和优先验证项。项目接入清单会把主组件的 GitHub、官网、接入成本和首个动作集中列出；优先验证项会把许可证、接入成本或缺失组件风险更高的集成排在前面。`assemble_stack.py --format json` 生成的技术栈清单可以继续交给 `check_stack.py --stack-plan`，直接检查所有已选主组件。脚本输出只是第一版草案，最终仍要按业务约束人工确认。
 
 发布到 GitHub 前，按 [docs/github-publish-guide.md](docs/github-publish-guide.md) 检查远程仓库、推送和 Actions 设置；仓库描述和 topics 可参考 [docs/repository-profile.md](docs/repository-profile.md)。
 
@@ -310,9 +312,10 @@ python tools/generate_worksheet.py --project-name "中文模块示例" --modules
 
 ```powershell
 python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
+python tools/check_stack.py --stack-plan stack-plan.json
 ```
 
-这个命令会标出目录中记录的许可证风险、接入成本和缺失组件，适合放进技术栈决策文档作为上线前的人工复核清单。
+这个命令会标出目录中记录的许可证风险、接入成本和缺失组件，适合放进技术栈决策文档作为上线前的人工复核清单。`--stack-plan` 读取组合生成器 JSON 清单里的主组件，适合在选型后立即做一次批量风险检查。
 
 ## 许可证
 

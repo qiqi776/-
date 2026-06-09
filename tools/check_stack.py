@@ -25,6 +25,20 @@ def parse_component_names(raw_components: str) -> list[str]:
     return [component.strip() for component in raw_components.split(",") if component.strip()]
 
 
+def component_names_from_stack_plan(path: Path) -> list[str]:
+    """从技术栈 JSON 清单中提取已选主组件名称，供风险检查继续使用。"""
+    data = json.loads(path.read_text(encoding="utf-8"))
+    names = []
+    for module in data.get("modules", []):
+        primary = module.get("primary")
+        if not primary:
+            continue
+        name = str(primary.get("name", "")).strip()
+        if name:
+            names.append(name)
+    return names
+
+
 def index_components_by_name(components: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
     """按小写组件名建立索引，方便命令行输入做大小写不敏感匹配。"""
     return {str(component.get("name", "")).lower(): component for component in components}
@@ -129,13 +143,23 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--components",
-        required=True,
+        default="",
         help="逗号分隔的组件名，例如 FastAPI,PostgreSQL,Grafana",
+    )
+    parser.add_argument(
+        "--stack-plan",
+        type=Path,
+        help="assemble_stack.py --format json 生成的技术栈清单，默认检查其中的主组件。",
     )
     args = parser.parse_args(argv)
 
     components = load_components(args.index)
-    checks = build_component_checks(components, parse_component_names(args.components))
+    component_names = parse_component_names(args.components)
+    if args.stack_plan:
+        component_names.extend(component_names_from_stack_plan(args.stack_plan))
+    if not component_names:
+        parser.error("必须提供 --components 或 --stack-plan。")
+    checks = build_component_checks(components, component_names)
     print(format_risk_table(checks))
     return 0
 
