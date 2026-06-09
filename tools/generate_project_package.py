@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、Issue 草案、标签配置、导入命令、配置样例和项目 README 草案。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、配置样例和项目 README 草案。"""
 
 from __future__ import annotations
 
@@ -449,6 +449,70 @@ def format_github_import_commands(decisions: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def format_github_issue_template() -> str:
+    """生成目标项目可放入 .github/ISSUE_TEMPLATE 的组件接入表单模板。"""
+    lines = [
+        "name: 组件接入任务",
+        'description: 用于跟踪一个开源组件从选型到最小集成验证的过程。',
+        'title: "接入 [能力] / [组件]"',
+        "labels: [component, integration]",
+        "body:",
+        "  - type: input",
+        "    id: capability",
+        "    attributes:",
+        "      label: 组件能力",
+        "      description: 例如 后端 / API、认证 / IAM、数据库 / 关系型数据库。",
+        "      placeholder: 后端 / API",
+        "    validations:",
+        "      required: true",
+        "  - type: input",
+        "    id: primary_component",
+        "    attributes:",
+        "      label: 主组件",
+        "      description: 当前计划接入的开源组件名称。",
+        "      placeholder: FastAPI",
+        "    validations:",
+        "      required: true",
+        "  - type: input",
+        "    id: fallback_component",
+        "    attributes:",
+        "      label: 备选组件",
+        "      description: 主组件不适合时的替代方案。",
+        "      placeholder: NestJS",
+        "  - type: dropdown",
+        "    id: risk_level",
+        "    attributes:",
+        "      label: 风险等级",
+        "      description: 根据许可证、接入成本、托管方式和数据边界选择。",
+        "      options:",
+        "        - risk-high",
+        "        - risk-medium",
+        "        - risk-low",
+        "    validations:",
+        "      required: true",
+        "  - type: textarea",
+        "    id: first_action",
+        "    attributes:",
+        "      label: 首个动作",
+        "      description: 写下最小集成验证的第一步。",
+        "      placeholder: 先确认许可证和部署方式，再跑通最小样例",
+        "    validations:",
+        "      required: true",
+        "  - type: textarea",
+        "    id: acceptance",
+        "    attributes:",
+        "      label: 验收标准",
+        "      description: 说明这个组件接入任务怎样算完成。",
+        "      value: |",
+        "        - [ ] 最小样例可重复运行",
+        "        - [ ] 关键配置已记录到 .env.example 或部署平台说明",
+        "        - [ ] 替代组件触发条件已写入组件清单",
+        "    validations:",
+        "      required: true",
+    ]
+    return "\n".join(lines)
+
+
 def env_key_part(raw_text: str, fallback: str) -> str:
     """把模块名或组件名转换成适合环境变量使用的英文大写片段。"""
     normalized = re.sub(r"[^A-Za-z0-9]+", "_", raw_text).strip("_").upper()
@@ -567,6 +631,7 @@ def package_readme(project_name: str) -> str:
         "- `github-issues.md`: 可复制到 GitHub Issues 的组件接入任务草案。",
         "- `github-labels.json`: 与 Issue 草案匹配的 GitHub Labels 配置。",
         "- `github-import-commands.md`: 可复制执行的 GitHub CLI 标签和 Issue 创建命令。",
+        "- `github-issue-template.yml`: 可放入 `.github/ISSUE_TEMPLATE/` 的组件接入表单模板。",
         "- `.env.example`: 按已选组件生成的环境变量样例，提醒不要提交真实密钥。",
         "- `PROJECT-README.md`: 可放入目标项目仓库的 README 草案，用于记录技术栈和维护规则。",
         "",
@@ -579,10 +644,11 @@ def package_readme(project_name: str) -> str:
         "5. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
         "6. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
         "7. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
-        "8. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "9. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
-        "10. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "11. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "8. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
+        "9. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "10. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "11. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "12. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -612,6 +678,7 @@ def generate_project_package(
         "github-issues.md": format_github_issues(decisions) + "\n",
         "github-labels.json": format_github_labels(decisions) + "\n",
         "github-import-commands.md": format_github_import_commands(decisions) + "\n",
+        "github-issue-template.yml": format_github_issue_template() + "\n",
         ".env.example": format_env_example(decisions, project_name) + "\n",
         "PROJECT-README.md": format_project_readme(decisions, project_name) + "\n",
     }

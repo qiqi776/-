@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置和导入命令。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令和 Issue 模板。"""
 
 import json
 import shutil
@@ -99,6 +99,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "github-issues.md").exists())
         self.assertTrue((output_dir / "github-labels.json").exists())
         self.assertTrue((output_dir / "github-import-commands.md").exists())
+        self.assertTrue((output_dir / "github-issue-template.yml").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -159,6 +160,13 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn('gh issue create --title "接入 认证 / IAM / Keycloak"', import_commands)
         self.assertIn('--label "component,integration,auth,risk-high"', import_commands)
         self.assertLess(import_commands.index("Keycloak"), import_commands.index("FastAPI"))
+        issue_template = (output_dir / "github-issue-template.yml").read_text(encoding="utf-8")
+        self.assertIn("name: 组件接入任务", issue_template)
+        self.assertIn("title: \"接入 [能力] / [组件]\"", issue_template)
+        self.assertIn("label: 组件能力", issue_template)
+        self.assertIn("label: 主组件", issue_template)
+        self.assertIn("label: 风险等级", issue_template)
+        self.assertIn("label: 验收标准", issue_template)
 
 
 if __name__ == "__main__":
