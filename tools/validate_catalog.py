@@ -84,11 +84,16 @@ def parse_catalog(root: Path) -> list[dict[str, Any]]:
 
 
 def validate_stack_presets(root: Path, stack_presets: dict[str, list[str]]) -> list[str]:
-    """检查项目预设引用的分类是否都已经存在于 catalog 目录。"""
+    """检查项目预设引用的分类和同名 stacks 蓝图文档是否存在。"""
     errors: list[str] = []
     categories = catalog_categories(root)
+    stacks_dir = root / "stacks"
 
     for preset_name, preset_categories in sorted(stack_presets.items()):
+        stack_file = stacks_dir / f"{preset_name}.md"
+        if not stack_file.exists():
+            errors.append(f"项目预设 {preset_name}: 缺少 stacks/{preset_name}.md 蓝图文档。")
+
         for category in preset_categories:
             if category not in categories:
                 errors.append(f"项目预设 {preset_name}: 引用了不存在的 catalog 分类 {category}。")
