@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板和 PR 模板。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、PR 模板和贡献指南。"""
 
 import json
 import shutil
@@ -101,6 +101,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "github-import-commands.md").exists())
         self.assertTrue((output_dir / "github-issue-template.yml").exists())
         self.assertTrue((output_dir / "github-pr-template.md").exists())
+        self.assertTrue((output_dir / "CONTRIBUTING.md").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -175,6 +176,13 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("component-manifest.md", pr_template)
         self.assertIn("risk-check.md", pr_template)
         self.assertIn("PROJECT-README.md", pr_template)
+        contributing = (output_dir / "CONTRIBUTING.md").read_text(encoding="utf-8")
+        self.assertIn("# 组件贡献指南", contributing)
+        self.assertIn("新增或替换开源组件", contributing)
+        self.assertIn("最小样例验证", contributing)
+        self.assertIn("component-manifest.md", contributing)
+        self.assertIn("risk-check.md", contributing)
+        self.assertIn("github-issues.md", contributing)
 
 
 if __name__ == "__main__":

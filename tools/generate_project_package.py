@@ -553,6 +553,51 @@ def format_github_pr_template() -> str:
     return "\n".join(lines)
 
 
+def format_contributing_guide(project_name: str) -> str:
+    """生成目标项目的中文贡献指南，约束后续组件新增、替换和验证流程。"""
+    title = project_name or "未命名项目"
+    lines = [
+        "# 组件贡献指南",
+        "",
+        f"这份指南用于维护 `{title}` 的开源组件拼装记录，确保新增或替换开源组件时有统一流程和可验证证据。",
+        "",
+        "## 贡献原则",
+        "",
+        "- 先补组件决策记录，再扩展业务功能。",
+        "- 先跑通最小样例验证，再进入完整集成。",
+        "- 每次变更都说明主组件、备选组件、风险和回退条件。",
+        "",
+        "## 新增或替换开源组件",
+        "",
+        "1. 在 `component-manifest.md` 记录能力、主组件、备选组件、GitHub 地址、首个动作和待确认事项。",
+        "2. 在 `risk-check.md` 更新许可证、接入成本、托管方式、数据边界和缺失组件风险。",
+        "3. 如需拆任务，把对应内容补到 `github-issues.md`，并使用 `component`、`integration` 和风险标签。",
+        "4. 涉及环境变量时同步更新 `.env.example`，不要提交真实密钥。",
+        "5. 涉及项目技术栈说明时同步更新 `PROJECT-README.md`。",
+        "",
+        "## 最小样例验证",
+        "",
+        "- [ ] 记录可重复执行的安装、启动或集成命令。",
+        "- [ ] 保存关键日志、截图或测试输出。",
+        "- [ ] 说明验证依赖的环境变量、服务地址和测试数据。",
+        "- [ ] 写清失败时如何回退或切换到备选组件。",
+        "",
+        "## Pull Request 要求",
+        "",
+        "- 使用 `github-pr-template.md` 的检查项描述变更范围。",
+        "- 关联对应的组件接入 Issue 或在 PR 中说明为什么不需要 Issue。",
+        "- 确认 `component-manifest.md`、`risk-check.md`、`github-issues.md` 和 `PROJECT-README.md` 是否需要同步。",
+        "- 高风险许可证、高接入成本或数据边界不清楚的组件，需要先完成风险确认再合并。",
+        "",
+        "## 维护节奏",
+        "",
+        "- 新增模块时先补目录和清单，再生成或更新 Issue。",
+        "- 替换组件时保留旧组件的退出原因和新组件的切换条件。",
+        "- 项目上线前复核所有高风险项，确认没有真实密钥或内部地址被提交。",
+    ]
+    return "\n".join(lines)
+
+
 def env_key_part(raw_text: str, fallback: str) -> str:
     """把模块名或组件名转换成适合环境变量使用的英文大写片段。"""
     normalized = re.sub(r"[^A-Za-z0-9]+", "_", raw_text).strip("_").upper()
@@ -673,6 +718,7 @@ def package_readme(project_name: str) -> str:
         "- `github-import-commands.md`: 可复制执行的 GitHub CLI 标签和 Issue 创建命令。",
         "- `github-issue-template.yml`: 可放入 `.github/ISSUE_TEMPLATE/` 的组件接入表单模板。",
         "- `github-pr-template.md`: 可放入 `.github/pull_request_template.md` 的组件接入 PR 模板。",
+        "- `CONTRIBUTING.md`: 可放入目标项目仓库的中文组件贡献指南。",
         "- `.env.example`: 按已选组件生成的环境变量样例，提醒不要提交真实密钥。",
         "- `PROJECT-README.md`: 可放入目标项目仓库的 README 草案，用于记录技术栈和维护规则。",
         "",
@@ -687,10 +733,11 @@ def package_readme(project_name: str) -> str:
         "7. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
         "8. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
         "9. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
-        "10. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "11. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
-        "12. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "13. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "10. 把 `CONTRIBUTING.md` 放入目标项目仓库，统一新增或替换开源组件的贡献规则。",
+        "11. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "12. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "13. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "14. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -722,6 +769,7 @@ def generate_project_package(
         "github-import-commands.md": format_github_import_commands(decisions) + "\n",
         "github-issue-template.yml": format_github_issue_template() + "\n",
         "github-pr-template.md": format_github_pr_template() + "\n",
+        "CONTRIBUTING.md": format_contributing_guide(project_name) + "\n",
         ".env.example": format_env_example(decisions, project_name) + "\n",
         "PROJECT-README.md": format_project_readme(decisions, project_name) + "\n",
     }
