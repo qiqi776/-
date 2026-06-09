@@ -231,17 +231,16 @@
 
 新增组件时可以从 [templates/component-entry.md](templates/component-entry.md) 复制模板。
 
-开始新项目选型时，可以复制 [templates/project-assembly-worksheet.md](templates/project-assembly-worksheet.md) 作为项目技术栈工作表。
+开始新项目选型时，可以复制 [templates/project-assembly-worksheet.md](templates/project-assembly-worksheet.md) 作为项目技术栈工作表，也可以直接生成一份已经填入候选组件的草案。
 
 推荐落地顺序：
 
 ```powershell
-Copy-Item templates/project-assembly-worksheet.md stack-selection.md
-python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
+python tools/generate_worksheet.py --project-name "SaaS 示例" --modules frontend,backend,auth,database,deployment,observability --output stack-selection.md
 python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
 ```
 
-把组合生成器输出的主组件、备选组件和选择理由填进工作表的“能力地图”，再把风险检查表填进“许可证检查”和“优先验证的集成”。脚本输出只是第一版草案，最终仍要按业务约束人工确认。
+`generate_worksheet.py` 会按评分和接入成本选择主组件与备选组件，并生成能力地图、许可证检查和优先验证项。脚本输出只是第一版草案，最终仍要按业务约束人工确认。
 
 发布到 GitHub 前，按 [docs/github-publish-guide.md](docs/github-publish-guide.md) 检查远程仓库、推送和 Actions 设置；仓库描述和 topics 可参考 [docs/repository-profile.md](docs/repository-profile.md)。
 
@@ -285,6 +284,12 @@ python tools/assemble_stack.py --modules frontend,backend,auth,database,deployme
 ```
 
 模块名称使用 `catalog/` 目录中的英文分类名。生成结果会按评分和接入成本选择主组件与备选组件，适合作为项目工作表的第一版草案，再由人工检查许可证、托管方式和业务边界。
+
+如果希望直接生成完整工作表，可以运行：
+
+```powershell
+python tools/generate_worksheet.py --project-name "SaaS 示例" --modules frontend,backend,auth,database,deployment,observability --output stack-selection.md
+```
 
 ## 检查技术栈风险
 
