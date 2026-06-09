@@ -91,6 +91,42 @@ def component_integration_cost(component: dict[str, Any] | None) -> str:
     return str(component.get("integration_cost", ""))
 
 
+def component_summary(component: dict[str, Any] | None) -> dict[str, str] | None:
+    """把组件压缩成技术栈清单需要的稳定字段，避免泄露多余目录细节。"""
+    if component is None:
+        return None
+    return {
+        "name": str(component.get("name", "")),
+        "github": str(component.get("github", "")),
+        "website": str(component.get("website", "")),
+        "license": str(component.get("license", "")),
+        "integration_cost": str(component.get("integration_cost", "")),
+        "score": str(component.get("score", "")),
+    }
+
+
+def stack_decisions_payload(decisions: list[dict[str, Any]]) -> dict[str, Any]:
+    """生成机器可读技术栈清单，供脚手架、模板或后续自动化读取。"""
+    return {
+        "module_count": len(decisions),
+        "modules": [
+            {
+                "category": decision["category"],
+                "primary": component_summary(decision["primary"]),
+                "fallback": component_summary(decision["fallback"]),
+                "reason": decision["reason"],
+                "risk": decision["risk"],
+            }
+            for decision in decisions
+        ],
+    }
+
+
+def format_stack_json(decisions: list[dict[str, Any]]) -> str:
+    """把技术栈决策草案格式化成稳定 JSON，方便其他工具继续处理。"""
+    return json.dumps(stack_decisions_payload(decisions), ensure_ascii=False, indent=2)
+
+
 def format_stack_table(decisions: list[dict[str, Any]]) -> str:
     """把技术栈决策草案格式化成 Markdown 表格。"""
     lines = [
@@ -137,6 +173,12 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="列出内置项目预设及其包含的模块，不生成技术栈草案",
     )
+    parser.add_argument(
+        "--format",
+        choices=("markdown", "json"),
+        default="markdown",
+        help="输出格式：markdown 适合人工阅读，json 适合脚手架和自动化继续处理。",
+    )
     args = parser.parse_args(argv)
 
     if args.list_presets:
@@ -151,7 +193,10 @@ def main(argv: list[str] | None = None) -> int:
             parser.error(f"未知项目预设: {args.preset}。请先运行 --list-presets 查看可用写法。")
         parser.error("必须提供 --modules 或 --preset。")
     decisions = build_stack_decisions(components, modules)
-    print(format_stack_table(decisions))
+    if args.format == "json":
+        print(format_stack_json(decisions))
+    else:
+        print(format_stack_table(decisions))
     return 0
 
 

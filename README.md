@@ -286,9 +286,10 @@ python tools/assemble_stack.py --preset saas-starter
 python tools/assemble_stack.py --preset "内部管理后台"
 python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
 python tools/assemble_stack.py --modules 后端,认证,数据库
+python tools/assemble_stack.py --preset "内部管理后台" --format json
 ```
 
-模块名称可以使用 `catalog/` 目录中的英文分类名，也可以使用常用中文别名，例如 `后端,认证,数据库`。`--preset` 适合快速套用常见项目蓝图，既支持 `saas-starter` 这类英文 slug，也支持 `内部管理后台` 这类中文项目类型；`--modules` 适合自定义能力清单。生成结果会按评分和接入成本选择主组件与备选组件，并直接带出主组件许可证和接入成本，适合作为项目工作表的第一版草案，再由人工检查托管方式和业务边界。
+模块名称可以使用 `catalog/` 目录中的英文分类名，也可以使用常用中文别名，例如 `后端,认证,数据库`。`--preset` 适合快速套用常见项目蓝图，既支持 `saas-starter` 这类英文 slug，也支持 `内部管理后台` 这类中文项目类型；`--modules` 适合自定义能力清单。生成结果会按评分和接入成本选择主组件与备选组件，并直接带出主组件许可证和接入成本，适合作为项目工作表的第一版草案，再由人工检查托管方式和业务边界。如果后续要把技术栈清单交给脚手架、模板或其他自动化工具，可以使用 `--format json` 输出机器可读结构。
 
 如果希望直接生成完整工作表，可以运行：
 

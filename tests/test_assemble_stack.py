@@ -137,6 +137,43 @@ class AssembleStackTests(unittest.TestCase):
         self.assertIn("| backend | FastAPI | MIT | 低 | NestJS |", result.stdout)
         self.assertIn("Keycloak", result.stdout)
 
+    def test_cli_outputs_machine_readable_stack_json(self):
+        # 验证命令行可以输出机器可读技术栈清单，方便后续脚手架或模板继续消费。
+        tmp_index = ROOT / "tmp" / "assemble-json-index.json"
+        tmp_index.parent.mkdir(parents=True, exist_ok=True)
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--modules",
+                "backend,auth",
+                "--format",
+                "json",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["module_count"], 2)
+        self.assertEqual(payload["modules"][0]["category"], "backend")
+        self.assertEqual(payload["modules"][0]["primary"]["name"], "FastAPI")
+        self.assertEqual(payload["modules"][0]["primary"]["license"], "MIT")
+        self.assertEqual(payload["modules"][0]["primary"]["integration_cost"], "低")
+        self.assertEqual(payload["modules"][0]["fallback"]["name"], "NestJS")
+        self.assertEqual(payload["modules"][1]["category"], "auth")
+        self.assertEqual(payload["modules"][1]["primary"]["name"], "Keycloak")
+        self.assertIn("适合企业身份", payload["modules"][1]["reason"])
+
     def test_cli_outputs_stack_decision_table_from_preset(self):
         # 验证命令行可以通过项目预设直接生成技术栈草案。
         tmp_index = ROOT / "tmp" / "assemble-preset-index.json"
