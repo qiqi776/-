@@ -270,14 +270,15 @@ python tools/summarize_catalog.py
 
 ## 搜索组件
 
-可以用命令行按分类、接入成本和关键词筛选组件：
+可以用命令行按分类、接入成本、关键词和成熟开源条件筛选组件：
 
 ```powershell
 python tools/search_catalog.py --category ai --cost 中
 python tools/search_catalog.py --keyword PostgreSQL
+python tools/search_catalog.py --category backend --mature-only
 ```
 
-输出是 Markdown 表格，可以直接复制到项目选型工作表或技术栈决策文档里。
+输出是 Markdown 表格，可以直接复制到项目选型工作表或技术栈决策文档里。`--mature-only` 会优先保留有 GitHub、许可证清楚且评分不低于 `4/5` 的候选，适合先筛出成熟开源方案，再进入许可证、托管方式和数据边界复核。
 
 ## 生成技术栈草案
 
