@@ -12,12 +12,16 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+TOOLS_DIR = ROOT / "tools"
 SCRIPT = ROOT / "tools" / "validate_catalog.py"
 TEST_TMP = ROOT / "tmp" / "tests"
 
 
 def load_validator():
     # 动态加载校验脚本，方便测试直接调用脚本里的解析函数。
+    tools_path = str(TOOLS_DIR)
+    if tools_path not in sys.path:
+        sys.path.insert(0, tools_path)
     spec = importlib.util.spec_from_file_location("validate_catalog", SCRIPT)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -94,6 +98,43 @@ class CatalogValidationTests(unittest.TestCase):
 
         self.assertTrue(
             any("Example AI" in error and "技术栈" in error for error in errors),
+            errors,
+        )
+
+    def test_validate_repository_reports_unknown_preset_category(self):
+        # 验证项目预设引用了不存在的分类时会报错，避免拼装蓝图在 GitHub 上腐化。
+        validator = load_validator()
+        with temporary_workspace() as tmp:
+            root = Path(tmp)
+            catalog = root / "catalog"
+            catalog.mkdir()
+            (catalog / "backend.md").write_text(
+                """# Backend Components
+
+## FastAPI
+
+- GitHub: https://github.com/fastapi/fastapi
+- 官网: https://fastapi.tiangolo.com
+- 模块: 后端 / API
+- 技术栈: Python, Starlette, Pydantic
+- 许可证: MIT
+- 适合: Python API。
+- 不适合: 需要完整全栈框架。
+- 接入成本: 低
+- 替代方案: Django REST Framework, Flask
+- 评分: 5/5
+- 备注: Python 服务的好默认选择。
+""",
+                encoding="utf-8",
+            )
+
+            errors = validator.validate_repository(
+                root,
+                stack_presets={"broken-stack": ["backend", "missing-module"]},
+            )
+
+        self.assertTrue(
+            any("broken-stack" in error and "missing-module" in error for error in errors),
             errors,
         )
 

@@ -10,6 +10,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from stack_presets import STACK_PRESETS
+
 
 # catalog 条目的中文必填字段；GitHub 保持英文是为了和平台名称一致。
 REQUIRED_FIELDS = [
@@ -29,6 +31,14 @@ REQUIRED_FIELDS = [
 VALID_COSTS = {"低", "中", "高"}
 GITHUB_URL_RE = re.compile(r"^https://github\.com/[^/\s]+/[^/\s]+/?$")
 SCORE_RE = re.compile(r"^[1-5]/5$")
+
+
+def catalog_categories(root: Path) -> set[str]:
+    """返回 catalog 目录中实际存在的分类文件名集合。"""
+    catalog_dir = root / "catalog"
+    if not catalog_dir.exists():
+        return set()
+    return {path.stem for path in catalog_dir.glob("*.md")}
 
 
 def parse_catalog(root: Path) -> list[dict[str, Any]]:
@@ -73,10 +83,24 @@ def parse_catalog(root: Path) -> list[dict[str, Any]]:
     return entries
 
 
-def validate_repository(root: Path) -> list[str]:
+def validate_stack_presets(root: Path, stack_presets: dict[str, list[str]]) -> list[str]:
+    """检查项目预设引用的分类是否都已经存在于 catalog 目录。"""
+    errors: list[str] = []
+    categories = catalog_categories(root)
+
+    for preset_name, preset_categories in sorted(stack_presets.items()):
+        for category in preset_categories:
+            if category not in categories:
+                errors.append(f"项目预设 {preset_name}: 引用了不存在的 catalog 分类 {category}。")
+
+    return errors
+
+
+def validate_repository(root: Path, stack_presets: dict[str, list[str]] | None = None) -> list[str]:
     """检查组件目录结构和每个条目的必填字段。"""
     errors: list[str] = []
     entries = parse_catalog(root)
+    presets = STACK_PRESETS if stack_presets is None else stack_presets
 
     if not entries:
         errors.append("catalog 中没有找到任何组件条目。")
@@ -108,6 +132,7 @@ def validate_repository(root: Path) -> list[str]:
         if score and not SCORE_RE.match(score):
             errors.append(f"{location}: 评分必须是 1/5 到 5/5。")
 
+    errors.extend(validate_stack_presets(root, presets))
     return errors
 
 
@@ -182,4 +207,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
