@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、Issue 草案、标签配置、配置样例和项目 README 草案。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、Issue 草案、标签配置、导入命令、配置样例和项目 README 草案。"""
 
 from __future__ import annotations
 
@@ -346,8 +346,8 @@ def github_label_payload(name: str, color: str, description: str) -> dict[str, s
     }
 
 
-def format_github_labels(decisions: list[dict]) -> str:
-    """生成目标项目可导入的 GitHub Labels 配置，匹配 Issue 草案里的标签。"""
+def build_github_labels(decisions: list[dict]) -> list[dict[str, str]]:
+    """生成目标项目所需的 GitHub Labels 列表，供 JSON 配置和导入命令共用。"""
     labels = [
         github_label_payload("component", "5319e7", "组件接入或替换相关任务。"),
         github_label_payload("integration", "0e8a16", "需要跑通组件最小集成的任务。"),
@@ -370,7 +370,83 @@ def format_github_labels(decisions: list[dict]) -> str:
         )
         existing_names.add(category)
 
+    return labels
+
+
+def format_github_labels(decisions: list[dict]) -> str:
+    """生成目标项目可导入的 GitHub Labels 配置，匹配 Issue 草案里的标签。"""
+    labels = build_github_labels(decisions)
     return json.dumps(labels, ensure_ascii=False, indent=2)
+
+
+def shell_double_quote(text: str) -> str:
+    """转义命令参数中的双引号，避免生成的 gh 命令被标题或说明截断。"""
+    return str(text).replace('"', '\\"')
+
+
+def issue_label_csv(decision: dict) -> str:
+    """生成 gh issue create 可直接使用的逗号分隔标签值。"""
+    return ",".join(["component", "integration", str(decision["category"]), issue_risk_label(decision)])
+
+
+def issue_body_text(decision: dict) -> str:
+    """生成 GitHub Issue 命令中的简短正文，保留首个动作和验收重点。"""
+    primary = decision["primary"]
+    return (
+        f"能力: {capability_label(decision)}\\n"
+        f"主组件: {component_name(primary) or '待选组件'}\\n"
+        f"备选组件: {component_name(decision['fallback']) or '待补充'}\\n"
+        f"风险原因: {integration_risk_reason(decision)}\\n"
+        f"首个动作: {first_integration_action(primary)}\\n\\n"
+        "执行清单:\\n"
+        f"- [ ] {first_integration_action(primary)}\\n"
+        "- [ ] 跑通最小样例并记录命令、配置、截图或日志\\n"
+        "- [ ] 确认环境变量、部署地址、数据边界和回退方案\\n"
+        "- [ ] 更新 component-manifest.md、risk-check.md 和 PROJECT-README.md"
+    )
+
+
+def format_github_import_commands(decisions: list[dict]) -> str:
+    """生成可复制执行的 GitHub CLI 命令清单，但不直接访问或修改 GitHub。"""
+    lines = [
+        "# GitHub 导入命令清单",
+        "",
+        "下面命令用于在目标项目仓库中创建组件接入标签和 Issue。请先安装并登录 GitHub CLI，然后在目标仓库根目录按需复制执行。",
+        "",
+        "## 创建标签",
+        "",
+        "```powershell",
+    ]
+    for label in build_github_labels(decisions):
+        lines.append(
+            'gh label create "{name}" --color "{color}" --description "{description}"'.format(
+                name=shell_double_quote(label["name"]),
+                color=shell_double_quote(label["color"]),
+                description=shell_double_quote(label["description"]),
+            )
+        )
+
+    lines.extend(
+        [
+            "```",
+            "",
+            "## 创建组件接入 Issue",
+            "",
+            "```powershell",
+        ]
+    )
+    for decision in sorted(decisions, key=integration_priority_key):
+        primary = decision["primary"]
+        title = f"接入 {capability_label(decision)} / {component_name(primary) or '待选组件'}"
+        lines.append(
+            'gh issue create --title "{title}" --label "{labels}" --body "{body}"'.format(
+                title=shell_double_quote(title),
+                labels=shell_double_quote(issue_label_csv(decision)),
+                body=shell_double_quote(issue_body_text(decision)),
+            )
+        )
+    lines.append("```")
+    return "\n".join(lines)
 
 
 def env_key_part(raw_text: str, fallback: str) -> str:
@@ -490,6 +566,7 @@ def package_readme(project_name: str) -> str:
         "- `assembly-checklist.md`: 可复制到项目看板或 GitHub Issue 的拼装执行清单。",
         "- `github-issues.md`: 可复制到 GitHub Issues 的组件接入任务草案。",
         "- `github-labels.json`: 与 Issue 草案匹配的 GitHub Labels 配置。",
+        "- `github-import-commands.md`: 可复制执行的 GitHub CLI 标签和 Issue 创建命令。",
         "- `.env.example`: 按已选组件生成的环境变量样例，提醒不要提交真实密钥。",
         "- `PROJECT-README.md`: 可放入目标项目仓库的 README 草案，用于记录技术栈和维护规则。",
         "",
@@ -501,10 +578,11 @@ def package_readme(project_name: str) -> str:
         "4. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
         "5. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
         "6. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
-        "7. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "8. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
-        "9. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "10. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "7. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
+        "8. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "9. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "10. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "11. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -533,6 +611,7 @@ def generate_project_package(
         "assembly-checklist.md": format_assembly_checklist(decisions) + "\n",
         "github-issues.md": format_github_issues(decisions) + "\n",
         "github-labels.json": format_github_labels(decisions) + "\n",
+        "github-import-commands.md": format_github_import_commands(decisions) + "\n",
         ".env.example": format_env_example(decisions, project_name) + "\n",
         "PROJECT-README.md": format_project_readme(decisions, project_name) + "\n",
     }

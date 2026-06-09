@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案和标签配置。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置和导入命令。"""
 
 import json
 import shutil
@@ -98,6 +98,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "PROJECT-README.md").exists())
         self.assertTrue((output_dir / "github-issues.md").exists())
         self.assertTrue((output_dir / "github-labels.json").exists())
+        self.assertTrue((output_dir / "github-import-commands.md").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -152,6 +153,12 @@ class GenerateProjectPackageTests(unittest.TestCase):
         auth_label = next(label for label in github_labels if label["name"] == "auth")
         self.assertEqual(auth_label["color"], "1d76db")
         self.assertIn("认证 / IAM", auth_label["description"])
+        import_commands = (output_dir / "github-import-commands.md").read_text(encoding="utf-8")
+        self.assertIn("# GitHub 导入命令清单", import_commands)
+        self.assertIn('gh label create "risk-high" --color "d73a4a"', import_commands)
+        self.assertIn('gh issue create --title "接入 认证 / IAM / Keycloak"', import_commands)
+        self.assertIn('--label "component,integration,auth,risk-high"', import_commands)
+        self.assertLess(import_commands.index("Keycloak"), import_commands.index("FastAPI"))
 
 
 if __name__ == "__main__":
