@@ -13,6 +13,7 @@ from stack_presets import STACK_PRESETS, format_presets, preset_exists, resolve_
 
 
 COST_RANK = {"低": 0, "中": 1, "高": 2}
+REVIEW_LICENSE_KEYWORDS = ("AGPL", "GPL", "BUSL", "BSL", "SSPL", "ELASTIC", "商业许可证")
 
 
 def load_components(path: Path) -> list[dict[str, Any]]:
@@ -91,6 +92,62 @@ def component_integration_cost(component: dict[str, Any] | None) -> str:
     return str(component.get("integration_cost", ""))
 
 
+def component_field(component: dict[str, Any] | None, field_name: str) -> str:
+    """读取组件字段；缺失组件或字段为空时返回空字符串，便于表格稳定输出。"""
+    if component is None:
+        return ""
+    return str(component.get(field_name, "")).strip()
+
+
+def capability_label(decision: dict[str, Any]) -> str:
+    """优先使用目录里的中文模块名；缺失时回退到英文分类名。"""
+    primary = decision["primary"]
+    if primary is None:
+        return str(decision["category"])
+    module = component_field(primary, "module")
+    return module or str(decision["category"])
+
+
+def license_needs_review(license_text: str) -> bool:
+    """判断许可证文本是否包含需要人工重点审查的关键词。"""
+    normalized = license_text.upper()
+    return any(keyword.upper() in normalized for keyword in REVIEW_LICENSE_KEYWORDS)
+
+
+def first_integration_action(component: dict[str, Any] | None) -> str:
+    """根据许可证和接入成本给出项目接入时的第一个动作。"""
+    if component is None:
+        return "先补齐该模块候选组件"
+    license_text = component_field(component, "license")
+    integration_cost = component_field(component, "integration_cost")
+    if license_needs_review(license_text) or integration_cost in {"中", "高"}:
+        return "先确认许可证和部署方式，再跑通最小样例"
+    return "先阅读快速开始并跑通最小样例"
+
+
+def manifest_review_note(decision: dict[str, Any]) -> str:
+    """生成项目组件清单中的待确认事项，提醒真实拼装前先处理边界风险。"""
+    primary = decision["primary"]
+    if primary is None:
+        return "目录中暂未收录该模块组件。"
+
+    notes = []
+    license_text = component_field(primary, "license")
+    integration_cost = component_field(primary, "integration_cost")
+    avoid_when = component_field(primary, "avoid_when")
+
+    if license_needs_review(license_text):
+        notes.append("许可证需要重点审查")
+    if integration_cost == "高":
+        notes.append("接入成本高")
+    if avoid_when:
+        notes.append(avoid_when)
+    elif notes:
+        notes.append(str(decision["reason"]))
+
+    return "；".join(notes) if notes else "按项目数据边界人工确认"
+
+
 def component_summary(component: dict[str, Any] | None) -> dict[str, str] | None:
     """把组件压缩成技术栈清单需要的稳定字段，避免泄露多余目录细节。"""
     if component is None:
@@ -150,10 +207,40 @@ def format_stack_table(decisions: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
+def format_component_manifest(decisions: list[dict[str, Any]]) -> str:
+    """把技术栈决策渲染成可放进新项目仓库的组件清单。"""
+    lines = [
+        "# 项目组件清单",
+        "",
+        "这份清单由组件目录生成，适合放进新项目仓库追踪每个能力使用的开源组件。",
+        "",
+        "| 能力 | 主组件 | GitHub | 官网 | 许可证 | 接入成本 | 备选组件 | 首个动作 | 待确认事项 |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for decision in decisions:
+        primary = decision["primary"]
+        lines.append(
+            "| {capability} | {primary} | {github} | {website} | {license} | {cost} | {fallback} | {action} | {review_note} |".format(
+                capability=capability_label(decision),
+                primary=component_name(primary) or "待选组件",
+                github=component_field(primary, "github"),
+                website=component_field(primary, "website"),
+                license=component_field(primary, "license"),
+                cost=component_field(primary, "integration_cost"),
+                fallback=component_name(decision["fallback"]),
+                action=first_integration_action(primary),
+                review_note=manifest_review_note(decision),
+            )
+        )
+    return "\n".join(lines)
+
+
 def render_stack_decisions(decisions: list[dict[str, Any]], output_format: str) -> str:
     """按用户选择的格式渲染技术栈清单。"""
     if output_format == "json":
         return format_stack_json(decisions)
+    if output_format == "manifest":
+        return format_component_manifest(decisions)
     return format_stack_table(decisions)
 
 
@@ -182,9 +269,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--format",
-        choices=("markdown", "json"),
+        choices=("markdown", "json", "manifest"),
         default="markdown",
-        help="输出格式：markdown 适合人工阅读，json 适合脚手架和自动化继续处理。",
+        help="输出格式：markdown 适合人工阅读，json 适合自动化处理，manifest 适合放进新项目仓库追踪组件。",
     )
     parser.add_argument(
         "--output",

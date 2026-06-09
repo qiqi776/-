@@ -212,6 +212,46 @@ class AssembleStackTests(unittest.TestCase):
         self.assertIn("已生成技术栈清单", result.stdout)
         self.assertNotIn("\"modules\"", result.stdout)
 
+    def test_cli_outputs_project_component_manifest(self):
+        # 验证组合生成器可以输出项目组件清单，便于新项目仓库追踪每个模块的落地组件。
+        tmp_index = ROOT / "tmp" / "assemble-manifest-index.json"
+        tmp_index.parent.mkdir(parents=True, exist_ok=True)
+        tmp_index.write_text(
+            json.dumps({"component_count": len(self.components), "components": self.components}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--index",
+                str(tmp_index),
+                "--modules",
+                "backend,auth",
+                "--format",
+                "manifest",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("# 项目组件清单", result.stdout)
+        self.assertIn(
+            "| 能力 | 主组件 | GitHub | 官网 | 许可证 | 接入成本 | 备选组件 | 首个动作 | 待确认事项 |",
+            result.stdout,
+        )
+        self.assertIn(
+            "| 后端 / API | FastAPI | https://github.com/fastapi/fastapi |  | MIT | 低 | NestJS | 先阅读快速开始并跑通最小样例 | 按项目数据边界人工确认 |",
+            result.stdout,
+        )
+        self.assertIn(
+            "| 认证 / IAM | Keycloak | https://github.com/keycloak/keycloak |  | Apache-2.0 | 高 |  | 先确认许可证和部署方式，再跑通最小样例 | 接入成本高；适合企业身份。 |",
+            result.stdout,
+        )
+
     def test_cli_outputs_stack_decision_table_from_preset(self):
         # 验证命令行可以通过项目预设直接生成技术栈草案。
         tmp_index = ROOT / "tmp" / "assemble-preset-index.json"

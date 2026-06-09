@@ -210,9 +210,10 @@ python tools/assemble_stack.py --modules frontend,backend,auth,database,deployme
 python tools/assemble_stack.py --modules 后端,认证,数据库
 python tools/assemble_stack.py --preset "内部管理后台" --format json
 python tools/assemble_stack.py --preset "内部管理后台" --format json --output stack-plan.json
+python tools/assemble_stack.py --preset "内部管理后台" --format manifest --output component-manifest.md
 ```
 
-组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本。`--preset` 支持英文 slug 和中文项目类型，`--modules` 支持英文分类名和常用中文模块名，例如 `后端,认证,数据库`；默认 Markdown 输出适合复制到决策文档，`--format json` 适合交给脚手架、模板或后续自动化读取，`--output` 可以直接把清单保存到新项目仓库。如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
+组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本。`--preset` 支持英文 slug 和中文项目类型，`--modules` 支持英文分类名和常用中文模块名，例如 `后端,认证,数据库`；默认 Markdown 输出适合复制到决策文档，`--format json` 适合交给脚手架、模板或后续自动化读取，`--format manifest` 适合放进新项目仓库追踪每个能力的主组件、链接、首个动作和待确认事项，`--output` 可以直接把清单保存到新项目仓库。如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
 
 如果需要完整工作表，优先使用：
 
