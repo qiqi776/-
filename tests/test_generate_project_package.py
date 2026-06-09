@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告和架构图。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图和执行清单。"""
 
 import json
 import shutil
@@ -93,6 +93,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "risk-check.md").exists())
         self.assertTrue((output_dir / "integration-plan.md").exists())
         self.assertTrue((output_dir / "architecture-map.md").exists())
+        self.assertTrue((output_dir / "assembly-checklist.md").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -109,6 +110,13 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("前端/客户端 --> 后端 / API / FastAPI", architecture_map)
         self.assertIn("后端 / API / FastAPI --> 认证 / IAM / Keycloak", architecture_map)
         self.assertIn("| 前端/客户端 | 后端 / API / FastAPI |", architecture_map)
+        assembly_checklist = (output_dir / "assembly-checklist.md").read_text(encoding="utf-8")
+        self.assertIn("# 项目拼装执行清单", assembly_checklist)
+        self.assertIn("## 1. 认证 / IAM / Keycloak", assembly_checklist)
+        self.assertIn("- [ ] 负责人:", assembly_checklist)
+        self.assertIn("- [ ] 先确认许可证和部署方式，再跑通最小样例", assembly_checklist)
+        self.assertIn("## 2. 后端 / API / FastAPI", assembly_checklist)
+        self.assertLess(assembly_checklist.index("Keycloak"), assembly_checklist.index("FastAPI"))
 
 
 if __name__ == "__main__":

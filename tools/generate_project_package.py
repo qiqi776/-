@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划和架构图。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图和执行清单。"""
 
 from __future__ import annotations
 
@@ -231,6 +231,43 @@ def format_architecture_map(decisions: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def format_assembly_checklist(decisions: list[dict]) -> str:
+    """生成可复制到项目看板或 Issue 的拼装执行清单。"""
+    lines = [
+        "# 项目拼装执行清单",
+        "",
+        "按实施风险排序，把每个组件拆成可分配、可验收的落地任务。",
+        "",
+    ]
+    for index, decision in enumerate(sorted(decisions, key=integration_priority_key), start=1):
+        primary = decision["primary"]
+        component_label = f"{capability_label(decision)} / {component_name(primary) or '待选组件'}"
+        lines.extend(
+            [
+                f"## {index}. {component_label}",
+                "",
+                f"- [ ] 负责人:",
+                "- [ ] 状态: 未开始 / 进行中 / 已验证 / 暂缓",
+                f"- [ ] 风险确认: {integration_risk_reason(decision)}",
+                f"- [ ] {first_integration_action(primary)}",
+                "- [ ] 跑通最小样例并记录命令、配置和截图或日志",
+                "- [ ] 写下失败回退方案和替代组件触发条件",
+                "- [ ] 更新项目 README、环境变量示例和组件清单",
+                "",
+            ]
+        )
+    lines.extend(
+        [
+            "## 完成判定",
+            "",
+            "- [ ] 所有必须模块至少跑通最小样例。",
+            "- [ ] 高风险许可证、托管方式和数据边界已经有人签字确认。",
+            "- [ ] `component-manifest.md`、`risk-check.md` 和项目 README 已同步。",
+        ]
+    )
+    return "\n".join(lines)
+
+
 def package_readme(project_name: str) -> str:
     """生成拼装包说明，帮助用户理解每个文件的用途。"""
     title = project_name or "未命名项目"
@@ -246,14 +283,16 @@ def package_readme(project_name: str) -> str:
         "- `risk-check.md`: 根据目录字段生成的风险检查表，用于先复核许可证、接入成本和缺失组件。",
         "- `integration-plan.md`: 按风险排序的集成实施计划，用于决定先验证哪个组件。",
         "- `architecture-map.md`: 根据已选模块生成的组件连接图，用于理解各组件如何拼装。",
+        "- `assembly-checklist.md`: 可复制到项目看板或 GitHub Issue 的拼装执行清单。",
         "",
         "## 使用建议",
         "",
         "1. 先阅读 `risk-check.md`，处理高风险许可证和高接入成本组件。",
         "2. 查看 `architecture-map.md`，确认组件之间的连接方向是否符合项目边界。",
         "3. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
-        "4. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "5. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "4. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
+        "5. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "6. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -279,6 +318,7 @@ def generate_project_package(
         "risk-check.md": format_risk_table(risk_checks) + "\n",
         "integration-plan.md": format_integration_plan(decisions) + "\n",
         "architecture-map.md": format_architecture_map(decisions) + "\n",
+        "assembly-checklist.md": format_assembly_checklist(decisions) + "\n",
     }
 
     written_paths = []
