@@ -236,6 +236,7 @@
 推荐落地顺序：
 
 ```powershell
+python tools/generate_worksheet.py --list-presets
 python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
 python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
 ```
@@ -288,10 +289,11 @@ python tools/assemble_stack.py --modules frontend,backend,auth,database,deployme
 如果希望直接生成完整工作表，可以运行：
 
 ```powershell
+python tools/generate_worksheet.py --list-presets
 python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
 ```
 
-内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`；如果项目不符合这些蓝图，仍然可以用 `--modules` 自行传入分类列表。
+`--list-presets` 会列出每个预设包含的目录模块。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`；如果项目不符合这些蓝图，仍然可以用 `--modules` 自行传入分类列表。
 
 ## 检查技术栈风险
 

@@ -71,6 +71,18 @@ def resolve_modules(raw_modules: str, preset: str | None) -> list[str]:
     return list(STACK_PRESETS.get(preset, []))
 
 
+def format_presets() -> str:
+    """生成命令行可读的项目预设清单，方便先查看再生成工作表。"""
+    lines = [
+        "可用项目预设:",
+        "",
+    ]
+    for preset_name in sorted(STACK_PRESETS):
+        modules = ", ".join(STACK_PRESETS[preset_name])
+        lines.append(f"- {preset_name}: {modules}")
+    return "\n".join(lines)
+
+
 def score_value(component: dict[str, Any]) -> int:
     """把 4/5 这类评分转换成整数，无法解析时按 0 分处理。"""
     raw_score = str(component.get("score", "0/5"))
@@ -328,6 +340,11 @@ def main(argv: list[str] | None = None) -> int:
         choices=sorted(STACK_PRESETS),
         help="内置项目预设，例如 saas-starter、ai-rag-app、internal-admin；显式 --modules 会优先生效。",
     )
+    parser.add_argument(
+        "--list-presets",
+        action="store_true",
+        help="列出内置项目预设及其包含的模块，不生成工作表",
+    )
     parser.add_argument("--project-name", default="", help="项目名称，会写入工作表项目概况")
     parser.add_argument(
         "--output",
@@ -336,6 +353,11 @@ def main(argv: list[str] | None = None) -> int:
         help="输出工作表路径",
     )
     args = parser.parse_args(argv)
+
+    if args.list_presets:
+        # 只查看预设时不读取组件索引，避免本地目录未生成索引也能先了解蓝图。
+        print(format_presets())
+        return 0
 
     components = load_components(args.index)
     modules = resolve_modules(args.modules, args.preset)

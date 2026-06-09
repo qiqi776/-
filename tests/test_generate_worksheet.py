@@ -78,6 +78,24 @@ class GenerateWorksheetTests(unittest.TestCase):
         self.assertIn("billing-invoicing", modules)
         self.assertIn("observability", modules)
 
+    def test_cli_lists_available_presets(self):
+        # 验证命令行可以直接列出预设名称，方便用户在生成工作表前发现可用蓝图。
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--list-presets",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("saas-starter", result.stdout)
+        self.assertIn("ai-rag-app", result.stdout)
+        self.assertIn("internal-admin", result.stdout)
+
     def test_cli_writes_worksheet_file(self):
         # 验证命令行能读取索引并写出可复制到项目仓库的工作表文件。
         tmp_dir = ROOT / "tmp"
