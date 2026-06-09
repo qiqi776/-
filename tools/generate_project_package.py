@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、配置样例和项目 README 草案。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、决策记录、配置样例和项目 README 草案。"""
 
 from __future__ import annotations
 
@@ -268,6 +268,43 @@ def format_assembly_checklist(decisions: list[dict]) -> str:
         ]
     )
     return "\n".join(lines)
+
+
+def format_component_decisions(decisions: list[dict]) -> str:
+    """生成组件选型决策记录，保留主备组件取舍和后续切换条件。"""
+    lines = [
+        "# 组件决策记录",
+        "",
+        "这份记录用于解释为什么选择当前主组件，以及什么情况下需要切换到备选组件。每次新增或替换组件时都应同步更新。",
+        "",
+    ]
+    for index, decision in enumerate(sorted(decisions, key=integration_priority_key), start=1):
+        primary = decision["primary"]
+        fallback = decision["fallback"]
+        primary_name = component_name(primary) or "待选组件"
+        fallback_name = component_name(fallback) or "待补充"
+        lines.extend(
+            [
+                f"## {index}. {capability_label(decision)}",
+                "",
+                f"- 主组件: {primary_name}",
+                f"- 备选组件: {fallback_name}",
+                f"- 选择理由: {decision['reason']}",
+                f"- 当前风险: {integration_risk_reason(decision)}",
+                f"- 首个验证动作: {first_integration_action(primary)}",
+                f"- 切换到备选组件的触发条件: {decision['risk'] or '待补充'}",
+                "",
+                "### 复核清单",
+                "",
+                "- [ ] 许可证与业务分发方式兼容",
+                "- [ ] 接入成本与项目周期匹配",
+                "- [ ] 托管方式、数据边界和密钥管理清楚",
+                "- [ ] 最小样例已经跑通并记录证据",
+                "- [ ] 替换组件时已更新 component-manifest.md、risk-check.md 和 PROJECT-README.md",
+                "",
+            ]
+        )
+    return "\n".join(lines).rstrip()
 
 
 def issue_risk_label(decision: dict) -> str:
@@ -713,6 +750,7 @@ def package_readme(project_name: str) -> str:
         "- `integration-plan.md`: 按风险排序的集成实施计划，用于决定先验证哪个组件。",
         "- `architecture-map.md`: 根据已选模块生成的组件连接图，用于理解各组件如何拼装。",
         "- `assembly-checklist.md`: 可复制到项目看板或 GitHub Issue 的拼装执行清单。",
+        "- `component-decisions.md`: 记录主备组件取舍、风险和切换条件的组件决策记录。",
         "- `github-issues.md`: 可复制到 GitHub Issues 的组件接入任务草案。",
         "- `github-labels.json`: 与 Issue 草案匹配的 GitHub Labels 配置。",
         "- `github-import-commands.md`: 可复制执行的 GitHub CLI 标签和 Issue 创建命令。",
@@ -728,16 +766,17 @@ def package_readme(project_name: str) -> str:
         "2. 查看 `architecture-map.md`，确认组件之间的连接方向是否符合项目边界。",
         "3. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
         "4. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
-        "5. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
-        "6. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
-        "7. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
-        "8. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
-        "9. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
-        "10. 把 `CONTRIBUTING.md` 放入目标项目仓库，统一新增或替换开源组件的贡献规则。",
-        "11. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "12. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
-        "13. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "14. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "5. 用 `component-decisions.md` 记录主备组件取舍，后续替换组件时先更新这份决策记录。",
+        "6. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
+        "7. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
+        "8. 需要批量创建时，参考 `github-import-commands.md` 在目标仓库执行 GitHub CLI 命令。",
+        "9. 把 `github-issue-template.yml` 复制到目标仓库 `.github/ISSUE_TEMPLATE/component-integration.yml`，统一后续组件接入表单。",
+        "10. 把 `github-pr-template.md` 复制到目标仓库 `.github/pull_request_template.md`，统一组件接入 PR 检查项。",
+        "11. 把 `CONTRIBUTING.md` 放入目标项目仓库，统一新增或替换开源组件的贡献规则。",
+        "12. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "13. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "14. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "15. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -764,6 +803,7 @@ def generate_project_package(
         "integration-plan.md": format_integration_plan(decisions) + "\n",
         "architecture-map.md": format_architecture_map(decisions) + "\n",
         "assembly-checklist.md": format_assembly_checklist(decisions) + "\n",
+        "component-decisions.md": format_component_decisions(decisions) + "\n",
         "github-issues.md": format_github_issues(decisions) + "\n",
         "github-labels.json": format_github_labels(decisions) + "\n",
         "github-import-commands.md": format_github_import_commands(decisions) + "\n",

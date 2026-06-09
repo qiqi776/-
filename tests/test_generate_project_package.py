@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、PR 模板和贡献指南。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案、标签配置、导入命令、Issue 模板、PR 模板、贡献指南和决策记录。"""
 
 import json
 import shutil
@@ -102,6 +102,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "github-issue-template.yml").exists())
         self.assertTrue((output_dir / "github-pr-template.md").exists())
         self.assertTrue((output_dir / "CONTRIBUTING.md").exists())
+        self.assertTrue((output_dir / "component-decisions.md").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -183,6 +184,19 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("component-manifest.md", contributing)
         self.assertIn("risk-check.md", contributing)
         self.assertIn("github-issues.md", contributing)
+        decisions = (output_dir / "component-decisions.md").read_text(encoding="utf-8")
+        self.assertIn("# 组件决策记录", decisions)
+        self.assertIn("## 1. 认证 / IAM", decisions)
+        self.assertIn("- 主组件: Keycloak", decisions)
+        self.assertIn("- 备选组件: 待补充", decisions)
+        self.assertIn("- 选择理由: 适合企业身份。", decisions)
+        self.assertIn("- 当前风险: 只需要轻量登录。", decisions)
+        self.assertIn("- 切换到备选组件的触发条件: 只需要轻量登录。", decisions)
+        self.assertIn("## 2. 后端 / API", decisions)
+        self.assertIn("- 主组件: FastAPI", decisions)
+        self.assertIn("- 备选组件: NestJS", decisions)
+        self.assertIn("- [ ] 许可证与业务分发方式兼容", decisions)
+        self.assertLess(decisions.index("Keycloak"), decisions.index("FastAPI"))
 
 
 if __name__ == "__main__":
