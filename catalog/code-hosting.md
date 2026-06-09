@@ -12,7 +12,7 @@
 - 适合: 企业或中大型团队需要自托管 Git 仓库、Merge Request、代码评审、Issue、Wiki、CI/CD、权限治理和更完整 DevSecOps 平台能力。
 - 不适合: 只需要一个轻量私有 Git 服务，或团队无法承担 GitLab 对服务器资源、升级、备份、邮件、Runner 和权限治理的运维成本。
 - 接入成本: 高
-- 替代方案: Gitea, GitBucket, GitHub Enterprise
+- 替代方案: Gitea, Gerrit, Forgejo
 - 评分: 4/5
 - 备注: GitLab 功能覆盖面很广，但 CE、EE 和镜像仓库边界要分清；上线前要规划备份恢复、Runner 隔离、许可证边界、升级窗口和仓库迁移路径。
 
@@ -26,20 +26,20 @@
 - 适合: 小团队、个人项目、内网环境或轻量自托管场景需要快速搭建 Git 仓库、Issue、Pull Request、Wiki、包管理和基础 Actions Runner。
 - 不适合: 需要 GitLab 级企业治理、复杂合规审批、深度 DevSecOps 套件或大量内置企业功能的组织。
 - 接入成本: 低
-- 替代方案: GitLab, GitBucket, Gogs
+- 替代方案: GitLab, Gerrit, Forgejo
 - 评分: 4/5
 - 备注: 部署和维护成本低，适合先把代码托管私有化；生产前要确认数据库选择、备份、SSH/HTTP 入口、邮件通知、Webhook、Runner 权限和插件生态。
 
-## GitBucket
+## Gerrit
 
-- GitHub: https://github.com/gitbucket/gitbucket
-- 官网: https://gitbucket.github.io
-- 模块: 代码托管 / GitHub 风格协作 / 插件扩展
-- 技术栈: Scala, JVM, Scalatra, Jetty, H2, MariaDB, Git
+- GitHub: https://github.com/GerritCodeReview/gerrit
+- 官网: https://www.gerritcodereview.com
+- 模块: 代码托管 / 代码评审 / Git 工作流
+- 技术栈: Java, TypeScript, Bazel, Git
 - 许可证: Apache-2.0
-- 适合: 团队希望用单个 JVM Web 应用获得 GitHub 风格界面、私有仓库、Issue、Pull Request、Wiki、Git LFS 和插件扩展能力。
-- 不适合: 非 JVM 运维环境，或需要大规模企业治理、内置 CI/CD、复杂权限模型和活跃商业支持的项目。
-- 接入成本: 中
-- 替代方案: Gitea, GitLab, Gogs
-- 评分: 3/5
-- 备注: 安装形态简单但生态规模小于 GitLab 和 Gitea；上线前要验证数据库迁移、插件维护、备份恢复、SSH 配置和 GitHub API 兼容范围。
+- 适合: 大型工程团队需要以代码评审为中心的 Git 工作流、细粒度权限、审核标签、提交队列和强一致的主干合入治理。
+- 不适合: 希望获得 GitHub/GitLab 风格的一体化 Issue、项目管理、包仓库和低学习成本协作体验的团队。
+- 接入成本: 高
+- 替代方案: GitLab, Gitea, Forgejo
+- 评分: 4/5
+- 备注: 代码评审能力成熟但工作流有门槛；上线前要确认仓库迁移、权限标签、LDAP/SSO、邮件、备份和与 CI 的触发关系。
