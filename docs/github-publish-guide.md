@@ -70,6 +70,12 @@ git push -u origin main
 ```powershell
 python tools/validate_catalog.py --write-index
 python -m unittest tests.test_validate_catalog -v
+python -m unittest tests.test_search_catalog -v
+python -m unittest tests.test_stack_presets -v
+python -m unittest tests.test_assemble_stack -v
+python -m unittest tests.test_summarize_catalog -v
+python -m unittest tests.test_check_stack -v
+python -m unittest tests.test_generate_worksheet -v
 ```
 
-如果 `catalog/index.json` 没有同步更新，CI 会失败，提醒你重新生成索引并提交。
+如果 `catalog/index.json` 没有同步更新，或搜索、预设、拼装、概览、风险检查和工作表生成脚本出现回归，CI 会失败，提醒你修复后再推送。

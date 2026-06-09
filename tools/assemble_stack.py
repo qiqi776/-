@@ -9,44 +9,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from stack_presets import STACK_PRESETS, format_presets
+
 
 COST_RANK = {"低": 0, "中": 1, "高": 2}
-STACK_PRESETS = {
-    "saas-starter": [
-        "frontend",
-        "backend",
-        "auth",
-        "database",
-        "payment",
-        "billing-invoicing",
-        "analytics",
-        "feature-flags",
-        "deployment",
-        "observability",
-    ],
-    "ai-rag-app": [
-        "frontend",
-        "backend",
-        "model-serving-inference",
-        "ai",
-        "vector-database",
-        "llm-guardrails-structured-output",
-        "llm-observability-evaluation",
-        "auth",
-        "database",
-        "deployment",
-        "observability",
-    ],
-    "internal-admin": [
-        "frontend",
-        "internal-tools",
-        "backend",
-        "auth",
-        "database",
-        "deployment",
-        "observability",
-    ],
-}
 
 
 def load_components(path: Path) -> list[dict[str, Any]]:
@@ -145,18 +111,6 @@ def resolve_modules(raw_modules: str, preset: str | None) -> list[str]:
     if not preset:
         return []
     return list(STACK_PRESETS.get(preset, []))
-
-
-def format_presets() -> str:
-    """生成命令行可读的项目预设清单，方便快速查看蓝图范围。"""
-    lines = [
-        "可用项目预设:",
-        "",
-    ]
-    for preset_name in sorted(STACK_PRESETS):
-        modules = ", ".join(STACK_PRESETS[preset_name])
-        lines.append(f"- {preset_name}: {modules}")
-    return "\n".join(lines)
 
 
 def main(argv: list[str] | None = None) -> int:

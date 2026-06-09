@@ -9,11 +9,15 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+TOOLS_DIR = ROOT / "tools"
 SCRIPT = ROOT / "tools" / "assemble_stack.py"
 
 
 def load_assemble_tool():
     # 动态加载组合生成脚本，便于直接测试选择逻辑。
+    tools_path = str(TOOLS_DIR)
+    if tools_path not in sys.path:
+        sys.path.insert(0, tools_path)
     spec = importlib.util.spec_from_file_location("assemble_stack", SCRIPT)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
