@@ -1,4 +1,4 @@
-"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单和 Issue 草案。"""
+"""验证项目拼装包生成器能一次输出选型、组件清单、风险报告、架构图、执行清单、Issue 草案和标签配置。"""
 
 import json
 import shutil
@@ -97,6 +97,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / ".env.example").exists())
         self.assertTrue((output_dir / "PROJECT-README.md").exists())
         self.assertTrue((output_dir / "github-issues.md").exists())
+        self.assertTrue((output_dir / "github-labels.json").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -140,6 +141,17 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("- [ ] 先确认许可证和部署方式，再跑通最小样例", github_issues)
         self.assertIn("- [ ] 更新 `component-manifest.md`、`risk-check.md` 和 `PROJECT-README.md`", github_issues)
         self.assertLess(github_issues.index("Keycloak"), github_issues.index("FastAPI"))
+        github_labels = json.loads((output_dir / "github-labels.json").read_text(encoding="utf-8"))
+        label_names = [label["name"] for label in github_labels]
+        self.assertEqual(label_names[0], "component")
+        self.assertIn("integration", label_names)
+        self.assertIn("risk-high", label_names)
+        self.assertIn("risk-low", label_names)
+        self.assertIn("backend", label_names)
+        self.assertIn("auth", label_names)
+        auth_label = next(label for label in github_labels if label["name"] == "auth")
+        self.assertEqual(auth_label["color"], "1d76db")
+        self.assertIn("认证 / IAM", auth_label["description"])
 
 
 if __name__ == "__main__":

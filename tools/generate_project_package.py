@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、Issue 草案、配置样例和项目 README 草案。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、Issue 草案、标签配置、配置样例和项目 README 草案。"""
 
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -336,6 +337,42 @@ def format_github_issues(decisions: list[dict]) -> str:
     return "\n".join(lines).rstrip()
 
 
+def github_label_payload(name: str, color: str, description: str) -> dict[str, str]:
+    """生成 GitHub Label 配置项，字段名对齐 GitHub API 和常见 label 同步工具。"""
+    return {
+        "name": name,
+        "color": color,
+        "description": description,
+    }
+
+
+def format_github_labels(decisions: list[dict]) -> str:
+    """生成目标项目可导入的 GitHub Labels 配置，匹配 Issue 草案里的标签。"""
+    labels = [
+        github_label_payload("component", "5319e7", "组件接入或替换相关任务。"),
+        github_label_payload("integration", "0e8a16", "需要跑通组件最小集成的任务。"),
+        github_label_payload("risk-high", "d73a4a", "高风险集成，优先确认许可证、托管方式或接入成本。"),
+        github_label_payload("risk-medium", "fbca04", "中等风险集成，需要在开发前明确边界。"),
+        github_label_payload("risk-low", "0e8a16", "低风险集成，按常规最小样例验证。"),
+    ]
+    existing_names = {label["name"] for label in labels}
+
+    for decision in decisions:
+        category = str(decision["category"])
+        if category in existing_names:
+            continue
+        labels.append(
+            github_label_payload(
+                category,
+                "1d76db",
+                f"{capability_label(decision)} 模块相关的组件接入任务。",
+            )
+        )
+        existing_names.add(category)
+
+    return json.dumps(labels, ensure_ascii=False, indent=2)
+
+
 def env_key_part(raw_text: str, fallback: str) -> str:
     """把模块名或组件名转换成适合环境变量使用的英文大写片段。"""
     normalized = re.sub(r"[^A-Za-z0-9]+", "_", raw_text).strip("_").upper()
@@ -452,6 +489,7 @@ def package_readme(project_name: str) -> str:
         "- `architecture-map.md`: 根据已选模块生成的组件连接图，用于理解各组件如何拼装。",
         "- `assembly-checklist.md`: 可复制到项目看板或 GitHub Issue 的拼装执行清单。",
         "- `github-issues.md`: 可复制到 GitHub Issues 的组件接入任务草案。",
+        "- `github-labels.json`: 与 Issue 草案匹配的 GitHub Labels 配置。",
         "- `.env.example`: 按已选组件生成的环境变量样例，提醒不要提交真实密钥。",
         "- `PROJECT-README.md`: 可放入目标项目仓库的 README 草案，用于记录技术栈和维护规则。",
         "",
@@ -462,10 +500,11 @@ def package_readme(project_name: str) -> str:
         "3. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
         "4. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
         "5. 把 `github-issues.md` 中的区块复制成 GitHub Issues，按风险标签推进接入。",
-        "6. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "7. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
-        "8. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "9. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "6. 按 `github-labels.json` 在目标仓库建立标签，让组件任务能按分类和风险筛选。",
+        "7. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "8. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "9. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "10. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -493,6 +532,7 @@ def generate_project_package(
         "architecture-map.md": format_architecture_map(decisions) + "\n",
         "assembly-checklist.md": format_assembly_checklist(decisions) + "\n",
         "github-issues.md": format_github_issues(decisions) + "\n",
+        "github-labels.json": format_github_labels(decisions) + "\n",
         ".env.example": format_env_example(decisions, project_name) + "\n",
         "PROJECT-README.md": format_project_readme(decisions, project_name) + "\n",
     }
