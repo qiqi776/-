@@ -77,19 +77,35 @@ def component_name(component: dict[str, Any] | None) -> str:
     return str(component.get("name", ""))
 
 
+def component_license(component: dict[str, Any] | None) -> str:
+    """返回主组件许可证；缺失组件时返回空字符串，便于人工后续补齐。"""
+    if component is None:
+        return ""
+    return str(component.get("license", ""))
+
+
+def component_integration_cost(component: dict[str, Any] | None) -> str:
+    """返回主组件接入成本；缺失组件时返回空字符串，避免误导决策。"""
+    if component is None:
+        return ""
+    return str(component.get("integration_cost", ""))
+
+
 def format_stack_table(decisions: list[dict[str, Any]]) -> str:
     """把技术栈决策草案格式化成 Markdown 表格。"""
     lines = [
         "# 技术栈决策草案",
         "",
-        "| 模块 | 主组件 | 备选组件 | 选择理由 | 主要风险 |",
-        "| --- | --- | --- | --- | --- |",
+        "| 模块 | 主组件 | 许可证 | 接入成本 | 备选组件 | 选择理由 | 主要风险 |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for decision in decisions:
         lines.append(
-            "| {category} | {primary} | {fallback} | {reason} | {risk} |".format(
+            "| {category} | {primary} | {license} | {cost} | {fallback} | {reason} | {risk} |".format(
                 category=decision["category"],
                 primary=component_name(decision["primary"]),
+                license=component_license(decision["primary"]),
+                cost=component_integration_cost(decision["primary"]),
                 fallback=component_name(decision["fallback"]),
                 reason=decision["reason"],
                 risk=decision["risk"],

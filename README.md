@@ -286,7 +286,7 @@ python tools/assemble_stack.py --preset saas-starter
 python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
 ```
 
-模块名称使用 `catalog/` 目录中的英文分类名。`--preset` 适合快速套用常见项目蓝图，`--modules` 适合自定义能力清单。生成结果会按评分和接入成本选择主组件与备选组件，适合作为项目工作表的第一版草案，再由人工检查许可证、托管方式和业务边界。
+模块名称使用 `catalog/` 目录中的英文分类名。`--preset` 适合快速套用常见项目蓝图，`--modules` 适合自定义能力清单。生成结果会按评分和接入成本选择主组件与备选组件，并直接带出主组件许可证和接入成本，适合作为项目工作表的第一版草案，再由人工检查托管方式和业务边界。
 
 如果希望直接生成完整工作表，可以运行：
 

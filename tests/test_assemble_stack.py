@@ -33,6 +33,7 @@ class AssembleStackTests(unittest.TestCase):
                 "category": "backend",
                 "github": "https://github.com/fastapi/fastapi",
                 "module": "后端 / API",
+                "license": "MIT",
                 "integration_cost": "低",
                 "score": "5/5",
                 "notes": "适合 AI 项目。",
@@ -42,6 +43,7 @@ class AssembleStackTests(unittest.TestCase):
                 "category": "backend",
                 "github": "https://github.com/nestjs/nest",
                 "module": "后端 / API",
+                "license": "MIT",
                 "integration_cost": "中",
                 "score": "4/5",
                 "notes": "适合 TypeScript 团队。",
@@ -51,6 +53,7 @@ class AssembleStackTests(unittest.TestCase):
                 "category": "auth",
                 "github": "https://github.com/keycloak/keycloak",
                 "module": "认证 / IAM",
+                "license": "Apache-2.0",
                 "integration_cost": "高",
                 "score": "4/5",
                 "notes": "适合企业身份。",
@@ -129,8 +132,9 @@ class AssembleStackTests(unittest.TestCase):
         )
 
         self.assertEqual(result.returncode, 0)
-        self.assertIn("| 模块 | 主组件 | 备选组件 | 选择理由 | 主要风险 |", result.stdout)
+        self.assertIn("| 模块 | 主组件 | 许可证 | 接入成本 | 备选组件 | 选择理由 | 主要风险 |", result.stdout)
         self.assertIn("FastAPI", result.stdout)
+        self.assertIn("| backend | FastAPI | MIT | 低 | NestJS |", result.stdout)
         self.assertIn("Keycloak", result.stdout)
 
     def test_cli_outputs_stack_decision_table_from_preset(self):

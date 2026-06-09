@@ -207,7 +207,7 @@ python tools/assemble_stack.py --preset saas-starter
 python tools/assemble_stack.py --modules frontend,backend,auth,database,deployment,observability
 ```
 
-组合生成器适合先快速比较主组件和备选组件；如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
+组合生成器适合先快速比较主组件和备选组件，并在同一张表里看到主组件许可证和接入成本；如果需要完整的许可证检查、验证项和最终决策草案，再使用工作表生成器。
 
 如果需要完整工作表，优先使用：
 
