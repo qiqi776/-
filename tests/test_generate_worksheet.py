@@ -67,6 +67,17 @@ class GenerateWorksheetTests(unittest.TestCase):
         self.assertIn("| 监控 / 指标 / 仪表盘 | 是 | Grafana |  | 适合仪表盘。 | 团队不能接受 AGPL 义务。 |", worksheet)
         self.assertIn("| Grafana | AGPL-3.0 | 待确认 | 许可证需要重点审查", worksheet)
 
+    def test_resolve_modules_accepts_named_preset(self):
+        # 验证常见项目蓝图可以直接展开成目录分类，减少手写模块名的成本。
+        generate_tool = load_generate_tool()
+
+        modules = generate_tool.resolve_modules("", "saas-starter")
+
+        self.assertIn("frontend", modules)
+        self.assertIn("backend", modules)
+        self.assertIn("billing-invoicing", modules)
+        self.assertIn("observability", modules)
+
     def test_cli_writes_worksheet_file(self):
         # 验证命令行能读取索引并写出可复制到项目仓库的工作表文件。
         tmp_dir = ROOT / "tmp"
@@ -86,8 +97,8 @@ class GenerateWorksheetTests(unittest.TestCase):
                 str(SCRIPT),
                 "--index",
                 str(tmp_index),
-                "--modules",
-                "backend,observability",
+                "--preset",
+                "internal-admin",
                 "--project-name",
                 "SaaS 示例",
                 "--output",

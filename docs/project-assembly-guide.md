@@ -11,10 +11,10 @@
 如果是在本仓库里先做选型，推荐先生成工作表草案：
 
 ```powershell
-python tools/generate_worksheet.py --project-name "SaaS 示例" --modules frontend,backend,auth,database,deployment,observability --output stack-selection.md
+python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
 ```
 
-`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查和优先验证项写进同一份 Markdown。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
+`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查和优先验证项写进同一份 Markdown。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`；如果这些蓝图不匹配项目，可以改用 `--modules` 传入自定义分类列表。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
 
 示例：
 
@@ -207,7 +207,7 @@ python tools/assemble_stack.py --modules frontend,backend,auth,database,deployme
 如果需要完整工作表，优先使用：
 
 ```powershell
-python tools/generate_worksheet.py --project-name "SaaS 示例" --modules frontend,backend,auth,database,deployment,observability --output stack-selection.md
+python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
 ```
 
 ```md

@@ -12,6 +12,42 @@ from typing import Any
 
 COST_RANK = {"低": 0, "中": 1, "高": 2}
 REVIEW_LICENSE_KEYWORDS = ("AGPL", "GPL", "BUSL", "BSL", "SSPL", "ELASTIC", "商业许可证")
+STACK_PRESETS = {
+    "saas-starter": [
+        "frontend",
+        "backend",
+        "auth",
+        "database",
+        "payment",
+        "billing-invoicing",
+        "analytics",
+        "feature-flags",
+        "deployment",
+        "observability",
+    ],
+    "ai-rag-app": [
+        "frontend",
+        "backend",
+        "model-serving-inference",
+        "ai",
+        "vector-database",
+        "llm-guardrails-structured-output",
+        "llm-observability-evaluation",
+        "auth",
+        "database",
+        "deployment",
+        "observability",
+    ],
+    "internal-admin": [
+        "frontend",
+        "internal-tools",
+        "backend",
+        "auth",
+        "database",
+        "deployment",
+        "observability",
+    ],
+}
 
 
 def load_components(path: Path) -> list[dict[str, Any]]:
@@ -23,6 +59,16 @@ def load_components(path: Path) -> list[dict[str, Any]]:
 def parse_modules(raw_modules: str) -> list[str]:
     """解析逗号分隔的模块列表，并去掉空白项。"""
     return [module.strip() for module in raw_modules.split(",") if module.strip()]
+
+
+def resolve_modules(raw_modules: str, preset: str | None) -> list[str]:
+    """根据显式模块或内置项目预设得到最终模块列表。"""
+    modules = parse_modules(raw_modules)
+    if modules:
+        return modules
+    if not preset:
+        return []
+    return list(STACK_PRESETS.get(preset, []))
 
 
 def score_value(component: dict[str, Any]) -> int:
@@ -274,8 +320,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--modules",
-        required=True,
+        default="",
         help="逗号分隔的模块分类，例如 frontend,backend,auth,database",
+    )
+    parser.add_argument(
+        "--preset",
+        choices=sorted(STACK_PRESETS),
+        help="内置项目预设，例如 saas-starter、ai-rag-app、internal-admin；显式 --modules 会优先生效。",
     )
     parser.add_argument("--project-name", default="", help="项目名称，会写入工作表项目概况")
     parser.add_argument(
@@ -287,7 +338,10 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     components = load_components(args.index)
-    worksheet = build_worksheet(components, parse_modules(args.modules), args.project_name)
+    modules = resolve_modules(args.modules, args.preset)
+    if not modules:
+        parser.error("必须提供 --modules 或 --preset。")
+    worksheet = build_worksheet(components, modules, args.project_name)
     args.output.write_text(worksheet, encoding="utf-8")
     print(f"已生成项目拼装工作表: {args.output}")
     return 0
