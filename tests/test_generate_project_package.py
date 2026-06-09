@@ -95,6 +95,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "architecture-map.md").exists())
         self.assertTrue((output_dir / "assembly-checklist.md").exists())
         self.assertTrue((output_dir / ".env.example").exists())
+        self.assertTrue((output_dir / "PROJECT-README.md").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -124,6 +125,13 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("BACKEND_FASTAPI_URL=", env_example)
         self.assertIn("BACKEND_FASTAPI_ENABLED=false", env_example)
         self.assertIn("AUTH_KEYCLOAK_URL=", env_example)
+        project_readme = (output_dir / "PROJECT-README.md").read_text(encoding="utf-8")
+        self.assertIn("# 后台示例", project_readme)
+        self.assertIn("## 技术栈总览", project_readme)
+        self.assertIn("| 后端 / API | FastAPI | NestJS |", project_readme)
+        self.assertIn("## 优先集成顺序", project_readme)
+        self.assertIn("1. 认证 / IAM / Keycloak", project_readme)
+        self.assertIn("[component-manifest.md](component-manifest.md)", project_readme)
 
 
 if __name__ == "__main__":

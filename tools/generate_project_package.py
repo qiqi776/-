@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单和配置样例。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单、配置样例和项目 README 草案。"""
 
 from __future__ import annotations
 
@@ -308,6 +308,66 @@ def format_env_example(decisions: list[dict], project_name: str) -> str:
     return "\n".join(lines).rstrip()
 
 
+def format_project_readme(decisions: list[dict], project_name: str) -> str:
+    """生成可放进目标项目仓库的 README 草案，集中记录组件拼装决策。"""
+    title = project_name or "未命名项目"
+    lines = [
+        f"# {title}",
+        "",
+        "这个 README 由开源组件库生成，作为项目技术栈和组件拼装记录的第一版草案。",
+        "",
+        "## 技术栈总览",
+        "",
+        "| 能力 | 主组件 | 备选组件 | 选择理由 | 主要风险 |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for decision in decisions:
+        lines.append(
+            "| {capability} | {primary} | {fallback} | {reason} | {risk} |".format(
+                capability=capability_label(decision),
+                primary=component_name(decision["primary"]) or "待选组件",
+                fallback=component_name(decision["fallback"]),
+                reason=decision["reason"],
+                risk=decision["risk"],
+            )
+        )
+
+    lines.extend(
+        [
+            "",
+            "## 优先集成顺序",
+            "",
+        ]
+    )
+    for index, decision in enumerate(sorted(decisions, key=integration_priority_key), start=1):
+        primary = decision["primary"]
+        lines.append(f"{index}. {capability_label(decision)} / {component_name(primary) or '待选组件'}")
+
+    lines.extend(
+        [
+            "",
+            "## 配置与环境变量",
+            "",
+            "从 `.env.example` 复制一份本地或部署环境变量文件，再填入真实地址和密钥。不要把真实密钥提交到仓库。",
+            "",
+            "## 组件追踪文件",
+            "",
+            "- [component-manifest.md](component-manifest.md): 记录每个能力的主组件、链接、首个动作和待确认事项。",
+            "- [risk-check.md](risk-check.md): 记录许可证、接入成本和缺失组件风险。",
+            "- [integration-plan.md](integration-plan.md): 记录先验证哪些关键集成。",
+            "- [architecture-map.md](architecture-map.md): 记录组件连接方向。",
+            "- [assembly-checklist.md](assembly-checklist.md): 记录可拆到看板或 Issue 的执行任务。",
+            "",
+            "## 维护规则",
+            "",
+            "1. 替换组件时同步更新组件清单、风险检查和环境变量样例。",
+            "2. 高风险许可证、托管方式和数据边界必须先确认再进入生产。",
+            "3. 每次新增模块都先跑通最小样例，再扩展完整功能。",
+        ]
+    )
+    return "\n".join(lines)
+
+
 def package_readme(project_name: str) -> str:
     """生成拼装包说明，帮助用户理解每个文件的用途。"""
     title = project_name or "未命名项目"
@@ -325,6 +385,7 @@ def package_readme(project_name: str) -> str:
         "- `architecture-map.md`: 根据已选模块生成的组件连接图，用于理解各组件如何拼装。",
         "- `assembly-checklist.md`: 可复制到项目看板或 GitHub Issue 的拼装执行清单。",
         "- `.env.example`: 按已选组件生成的环境变量样例，提醒不要提交真实密钥。",
+        "- `PROJECT-README.md`: 可放入目标项目仓库的 README 草案，用于记录技术栈和维护规则。",
         "",
         "## 使用建议",
         "",
@@ -333,8 +394,9 @@ def package_readme(project_name: str) -> str:
         "3. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
         "4. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
         "5. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
-        "6. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "7. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "6. 参考 `PROJECT-README.md` 初始化目标项目 README，保留技术栈取舍记录。",
+        "7. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "8. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -362,6 +424,7 @@ def generate_project_package(
         "architecture-map.md": format_architecture_map(decisions) + "\n",
         "assembly-checklist.md": format_assembly_checklist(decisions) + "\n",
         ".env.example": format_env_example(decisions, project_name) + "\n",
+        "PROJECT-README.md": format_project_readme(decisions, project_name) + "\n",
     }
 
     written_paths = []
