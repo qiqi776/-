@@ -40,6 +40,20 @@ class StackPresetTests(unittest.TestCase):
         self.assertIn("ai-rag-app", stack_presets.STACK_PRESETS)
         self.assertIn("internal-admin", stack_presets.STACK_PRESETS)
 
+    def test_format_presets_outputs_chinese_names_and_usage_notes(self):
+        # 验证预设清单能直接说明项目类型和适用场景，减少用户对照文档的成本。
+        tools_path = str(TOOLS_DIR)
+        if tools_path not in sys.path:
+            sys.path.insert(0, tools_path)
+        import stack_presets
+
+        output = stack_presets.format_presets()
+
+        self.assertIn("SaaS 起步项目", output)
+        self.assertIn("AI RAG 应用", output)
+        self.assertIn("内部管理后台", output)
+        self.assertIn("适合", output)
+
 
 if __name__ == "__main__":
     unittest.main()

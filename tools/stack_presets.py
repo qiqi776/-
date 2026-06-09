@@ -41,6 +41,21 @@ STACK_PRESETS = {
     ],
 }
 
+STACK_PRESET_DETAILS = {
+    "saas-starter": {
+        "name": "SaaS 起步项目",
+        "best_for": "适合需要账号、计费、数据分析、功能开关和可观测性的订阅型产品。",
+    },
+    "ai-rag-app": {
+        "name": "AI RAG 应用",
+        "best_for": "适合需要模型接入、检索增强、向量数据库、LLM 护栏和评估闭环的 AI 产品。",
+    },
+    "internal-admin": {
+        "name": "内部管理后台",
+        "best_for": "适合需要管理 UI、内部工具、身份、数据库、部署和监控的运营或管理系统。",
+    },
+}
+
 
 def format_presets() -> str:
     """生成命令行可读的项目预设清单，方便用户先查看再生成拼装草案。"""
@@ -49,6 +64,9 @@ def format_presets() -> str:
         "",
     ]
     for preset_name in sorted(STACK_PRESETS):
+        details = STACK_PRESET_DETAILS[preset_name]
         modules = ", ".join(STACK_PRESETS[preset_name])
-        lines.append(f"- {preset_name}: {modules}")
+        lines.append(f"- {preset_name}（{details['name']}）")
+        lines.append(f"  - 适合: {details['best_for']}")
+        lines.append(f"  - 模块: {modules}")
     return "\n".join(lines)
