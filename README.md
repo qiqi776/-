@@ -241,7 +241,7 @@ python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-st
 python tools/check_stack.py --components FastAPI,PostgreSQL,Grafana
 ```
 
-`generate_worksheet.py` 会按评分和接入成本选择主组件与备选组件，并生成能力地图、许可证检查和优先验证项。脚本输出只是第一版草案，最终仍要按业务约束人工确认。
+`generate_worksheet.py` 会按评分和接入成本选择主组件与备选组件，并生成能力地图、许可证检查和优先验证项。优先验证项会把许可证、接入成本或缺失组件风险更高的集成排在前面。脚本输出只是第一版草案，最终仍要按业务约束人工确认。
 
 发布到 GitHub 前，按 [docs/github-publish-guide.md](docs/github-publish-guide.md) 检查远程仓库、推送和 Actions 设置；仓库描述和 topics 可参考 [docs/repository-profile.md](docs/repository-profile.md)。
 

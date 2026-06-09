@@ -15,7 +15,7 @@ python tools/generate_worksheet.py --list-presets
 python tools/generate_worksheet.py --project-name "SaaS 示例" --preset saas-starter --output stack-selection.md
 ```
 
-`--list-presets` 会列出每个预设包含的目录模块。`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查和优先验证项写进同一份 Markdown。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`；如果这些蓝图不匹配项目，可以改用 `--modules` 传入自定义分类列表。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
+`--list-presets` 会列出每个预设包含的目录模块。`generate_worksheet.py` 会把主组件、备选组件、选择理由、许可证检查和优先验证项写进同一份 Markdown，并把许可证、接入成本或缺失组件风险更高的集成排在更前面。内置预设包括 `saas-starter`、`ai-rag-app` 和 `internal-admin`；如果这些蓝图不匹配项目，可以改用 `--modules` 传入自定义分类列表。脚本不会替代人工判断，特别是许可证、数据边界、托管方式和业务合规仍要逐项确认。
 
 示例：
 

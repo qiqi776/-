@@ -71,6 +71,18 @@ class GenerateWorksheetTests(unittest.TestCase):
         self.assertIn("| 监控 / 指标 / 仪表盘 | 是 | Grafana |  | 适合仪表盘。 | 团队不能接受 AGPL 义务。 |", worksheet)
         self.assertIn("| Grafana | AGPL-3.0 | 待确认 | 许可证需要重点审查", worksheet)
 
+    def test_validation_table_orders_high_risk_integrations_first(self):
+        # 验证优先验证表会把许可证或高接入成本风险更高的模块排在前面。
+        generate_tool = load_generate_tool()
+        decisions = [
+            generate_tool.select_for_category(self.components, "backend"),
+            generate_tool.select_for_category(self.components, "observability"),
+        ]
+
+        validation_table = generate_tool.format_validation_table(decisions)
+
+        self.assertLess(validation_table.index("Grafana"), validation_table.index("FastAPI"))
+
     def test_resolve_modules_accepts_named_preset(self):
         # 验证常见项目蓝图可以直接展开成目录分类，减少手写模块名的成本。
         generate_tool = load_generate_tool()

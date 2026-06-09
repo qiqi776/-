@@ -186,7 +186,7 @@ def format_license_table(components: list[dict[str, Any]]) -> str:
 
 
 def format_validation_table(decisions: list[dict[str, Any]]) -> str:
-    """生成优先验证的集成表，默认按输入模块顺序排序。"""
+    """生成优先验证的集成表，优先展示许可证、接入成本或缺失组件风险更高的模块。"""
     lines = [
         "## 优先验证的集成",
         "",
@@ -195,7 +195,7 @@ def format_validation_table(decisions: list[dict[str, Any]]) -> str:
         "| 优先级 | 集成项 | 为什么风险高 | 最小验证方式 | 通过标准 |",
         "| --- | --- | --- | --- | --- |",
     ]
-    for index, decision in enumerate(decisions, start=1):
+    for index, decision in enumerate(sorted(decisions, key=validation_priority_key), start=1):
         primary_name = component_name(decision["primary"]) or "待选组件"
         lines.append(
             "| {index} | {capability} / {primary} | {risk} | 跑通最小配置、认证、数据读写或部署路径 | 能稳定复现并记录失败回退方案 |".format(
@@ -206,6 +206,22 @@ def format_validation_table(decisions: list[dict[str, Any]]) -> str:
             )
         )
     return "\n".join(lines)
+
+
+def validation_priority_key(decision: dict[str, Any]) -> tuple[int, int, str]:
+    """按验证优先级排序：缺失组件、重点许可证和高接入成本先排查。"""
+    primary = decision["primary"]
+    if primary is None:
+        return (-100, 0, str(decision["category"]))
+
+    priority = 0
+    license_text = str(primary.get("license", ""))
+    integration_cost = str(primary.get("integration_cost", ""))
+    if license_needs_review(license_text):
+        priority += 50
+    priority += COST_RANK.get(integration_cost, 0) * 10
+
+    return (-priority, COST_RANK.get(integration_cost, 9), component_name(primary))
 
 
 def format_final_decision(decisions: list[dict[str, Any]]) -> str:
