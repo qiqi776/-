@@ -94,6 +94,7 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertTrue((output_dir / "integration-plan.md").exists())
         self.assertTrue((output_dir / "architecture-map.md").exists())
         self.assertTrue((output_dir / "assembly-checklist.md").exists())
+        self.assertTrue((output_dir / ".env.example").exists())
 
         stack_plan = json.loads((output_dir / "stack-plan.json").read_text(encoding="utf-8"))
         self.assertEqual(stack_plan["modules"][0]["primary"]["name"], "FastAPI")
@@ -117,6 +118,12 @@ class GenerateProjectPackageTests(unittest.TestCase):
         self.assertIn("- [ ] 先确认许可证和部署方式，再跑通最小样例", assembly_checklist)
         self.assertIn("## 2. 后端 / API / FastAPI", assembly_checklist)
         self.assertLess(assembly_checklist.index("Keycloak"), assembly_checklist.index("FastAPI"))
+        env_example = (output_dir / ".env.example").read_text(encoding="utf-8")
+        self.assertIn("# 后台示例 环境变量样例", env_example)
+        self.assertIn("# 不要在这个文件里填写真实密钥", env_example)
+        self.assertIn("BACKEND_FASTAPI_URL=", env_example)
+        self.assertIn("BACKEND_FASTAPI_ENABLED=false", env_example)
+        self.assertIn("AUTH_KEYCLOAK_URL=", env_example)
 
 
 if __name__ == "__main__":

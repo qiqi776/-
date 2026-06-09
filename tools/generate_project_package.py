@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图和执行清单。"""
+"""一次性生成项目拼装包，包含选型 JSON、组件清单、风险报告、实施计划、架构图、执行清单和配置样例。"""
 
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -268,6 +269,45 @@ def format_assembly_checklist(decisions: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def env_key_part(raw_text: str, fallback: str) -> str:
+    """把模块名或组件名转换成适合环境变量使用的英文大写片段。"""
+    normalized = re.sub(r"[^A-Za-z0-9]+", "_", raw_text).strip("_").upper()
+    return normalized or fallback.upper()
+
+
+def env_prefix(decision: dict) -> str:
+    """生成单个组件的环境变量前缀，优先使用分类名和组件名。"""
+    primary = decision["primary"]
+    category_part = env_key_part(str(decision["category"]), "MODULE")
+    component_part = env_key_part(component_name(primary), "COMPONENT")
+    return f"{category_part}_{component_part}"
+
+
+def format_env_example(decisions: list[dict], project_name: str) -> str:
+    """生成新项目可复制的环境变量样例，提醒用户只填占位不提交真实密钥。"""
+    title = project_name or "未命名项目"
+    lines = [
+        f"# {title} 环境变量样例",
+        "# 不要在这个文件里填写真实密钥；复制为 .env.local 或部署平台变量后再填真实值。",
+        "# 每个变量按已选主组件生成，真实项目可按框架约定删减或改名。",
+        "",
+    ]
+    for decision in sorted(decisions, key=integration_priority_key):
+        primary = decision["primary"]
+        prefix = env_prefix(decision)
+        lines.extend(
+            [
+                f"# {capability_label(decision)} / {component_name(primary) or '待选组件'}",
+                f"# 风险: {integration_risk_reason(decision)}",
+                f"{prefix}_ENABLED=false",
+                f"{prefix}_URL=",
+                f"{prefix}_API_KEY=",
+                "",
+            ]
+        )
+    return "\n".join(lines).rstrip()
+
+
 def package_readme(project_name: str) -> str:
     """生成拼装包说明，帮助用户理解每个文件的用途。"""
     title = project_name or "未命名项目"
@@ -284,6 +324,7 @@ def package_readme(project_name: str) -> str:
         "- `integration-plan.md`: 按风险排序的集成实施计划，用于决定先验证哪个组件。",
         "- `architecture-map.md`: 根据已选模块生成的组件连接图，用于理解各组件如何拼装。",
         "- `assembly-checklist.md`: 可复制到项目看板或 GitHub Issue 的拼装执行清单。",
+        "- `.env.example`: 按已选组件生成的环境变量样例，提醒不要提交真实密钥。",
         "",
         "## 使用建议",
         "",
@@ -291,8 +332,9 @@ def package_readme(project_name: str) -> str:
         "2. 查看 `architecture-map.md`，确认组件之间的连接方向是否符合项目边界。",
         "3. 按 `integration-plan.md` 的顺序跑通最小集成，先验证最可能影响项目落地的模块。",
         "4. 把 `assembly-checklist.md` 拆到项目看板或 Issue，逐项分配负责人和验收结果。",
-        "5. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
-        "6. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
+        "5. 复制 `.env.example` 到新项目，按实际组件填写部署地址和密钥变量。",
+        "6. 把 `component-manifest.md` 放进新项目仓库，作为后续集成和替换组件的追踪清单。",
+        "7. 保留 `stack-plan.json`，让模板、脚手架或其他自动化工具继续消费。",
         "",
         "这些文件只是第一版草案，真实项目仍需要人工确认许可证、托管方式、数据边界和业务合规。",
     ]
@@ -319,6 +361,7 @@ def generate_project_package(
         "integration-plan.md": format_integration_plan(decisions) + "\n",
         "architecture-map.md": format_architecture_map(decisions) + "\n",
         "assembly-checklist.md": format_assembly_checklist(decisions) + "\n",
+        ".env.example": format_env_example(decisions, project_name) + "\n",
     }
 
     written_paths = []
